@@ -3,7 +3,7 @@ name: Compile project
 
 jobs:
   build:
-  name: Compile Node project
+    name: Compile Node project
     runs-on: ubuntu-latest
     steps:
         - name: Checkout
@@ -13,7 +13,6 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: "16"
-          cache: 'npm'
 
         - name: Initialize Node
           run: npm ci
