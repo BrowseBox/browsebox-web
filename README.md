@@ -4,20 +4,20 @@
 [![GitHub release](https://img.shields.io/github/release/browsebox/browsebox-web.svg)](https://github.com/browsebox/browsebox-web/releases/latest)
 [![CodeFactor](https://www.codefactor.io/repository/github/browsebox/browsebox-web/badge)](https://www.codefactor.io/repository/github/browsebox/browsebox-web)
 
-Central repository for BrowseBox
+Central repository for BrowseBox.
 
 ## Developing browsebox-web
 
 Please make sure you have the following prerequisites:
 
 - An IDE such as [Visual Studio Code](https://code.visualstudio.com/download) or [WebStorm](https://www.jetbrains.com/webstorm/)
-- Node.js 19
+- Node.js 18.3.0
 - Docker
 
 ## Running the database with Docker
 
 - Install [Docker](https://www.docker.com/community-edition) and [git](https://git-scm.com).
-- If using Windows, make sure it's running at least build 2004 and install Ubuntu (or another Linux distro of choice) from Windows Store. Additionally:
+- If you're using Windows, make sure it's running at least build 2004 and install Ubuntu (or another Linux distro of choice) from the Windows Store. Additionally:
   - Make sure it's running WSL2 (convert it if it's still using WSL1).
   - Open Docker settings, go to Resources → WSL Integration → Enable integration with additional distros (enable for the installed distro).
 - Open any terminal of your choice.
