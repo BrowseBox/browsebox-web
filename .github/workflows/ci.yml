@@ -1,9 +1,9 @@
 on: [push, pull_request]
-name: Compile
+name: Continuous Integration
 
 jobs:
   build:
-    name: Compile Node project
+    name: Test (Linux, ubuntu-latest, SingleThread)
     runs-on: ubuntu-latest
     steps:
         - name: Checkout
