@@ -1,11 +1,16 @@
+const db = require("../util/datapool");
+
 module.exports = class User {
 
-    constructor (id, name, email, rating, img) {
-        this.id = id;
+    constructor (name, email, rating, img) {
         this.name = name;
         this.email = email;
         this.rating = rating;
         this.img = img;
+    }
+
+    addId (id) {
+        this.id = id;
     }
 
 }
