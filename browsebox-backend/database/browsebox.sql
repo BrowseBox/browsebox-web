@@ -1,15 +1,18 @@
 DROP SCHEMA IF EXISTS  `browsebox`;
+
 CREATE SCHEMA IF NOT EXISTS `browsebox` DEFAULT CHARACTER SET latin1;
+
 USE `browsebox`;
 
 -- ----------------------------------------
 -- Table Categories
 -- ----------------------------------------
-CREATE TABLE IF NOT EXISTS `browsebox`.`categories` (
+
+CREATE TABLE IF NOT EXISTS `browsebox`.`categories`  (
 	`cat_id`	INT 		NOT NULL AUTO_INCREMENT,
 	`cat_name` 	VARCHAR(50) NOT NULL,
 	PRIMARY KEY (`cat_id`)
-);
+	);
 
 -- ----------------------------------------
 -- Table Users
@@ -20,17 +23,20 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`users` (
 	`user_email`	VARCHAR(100)	NOT NULL,
 	`user_rating` 	DOUBLE(3,2),
 	`user_password`	VARCHAR(30) 	NOT NULL,
-	`user_img`		VARCHAR(1024),
+	`user_img`		VARCHAR(50),
+	`isActive`		TINYINT(1) NOT NULL DEFAULT '1',
+	`isAdmin`		TINYINT(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`user_id`)
 );
+
 
 -- ----------------------------------------
 -- Table Schools
 -- ----------------------------------------
 CREATE TABLE IF NOT EXISTS `browsebox`.`schools` (
-	`school_id`    INT 			    NOT NULL 	AUTO_INCREMENT,
-	`school_name`  VARCHAR(50)      NOT NULL,
-	`school_link`  VARCHAR(100),
+	`school_id` 	INT 			NOT NULL 	AUTO_INCREMENT,
+	`school_name` 	    VARCHAR(50)		NOT NULL,
+	`school_link`   	VARCHAR(100),
 	PRIMARY KEY (`school_id`)
 );
 
@@ -52,16 +58,15 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`reviews`  (
 		REFERENCES `browsebox`.`users` (`user_id`)
 
 );
-
 -- ----------------------------------------
 -- Table Sales
 -- ----------------------------------------
 CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`sale_id`			    INT		    	NOT NULL 	AUTO_INCREMENT,
 	`owner`				    INT 		    NOT NULL,
-	`sale_description`   	VARCHAR(1024),
+	`sale_description`   	VARCHAR(100),
 	`sale_price` 		DOUBLE(5,2),
-	`sale_image`		VARCHAR(1024),
+	`sale_image`		VARCHAR(100),
 	PRIMARY KEY (`sale_id`),
 	CONSTRAINT `fk_sales_users`
 		FOREIGN KEY (`owner`)
@@ -73,9 +78,11 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 -- ON DELETE NO ACTION && ON UPDATE NO ACTION on foreign keys?
 -- ON DELETE CASCADE probably for sale_id?
 -- categories depends on how often they update or set in stone
+
 -- ----------------------------------------
 -- Table Tag_Sales
 -- ----------------------------------------
+
 CREATE TABLE IF NOT EXISTS `browsebox`.`tag_sales` (
 	`cat_id` 	INT 	NOT NULL,
 	`sale_id` 	INT 	NOT NULL,
@@ -91,6 +98,9 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`tag_sales` (
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );
+	
+
+
 
 -- ON DELETE AND UPDATE SHOULDNT NEED ANYTHING HERE, THEY'LL BE CASCADED
 -- FROM THERE PARENT TABLES?
@@ -112,3 +122,8 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 );
+
+
+
+
+
