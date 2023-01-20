@@ -1,5 +1,3 @@
-const db = require("../util/datapool");
-
 module.exports = class User {
 
     constructor (name, email, rating, img) {

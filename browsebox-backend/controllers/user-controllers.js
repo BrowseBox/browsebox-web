@@ -1,3 +1,5 @@
+const db = require("../util/datapool");
+
 exports.makeUser = (req, res, next) => {
 
     // update field names to match front-end
