@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`reviews`  (
 		REFERENCES `browsebox`.`users` (`user_id`)
 
 );
+
 -- ----------------------------------------
 -- Table Sales
 -- ----------------------------------------
@@ -98,9 +99,6 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`tag_sales` (
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );
-	
-
-
 
 -- ON DELETE AND UPDATE SHOULDNT NEED ANYTHING HERE, THEY'LL BE CASCADED
 -- FROM THERE PARENT TABLES?
@@ -122,8 +120,3 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 );
-
-
-
-
-
