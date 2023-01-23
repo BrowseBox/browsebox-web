@@ -7,5 +7,6 @@ ENV MYSQL_DATABASE=browsebox\
 # Run SQL scripts
 ADD ./browsebox-backend/database/browsebox.sql /docker-entrypoint-initdb.d/
 ADD ./browsebox-backend/database/review_score_trigger.sql /docker-entrypoint-initdb.d/
+ADD ./browsebox-backend/database/populate.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 3306
