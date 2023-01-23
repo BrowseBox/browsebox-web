@@ -1,4 +1,4 @@
-# browsebox-web 
+# browsebox-web
 
 [![Build status](https://github.com/browsebox/browsebox-web/actions/workflows/ci.yml/badge.svg?branch=master&event=push)](https://github.com/browsebox/browsebox-web/actions/workflows/ci.yml)
 [![GitHub release](https://img.shields.io/github/release/browsebox/browsebox-web.svg)](https://github.com/browsebox/browsebox-web/releases/latest)
@@ -29,13 +29,13 @@ Managing docker images and containers can be done from Docker Desktop, but we wi
 Navigate to the root of the repository and run this command to build an image of the database.
 
 ```bash
-docker build -t mysql-image .
+docker build -t browsebox-mysql .
 ```
 
 Create a new container and run the database.
 
 ```bash
-docker run --name mysql-container -dp 3306:3306 mysql-image
+docker run --name mysql-container -dp 3306:3306 browsebox-mysql
 ```
 
 ## Installing dependencies
