@@ -120,3 +120,6 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 );
+
+GRANT ALL PRIVILEGES ON * . * TO 'browsebox'@'localhost';
+FLUSH PRIVILEGES;
