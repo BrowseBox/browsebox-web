@@ -24,12 +24,12 @@ exports.makeUser = (req, res, next) => {
         
       }
 
-      /*
+      /* ADD IN AFTER TESTING WE GET DATA
 
     // database makes all users active and not admin by default. No change here.
     db.execute(
-        'INSERT INTO users (user_name, user_email, user_password, user_img) VALUES (?, ?, ?, ?)',
-        [username, email, password, img]
+        'INSERT INTO users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
+        [username, email, password, img, 0]
       ).then(results => (
         // if user is added, redirect a POST request (307) to log-in with same username and password given to log-in the user
 
