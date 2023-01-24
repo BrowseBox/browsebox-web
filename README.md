@@ -36,7 +36,7 @@ Ensure your image is up-to-date and rebuild periodically whenever neccessary. In
 Once you've finished building the image, run this command to start the back end.
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
 ## Installing dependencies
