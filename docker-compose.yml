@@ -14,3 +14,12 @@ services:
         ports:
             - 3306:3306
         restart: always
+        networks:
+            development:
+                ipv4_address: 192.168.92.20
+networks:
+    development:
+        ipam:
+            driver: default
+            config:
+                - subnet: "192.168.92.0/24"
