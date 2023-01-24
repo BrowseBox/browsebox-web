@@ -21,7 +21,10 @@ exports.makeUser = (req, res, next) => {
       ) {
         console.log("Bad data");
       } else {
-        console.log(username + " " + email + " " + password + " " + img);
+        console.log("Username: " + username);
+        console.log("Email: " + email);
+        console.log("Password: " + password);
+        console.log("Image URL: " + img);
         
         /* ADD IN AFTER TESTING WE GET DATA
 
@@ -31,11 +34,14 @@ exports.makeUser = (req, res, next) => {
             [username, email, password, img, 0]
           ).then(results => (
             // if user is added, redirect a POST request (307) to log-in with same username and password given to log-in the user
+            // console.log("User " + username + " has been added to the database")
+            res.status(200).send("User " + username + " has been added to the database")
 
             // TODO: upate URL when login abilities are added.
-            res.redirect(307, '/login')
+            // res.status(200).redirect(307, '/login')
           )).catch(err => {
             // TODO: handle error with login.
+            res.status(500).send("Database error")
           });
 
         */
