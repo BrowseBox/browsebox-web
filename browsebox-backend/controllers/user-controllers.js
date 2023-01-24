@@ -1,3 +1,4 @@
+const User = require("../models/user");
 const db = require("../util/datapool");
 
 /**
@@ -37,7 +38,7 @@ exports.makeUser = (req, res, next) => {
             // TODO: handle error with login.
           });
 
-          */
+        */
 
       }
 
@@ -49,16 +50,21 @@ exports.makeUser = (req, res, next) => {
  */
 exports.deleteUser = (req, res, next) => {
 
-    // TODO: Run checks that user is deleting own account.
-    let deleteId = null; // TODO: get value for user to delete
+    let currentUser = new User(); // TODO: assign later
+    let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
 
-    // delete user from database
-    db.execute(
+    if (currentUser.id == deleteId) {
+
+      // TODO: logout user
+
+      // delete user from database
+      db.execute(
         'DELETE FROM users WHERE user_id = ?',
         [deleteId]
-    );
+      );
 
-    // redirect to home page, logged out.
-    res.redirect('/');
+      // redirect to home page.
+      res.redirect('/');
 
+    }
 }
