@@ -9,21 +9,23 @@ import CreateUserFormComponent from "./CreateUserForm.component";
 
 const CreateUserComponent = () => {
 
-    const [formValues, setFormValues] = useState({ username: '', email: '', password: '', img: ""})
+    const [formValues, setFormValues] = useState({ username: '', email: '', password: '', img: ''})
 
     // onSubmit handler
     const onSubmit = userObject => {
         //userObject.email = userObject.email.toLowerCase();
         // checks to see if admin and if not, sets role to 1
         //if (userObject.role === "Admin" || "admin") userObject.role = "0"; else userObject.role = "1";
-
+        console.log("Button pressed");
+        alert("Button pressed");
         axios.post(
             'http://localhost:3001/add-user',
             userObject)
             .then(res => {
                 if (res.status === 200) {
                     alert('User successfully created');
-                    console.log(res.data.username)
+                    console.log("Username "+res.data.username);
+                    alert("This is working")
 
                     //go to login page
                    // window.location.href = "/login-user ";

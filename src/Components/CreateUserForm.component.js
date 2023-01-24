@@ -38,7 +38,7 @@ const CreateUserFormComponent = (props) => {
     });
 
 
-    console.log(props);
+    console.log("Props "+props);
 
 
     return (
@@ -88,6 +88,10 @@ const CreateUserFormComponent = (props) => {
                         component="span"
                     />
                 </FormGroup>
+                <Button variant="danger" size="lg"
+                        block="block" type="submit">
+                    {props.children}
+                </Button>
             </Form>
             </Formik>
         </div>
