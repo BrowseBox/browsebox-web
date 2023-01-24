@@ -2,16 +2,16 @@ const db = require("../util/datapool");
 
 /**
  * Make a user in the database. Take data from front end form.
+ * Redirect to login in current user
  */
 exports.makeUser = (req, res, next) => {
 
-    // TODO: update field names to match front-end
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
     let img = req.body.img;
 
-    // TODO: add verification data is good.
+    // TODO: UPDATE how we handle good and bad data.
     if (
       username == null || username.trim() == '' || 
       email == null || email.trim() == '' ||
@@ -22,24 +22,26 @@ exports.makeUser = (req, res, next) => {
       } else {
         console.log(username + " " + email + " " + password + " " + img);
         
+        /* ADD IN AFTER TESTING WE GET DATA
+
+        // database makes all users active and not admin by default. No change here.
+        db.execute(
+            'INSERT INTO users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
+            [username, email, password, img, 0]
+          ).then(results => (
+            // if user is added, redirect a POST request (307) to log-in with same username and password given to log-in the user
+
+            // TODO: upate URL when login abilities are added.
+            res.redirect(307, '/login')
+          )).catch(err => {
+            // TODO: handle error with login.
+          });
+
+          */
+
       }
 
-      /* ADD IN AFTER TESTING WE GET DATA
-
-    // database makes all users active and not admin by default. No change here.
-    db.execute(
-        'INSERT INTO users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
-        [username, email, password, img, 0]
-      ).then(results => (
-        // if user is added, redirect a POST request (307) to log-in with same username and password given to log-in the user
-
-        // TODO: upate URL when login abilities are added.
-        res.redirect(307, '/login')
-      )).catch(err => {
-        // TODO: handle error with login.
-      });
-
-      */
+      
 }
 
 /**
