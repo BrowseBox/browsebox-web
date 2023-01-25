@@ -19,10 +19,10 @@ exports.makeUser = (req, res, next) => {
 
     // TODO: UPDATE how we handle good and bad data.
     if (
-      username === null || username.trim() == '' || 
-      email === null || email.trim() == '' ||
-      password === null || password.trim() == '' ||
-      img === null || img.trim() == ''
+      username == null || username.trim() == '' || 
+      email == null || email.trim() == '' ||
+      password == null || password.trim() == '' ||
+      img == null || img.trim() == ''
       ) {
         console.log("Bad data");
       } else {
