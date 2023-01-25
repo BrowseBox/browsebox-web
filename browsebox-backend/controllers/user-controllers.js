@@ -19,10 +19,10 @@ exports.makeUser = (req, res, next) => {
 
     // TODO: UPDATE how we handle good and bad data.
     if (
-      username == null || username.trim() == '' || 
-      email == null || email.trim() == '' ||
-      password == null || password.trim() == '' ||
-      img == null || img.trim() == ''
+      username == null || username.trim() === '' || 
+      email == null || email.trim() === '' ||
+      password == null || password.trim() === '' ||
+      img == null || img.trim() === ''
       ) {
         console.log("Bad data");
       } else {
@@ -61,7 +61,7 @@ exports.deleteUser = (req, res, next) => {
     let currentUser = new User(); // TODO: assign later
     let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
 
-    if (currentUser.id == deleteId) {
+    if (currentUser.id === deleteId) {
 
       // TODO: logout user
 
