@@ -10,4 +10,4 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // use routes
 app.use(userRoutes);
 
-app.listen(3000);
+app.listen(3001);
