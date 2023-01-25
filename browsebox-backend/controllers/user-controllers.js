@@ -12,6 +12,11 @@ exports.makeUser = (req, res, next) => {
     let password = req.body.password;
     let img = req.body.img;
 
+    console.log("Username: " + username);
+    console.log("Email: " + email);
+    console.log("Password: " + password);
+    console.log("Image URL: " + img);
+
     // TODO: UPDATE how we handle good and bad data.
     if (
       username == null || username.trim() == '' || 
@@ -21,10 +26,7 @@ exports.makeUser = (req, res, next) => {
       ) {
         console.log("Bad data");
       } else {
-        console.log("Username: " + username);
-        console.log("Email: " + email);
-        console.log("Password: " + password);
-        console.log("Image URL: " + img);
+        
         
         /* ADD IN AFTER TESTING WE GET DATA
 
