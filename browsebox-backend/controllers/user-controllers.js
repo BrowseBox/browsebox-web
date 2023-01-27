@@ -1,15 +1,78 @@
+const User = require("../models/user");
 const db = require("../util/datapool");
 
+/**
+ * Make a user in the database. Take data from front end form.
+ * Redirect to login in current user
+ */
 exports.makeUser = (req, res, next) => {
 
-    // update field names to match front-end
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
     let img = req.body.img;
 
-    db.execute(
-        'INSERT INTO users (user_name, user_email, user_password, user_img) VALUES (?, ?, ?, ?)',
-        [username, email, password, img]
+    console.log("Username: " + username);
+    console.log("Email: " + email);
+    console.log("Password: " + password);
+    console.log("Image URL: " + img);
+
+    // TODO: UPDATE how we handle good and bad data.
+    if (
+      username == null || username.trim() === '' || 
+      email == null || email.trim() === '' ||
+      password == null || password.trim() === '' ||
+      img == null || img.trim() === ''
+      ) {
+        console.log("Bad data");
+      } else {
+        
+        
+        /* ADD IN AFTER TESTING WE GET DATA
+
+        // database makes all users active and not admin by default. No change here.
+        db.execute(
+            'INSERT INTO users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
+            [username, email, password, img, 0]
+          ).then(results => (
+            // if user is added, redirect a POST request (307) to log-in with same username and password given to log-in the user
+            // console.log("User " + username + " has been added to the database")
+            res.status(200).send("User " + username + " has been added to the database")
+
+            // TODO: upate URL when login abilities are added.
+            // res.status(200).redirect(307, '/login')
+          )).catch(err => {
+            // TODO: handle error with login.
+            res.status(500).send("Database error")
+          });
+
+        */
+
+      }
+
+      
+}
+
+/**
+ * Delete a user's own account
+ */
+exports.deleteUser = (req, res, next) => {
+
+    let currentUser = new User(); // TODO: assign later
+    let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
+
+    if (currentUser.id === deleteId) {
+
+      // TODO: logout user
+
+      // delete user from database
+      db.execute(
+        'DELETE FROM users WHERE user_id = ?',
+        [deleteId]
       );
+
+      // redirect to home page.
+      res.redirect('/');
+
+    }
 }
