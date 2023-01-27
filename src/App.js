@@ -1,11 +1,13 @@
-import CreateUserComponent from "./Components/CreateUser.component";
+import CreateUserComponent from './Components/CreateUser.component'
+import React from 'react'
+import Header from './pages/Header/Header'
 
 function App() {
-    return (
-        <div className="App">
-            <CreateUserComponent />
-        </div>
-    );
+  return (
+    <>
+      <Header />
+    </>
+  )
 }
 
-export default App;
+export default App
