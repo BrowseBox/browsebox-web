@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 function DeleteUserTest() {
     const [id, setId] = useState("");
