@@ -13,12 +13,7 @@ exports.makeUser = (req, res, next) => {
     let password = req.body.password;
     let img = req.body.imageLocation;
 
-    console.log("Username: " + username);
-    console.log("Email: " + email);
-    console.log("Password: " + password);
-    console.log("Image URL: " + img);
-
-    // TODO: DECIDE how we handle good and bad data.
+    
     if (
       username == null || username.trim() === '' || 
       email == null || email.trim() === '' ||
