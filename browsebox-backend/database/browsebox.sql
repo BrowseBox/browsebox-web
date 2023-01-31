@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`reviews`  (
 -- ----------------------------------------
 CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`sale_id`			    INT		    	NOT NULL 	AUTO_INCREMENT,
+	`sale_name`				VARCHAR(50)		NOT NULL,
 	`owner`				    INT 		    NOT NULL,
 	`sale_description`   	VARCHAR(100),
 	`sale_price` 		DOUBLE(5,2),
