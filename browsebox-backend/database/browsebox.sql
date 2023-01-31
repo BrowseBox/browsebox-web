@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`users` (
 	`user_email`	VARCHAR(100)	NOT NULL,
 	`user_rating` 	DOUBLE(3,2),
 	`user_password`	VARCHAR(30) 	NOT NULL,
-	`user_img`		VARCHAR(50),
+	`user_img`		VARCHAR(1024),
 	`isActive`		TINYINT(1) NOT NULL DEFAULT '1',
 	`isAdmin`		TINYINT(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`user_id`)
@@ -121,5 +121,5 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 		ON UPDATE NO ACTION
 );
 
-GRANT ALL PRIVILEGES ON * . * TO 'browsebox'@'localhost';
-FLUSH PRIVILEGES;
+-- GRANT ALL PRIVILEGES ON * . * TO 'browsebox'@'localhost';
+-- FLUSH PRIVILEGES;

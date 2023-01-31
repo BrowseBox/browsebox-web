@@ -43,7 +43,7 @@ docker run --name mysql-container -dp 3306:3306 mysql-image
 Run the following command to install `npm` dependencies:
 
 ```bash
-npm install
+npm install --force
 ```
 
 ## Licence

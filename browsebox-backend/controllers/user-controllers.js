@@ -1,5 +1,5 @@
-const User = require("../models/user");
 const db = require("../util/datapool");
+const User = require("../models/user");
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -7,17 +7,18 @@ const db = require("../util/datapool");
  */
 exports.makeUser = (req, res, next) => {
 
+  // get data from incomming object
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
-    let img = req.body.img;
+    let img = req.body.imageLocation;
 
     console.log("Username: " + username);
     console.log("Email: " + email);
     console.log("Password: " + password);
     console.log("Image URL: " + img);
 
-    // TODO: UPDATE how we handle good and bad data.
+    // TODO: DECIDE how we handle good and bad data.
     if (
       username == null || username.trim() === '' || 
       email == null || email.trim() === '' ||
@@ -26,27 +27,20 @@ exports.makeUser = (req, res, next) => {
       ) {
         console.log("Bad data");
       } else {
-        
-        
-        /* ADD IN AFTER TESTING WE GET DATA
 
         // database makes all users active and not admin by default. No change here.
         db.execute(
-            'INSERT INTO users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
             [username, email, password, img, 0]
           ).then(results => (
-            // if user is added, redirect a POST request (307) to log-in with same username and password given to log-in the user
-            // console.log("User " + username + " has been added to the database")
+            
             res.status(200).send("User " + username + " has been added to the database")
 
-            // TODO: upate URL when login abilities are added.
-            // res.status(200).redirect(307, '/login')
+            
           )).catch(err => {
-            // TODO: handle error with login.
+            
             res.status(500).send("Database error")
           });
-
-        */
 
       }
 
@@ -69,7 +63,13 @@ exports.deleteUser = (req, res, next) => {
       db.execute(
         'DELETE FROM users WHERE user_id = ?',
         [deleteId]
-      );
+      ).then(results => (
+        res.status(200).send("User " + deleteId + " has been deleted from the database")
+
+      )).catch(err => {
+        // TODO: handle error with login.
+        res.status(500).send("Database error")
+      });
 
       // redirect to home page.
       res.redirect('/');
