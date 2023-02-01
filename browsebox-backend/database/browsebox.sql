@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`categories`  (
 CREATE TABLE IF NOT EXISTS `browsebox`.`users` (
 	`user_id` 		INT	 			NOT NULL 	AUTO_INCREMENT,
 	`user_name`		VARCHAR(100)   	NOT NULL,
-	`user_email`	VARCHAR(100)	NOT NULL,
+	`user_email`	VARCHAR(100)	NOT NULL UNIQUE,
 	`user_rating` 	DOUBLE(3,2),
 	`user_password`	VARCHAR(30) 	NOT NULL,
 	`user_img`		VARCHAR(1024),
