@@ -34,7 +34,7 @@ exports.makeUser = (req, res, next) => {
             
           )).catch(err => {
             
-            res.status(500).send("Database error")
+            res.status(500).send(err)
           });
 
       }
