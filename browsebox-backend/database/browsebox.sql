@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`categories`  (
 CREATE TABLE IF NOT EXISTS `browsebox`.`users` (
 	`user_id` 		INT	 			NOT NULL 	AUTO_INCREMENT,
 	`user_name`		VARCHAR(100)   	NOT NULL,
-	`user_email`	VARCHAR(100)	NOT NULL,
+	`user_email`	VARCHAR(100)	NOT NULL UNIQUE,
 	`user_rating` 	DOUBLE(3,2),
 	`user_password`	VARCHAR(30) 	NOT NULL,
-	`user_img`		VARCHAR(50),
+	`user_img`		VARCHAR(1024),
 	`isActive`		TINYINT(1) NOT NULL DEFAULT '1',
 	`isAdmin`		TINYINT(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`user_id`)
@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`reviews`  (
 -- ----------------------------------------
 CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`sale_id`			    INT		    	NOT NULL 	AUTO_INCREMENT,
+	`sale_name`				VARCHAR(50)		NOT NULL,
 	`owner`				    INT 		    NOT NULL,
 	`sale_description`   	VARCHAR(100),
 	`sale_price` 		DOUBLE(5,2),
@@ -121,5 +122,5 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 		ON UPDATE NO ACTION
 );
 
-GRANT ALL PRIVILEGES ON * . * TO 'browsebox'@'localhost';
-FLUSH PRIVILEGES;
+-- GRANT ALL PRIVILEGES ON * . * TO 'browsebox'@'localhost';
+-- FLUSH PRIVILEGES;

@@ -16,7 +16,7 @@ const CreateUser = (props) => {
         userObject.email = userObject.email.toLowerCase();
 
         axios.post(
-            'http://localhost:4000/users/create-user',
+            'http://localhost:3001/add-user',
             userObject)
             .then(res => {
                 if (res.status === 200) {
