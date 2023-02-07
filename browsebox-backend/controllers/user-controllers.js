@@ -63,11 +63,51 @@ exports.deleteUser = (req, res, next) => {
 
       )).catch(err => {
         // TODO: handle error with login.
-        res.status(500).send("Database error")
+        res.status(500).send(err)
       });
 
       // redirect to home page.
       res.redirect('/');
 
     }
+}
+
+/**
+ * See reputaion of a user
+ */
+exports.getReviews = (req, res, next) => {
+
+  // id of user to get reviews of
+  let userId = req.body.userId;
+  let userRating;
+
+  // get user's review avg
+  db.execute(
+    'SELECT user_rating FROM browsebox.users WHERE user_id = ?',
+    [userId]
+  ).then(results => (
+    
+    // TODO: assign user rating from results
+    userRating
+
+  )).catch(err => {
+    res.status(500).send(err)
+  });
+
+  // get reviews of user
+  db.execute(
+    'SELECT * FROM browsebox.reviews where user_id=?',
+    [userId]
+  ).then(results => (
+
+    // TODO: return reviews of the user as objects and avg score
+    res.status(200).send({
+      "results": results, 
+      "avg": userRating
+    })
+
+  )).catch(err => {
+    res.status(500).send(err)
+  });
+
 }

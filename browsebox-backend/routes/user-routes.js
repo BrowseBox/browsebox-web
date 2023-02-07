@@ -9,5 +9,6 @@ const router = express.Router();
 
 // TODO: can change the URL later to match fron end
 router.post('/add-user', userControllers.makeUser);
+router.post('/delete-user', userControllers.deleteUser);
 
 module.exports = router;
