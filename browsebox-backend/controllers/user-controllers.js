@@ -62,12 +62,8 @@ exports.deleteUser = (req, res, next) => {
         res.status(200).send("User " + deleteId + " has been deleted from the database")
 
       )).catch(err => {
-        // TODO: handle error with login.
         res.status(500).send(err)
       });
-
-      // redirect to home page.
-      res.redirect('/');
 
     }
 }
