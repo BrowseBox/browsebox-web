@@ -85,10 +85,10 @@ exports.getReviews = (req, res, next) => {
   db.execute(
     'SELECT user_rating FROM browsebox.users WHERE user_id = ?',
     [userId]
-  ).then(results => (
+  ).then(([ratings]) => (
     
-    // TODO: assign user rating from results
-    userRating
+    // TODO test: assign user rating from results
+    userRating = ratings[0]
 
   )).catch(err => {
     res.status(500).send(err)
@@ -98,11 +98,11 @@ exports.getReviews = (req, res, next) => {
   db.execute(
     'SELECT * FROM browsebox.reviews where user_id=?',
     [userId]
-  ).then(results => (
+  ).then(([rows, fieldData]) => (
 
-    // TODO: return reviews of the user as objects and avg score
+    // TODO test: return reviews of the user as objects and avg score
     res.status(200).send({
-      "results": results, 
+      "rows": rows, 
       "avg": userRating
     })
 
