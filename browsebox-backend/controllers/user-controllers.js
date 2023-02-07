@@ -47,10 +47,10 @@ exports.makeUser = (req, res, next) => {
  */
 exports.deleteUser = (req, res, next) => {
 
-    let currentUser = new User(); // TODO: assign later
+    let currentUserId = req.body.currentUserId; // TODO: assign later
     let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
 
-    if (currentUser.id === deleteId) {
+    if (currentUserId === deleteId) {
 
       // TODO: logout user
 
