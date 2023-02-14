@@ -1,4 +1,3 @@
-const Item = require("../models/sale");
 const db = require("../util/datapool");
 
 /**
@@ -21,7 +20,7 @@ exports.makeSale = (req, res, next) => {
 
     // TODO: UPDATE how we handle good and bad data.
     if (
-        itemName == null || itemName.trim() === '' || 
+        saleName == null || saleName.trim() === '' || 
         description == null || description.trim() === '' ||
         price == null || price.trim() === '' ||
       img == null || img.trim() === ''
@@ -54,9 +53,11 @@ exports.makeSale = (req, res, next) => {
 
 exports.getItems = function(req, res, next) {
   db.query("SELECT * FROM sales").then(([rows, fields]) => {
-    console.log(rows);
+    // console.log(rows);
+    res.status(200).send(rows);
   });
 
+  /*
   db.query(retrieveDataQuery, function(err, results) {
     if (err) {
       res.status(500).send({ error: 'Error retrieving items' });
@@ -67,6 +68,7 @@ exports.getItems = function(req, res, next) {
 
     // console.log({ sales: results });
   });
+  */
 };
 
 

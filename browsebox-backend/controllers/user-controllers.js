@@ -85,11 +85,11 @@ exports.logIn = (req, res, next) => {
 
 authenticateUser(username, password, (error, authenticated) => {
   if (error) {
-    res.status(500).send(err)
+    res.status(500).send(error)
   } else if (authenticated) {
     res.status(200).send(username + " login successful")
   } else {
-    res.status(500).send(err)
+    res.status(500).send(error)
   }
 });
 
