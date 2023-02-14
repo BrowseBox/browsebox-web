@@ -8,21 +8,21 @@ import * as Yup from "yup";
 import { FormGroup, FormControl } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
-        root: {
-            "& > *": {
-                margin: theme.spacing(1),
-                width: "25ch",
-            },
+    root: {
+        "& > *": {
+            margin: theme.spacing(1),
+            width: "25ch",
+        },
         }
     })
 );
 
-const LocationInformation = (props) => {
+
+const PriceInformationFormComponent = (props) => {
     const classes = useStyles();
 
     const validationSchema = Yup.object().shape({
-        postalCode: Yup.string().required("Required"),
-        streetAddress: Yup.string().required("Required"),
+        price: Yup.string().required("Required"),
     });
 
     return (
@@ -30,22 +30,11 @@ const LocationInformation = (props) => {
             <Formik {...props} validationSchema={validationSchema}>
                 <Form>
                     <FormGroup>
-                        <p>Postal Code:</p>
-                        <Field name="postalCode" type="text"
+                        <p>Price:</p>
+                        <Field name="price" type="text"
                             className="form-control" />
                         <ErrorMessage
-                            name="postalCode"
-                            className="d-block invalid-feedback"
-                            component="span"
-                        />
-                    </FormGroup>
-
-                    <FormGroup>
-                        <p>Street Address:</p>
-                        <Field name="streetAddress" type="text"
-                            className="form-control" />
-                        <ErrorMessage
-                            name="streetAddress"
+                            name="price"
                             className="d-block invalid-feedback"
                             component="span"
                         />
@@ -62,5 +51,3 @@ const LocationInformation = (props) => {
         </div>
     );
 }
-
-

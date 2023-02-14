@@ -8,22 +8,21 @@ import * as Yup from "yup";
 import { FormGroup, FormControl } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
+        root: {
+            "& > *": {
+                margin: theme.spacing(1),
+                width: "25ch",
+            },
         }
     })
 );
 
-const AdDetail = (props) => {
+const LocationInformation = (props) => {
     const classes = useStyles();
 
     const validationSchema = Yup.object().shape({
-        title: Yup.string().required("Required"),
-        condition: Yup.string().required("Required"),
-        description: Yup.string().required("Required"),
+        postalCode: Yup.string().required("Required"),
+        streetAddress: Yup.string().required("Required"),
     });
 
     return (
@@ -31,37 +30,41 @@ const AdDetail = (props) => {
             <Formik {...props} validationSchema={validationSchema}>
                 <Form>
                     <FormGroup>
-                        <p>Title:</p>
-                        <Field name="title" type="text"
+                        <p>Postal Code:</p>
+                        <Field name="postalCode" type="text"
                             className="form-control" />
                         <ErrorMessage
-                            name="title"
+                            name="postalCode"
                             className="d-block invalid-feedback"
                             component="span"
                         />
                     </FormGroup>
 
                     <FormGroup>
-                        <p>Condition:</p>
-                        <Field name="condition" type="text"
+                        <p>Street Address:</p>
+                        <Field name="streetAddress" type="text"
                             className="form-control" />
                         <ErrorMessage
-                            name="condition"
+                            name="streetAddress"
                             className="d-block invalid-feedback"
                             component="span"
                         />
                     </FormGroup>
 
+                    // create formgoroup for media location
                     <FormGroup>
-                        <p>Description:</p>
-                        <Field name="description" type="text"
+                        <p>Media Location:</p>
+                        <Field name="mediaLocation" type="text"
                             className="form-control" />
                         <ErrorMessage
-                            name="description"
+                            name="mediaLocation"
                             className="d-block invalid-feedback"
                             component="span"
                         />
                     </FormGroup>
+
+
+
 
                     <div className="text-center">
                         <Button variant="danger" size="lg"
@@ -74,3 +77,5 @@ const AdDetail = (props) => {
         </div>
     );
 }
+
+
