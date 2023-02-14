@@ -47,10 +47,7 @@ exports.makeUser = (req, res, next) => {
  */
 exports.deleteUser = (req, res, next) => {
 
-    let currentUserId = req.body.currentUserId; // TODO: assign later
     let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
-
-    if (currentUserId === deleteId) {
 
       // TODO: logout user
 
@@ -65,7 +62,7 @@ exports.deleteUser = (req, res, next) => {
         res.status(500).send(err)
       });
 
-    }
+    
 }
 
 /**

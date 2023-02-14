@@ -10,7 +10,7 @@ function DeleteUserTest() {
         alert(`Submitting Name ${id}`);
         axios
             .delete(
-                "http://localhost:4000/users/delete-user/" + id)
+                "http://localhost:3001/delete-user/" + id)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("User successfully deleted");
