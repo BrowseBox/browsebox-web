@@ -51,7 +51,7 @@ const LocationInformation = (props) => {
                         />
                     </FormGroup>
 
-                    // create formgoroup for media location
+                    
                     <FormGroup>
                         <p>Media Location:</p>
                         <Field name="mediaLocation" type="text"
