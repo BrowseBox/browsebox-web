@@ -70,6 +70,7 @@ exports.deleteUser = (req, res, next) => {
 
 /**
  * See reputaion of a user
+ * TODO: move into reviews.js file
  */
 exports.getReviews = (req, res, next) => {
 
