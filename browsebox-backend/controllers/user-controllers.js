@@ -1,5 +1,4 @@
 const db = require("../util/datapool");
-const User = require("../models/user");
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -47,7 +46,7 @@ exports.makeUser = (req, res, next) => {
  */
 exports.deleteUser = (req, res, next) => {
 
-    let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
+    let deleteId = req.params.id // TODO: update name of input base on frontend
 
       // TODO: logout user
 
@@ -66,8 +65,39 @@ exports.deleteUser = (req, res, next) => {
 }
 
 /**
+ * Log in user
+ */
+exports.logIn = (req, res, next) => {
+
+  let username = req.body.username;
+  let password = req.body.password;
+
+  function authenticateUser(username, password, callback) {
+    const query = `SELECT * FROM users WHERE user_name = '${username}' AND user_password = '${password}'`;
+    db.pool.query(query, (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results.length > 0);
+      }
+    });
+}
+
+authenticateUser(username, password, (error, authenticated) => {
+  if (error) {
+    res.status(500).send(err)
+  } else if (authenticated) {
+    res.status(200).send(username + " login successful")
+  } else {
+    res.status(500).send(err)
+  }
+});
+
+}
+
+/**
  * See reputaion of a user
- * TODO: move into reviews.js file
+ * TODO: move into Tyler's reviews.js file
  */
 exports.getReviews = (req, res, next) => {
 
