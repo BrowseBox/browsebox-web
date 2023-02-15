@@ -19,7 +19,7 @@ const LoginUser = () => {
 
     const onSubmit = async(userObject) => {
         const response = await axios.post(
-            'http://localhost:4000/users/login-user',  {"username":userObject.username , "password": userObject.password})
+            'http://localhost:3001/login-user',  {"username":userObject.username , "password": userObject.password})
 
         const json = await response.data;
 

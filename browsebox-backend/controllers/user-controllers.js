@@ -1,5 +1,4 @@
 const db = require("../util/datapool");
-const User = require("../models/user");
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -47,10 +46,7 @@ exports.makeUser = (req, res, next) => {
  */
 exports.deleteUser = (req, res, next) => {
 
-    let currentUser = new User(); // TODO: assign later
-    let deleteId = req.body.deleteId; // TODO: update name of input base on frontend
-
-    if (currentUser.id === deleteId) {
+    let deleteId = req.params.id // TODO: update name of input base on frontend
 
       // TODO: logout user
 
@@ -62,12 +58,80 @@ exports.deleteUser = (req, res, next) => {
         res.status(200).send("User " + deleteId + " has been deleted from the database")
 
       )).catch(err => {
-        // TODO: handle error with login.
-        res.status(500).send("Database error")
+        res.status(500).send(err)
       });
 
-      // redirect to home page.
-      res.redirect('/');
+    
+}
 
-    }
+/**
+ * Log in user
+ */
+exports.logIn = (req, res, next) => {
+
+  let username = req.body.username;
+  let password = req.body.password;
+
+  function authenticateUser(username, password, callback) {
+    const query = `SELECT * FROM users WHERE user_name = '${username}' AND user_password = '${password}'`;
+    db.pool.query(query, (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results.length > 0);
+      }
+    });
+}
+
+authenticateUser(username, password, (error, authenticated) => {
+  if (error) {
+    res.status(500).send(error)
+  } else if (authenticated) {
+    res.status(200).send(username + " login successful")
+  } else {
+    res.status(500).send(error)
+  }
+});
+
+}
+
+/**
+ * See reputaion of a user
+ * TODO: move into Tyler's reviews.js file
+ */
+exports.getReviews = (req, res, next) => {
+
+  // id of user to get reviews of
+  let userId = req.body.userId;
+  let userRating;
+
+  // get user's review avg
+  db.execute(
+    'SELECT user_rating FROM browsebox.users WHERE user_id = ?',
+    [userId]
+  ).then(([ratings]) => (
+    
+    // TODO test: assign user rating from results
+    userRating = ratings[0]
+
+  )).catch(err => {
+    res.status(500).send(err)
+  });
+
+  // get reviews of user
+  db.execute(
+    'SELECT * FROM browsebox.reviews where user_id=?',
+    [userId]
+  ).then(([rows, fieldData]) => (
+
+    // TODO test: return reviews of the user as objects and avg score
+    res.status(200).send({
+      "rows": rows, 
+      "avg": userRating
+    })
+
+  )).catch(err => {
+    res.status(500).send(err)
+  });
+
 }
