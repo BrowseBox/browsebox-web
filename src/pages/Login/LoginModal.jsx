@@ -14,6 +14,7 @@ export default function LoginModal(props) {
     bgcolor: 'background.paper',
     boxShadow: 10,
     p: 2,
+    borderRadius: 2,
   }
 
   return (
