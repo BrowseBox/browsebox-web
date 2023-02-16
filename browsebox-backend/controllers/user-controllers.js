@@ -127,12 +127,13 @@ exports.updateUser = (req, res, next) => {
   let user_name;
   let user_email;
   let user_img;
+  let user_password;
   let id = req.body.id;
 
   // update user
   db.execute(
-    'update users set user_name = ?, user_email = ?, user_img = ? where user_id=?',
-    [user_name, user_email, user_img, id]
+    'update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?',
+    [user_name, user_email, user_password, user_img, id]
   ).then(results => (
     res.status(200).send("User " + id + " has been updated")
 
