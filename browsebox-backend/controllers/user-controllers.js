@@ -111,6 +111,7 @@ exports.getUserData = (req, res, next) => {
       user_name: rows[0].user_name,
       user_email: rows[0].user_email,
       user_rating: rows[0].user_rating,
+      user_password: rows[0].user_password,
       user_img: rows[0].user_img,
       isActive: rows[0].isActive
     })
@@ -119,14 +120,39 @@ exports.getUserData = (req, res, next) => {
   ))
 }
 
-// TODO: update user information.
+/**
+ * Update a user based on ID
+ */
 exports.updateUser = (req, res, next) => {
-  
+  let user_name;
+  let user_email;
+  let user_img;
+  let id = req.body.id;
+
+  // update user
+  db.execute(
+    'update users set user_name = ?, user_email = ?, user_img = ? where user_id=?',
+    [user_name, user_email, user_img, id]
+  ).then(results => (
+    res.status(200).send("User " + id + " has been updated")
+
+  )).catch(err => {
+    res.status(500).send(err)
+  });
+
 }
+
+
+
+
+
+
+
+
 
 /**
  * See reputaion of a user
- * TODO: move into Tyler's reviews.js file
+ * TODO: move into Tyler's review-constoller.js file once he's got it in.
  */
 exports.getReviews = (req, res, next) => {
 
