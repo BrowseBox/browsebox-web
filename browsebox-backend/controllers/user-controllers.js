@@ -67,13 +67,13 @@ exports.deleteUser = (req, res, next) => {
  */
 exports.logIn = (req, res, next) => {
 
-  let username = req.body.username;
+  let email = req.body.email;
   let password = req.body.password;
 
   let authentic = false;
 
-  function authenticateUser(username, password, callback) {
-    const query = `SELECT * FROM users WHERE user_name = '${username}' AND user_password = '${password}'`;
+  function authenticateUser(email, password, callback) {
+    const query = `SELECT * FROM users WHERE user_email = '${email}' AND user_password = '${password}'`;
     db.pool.query(query, (error, results) => {
       if (error) {
         callback(error, null);
@@ -83,7 +83,7 @@ exports.logIn = (req, res, next) => {
     });
 }
 
-  authenticateUser(username, password, (error, authenticated) => {
+  authenticateUser(email, password, (error, authenticated) => {
     if (error) {
       res.status(500).send(error)
     } else if (authenticated) {
@@ -96,7 +96,7 @@ exports.logIn = (req, res, next) => {
   if (authentic) {
 
     db.query(
-      `SELECT user_id FROM users WHERE user_name = '${username}' AND user_password = '${password}'`
+      `SELECT user_id FROM users WHERE user_email = '${email}' AND user_password = '${password}'`
       ).then(
         (rows) => {
           const userId = rows[0][0].user_id;
