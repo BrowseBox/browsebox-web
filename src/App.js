@@ -1,12 +1,13 @@
-import CreateUserComponent from "./Components/UserComponents/CreateUser.component";
-import CreateAd from "./Components/ItemComponents/CreateAd.component";
+import CreateUserComponent from './Components/UserComponents/CreateUser.component'
+import Header from './pages/Header/Header'
 
 function App() {
-    return (
-        <div className="App">
-       <CreateAd/>
-        </div>
-    );
+  return (
+    <div className="App">
+      {/* <CreateUserComponent /> */}
+      <Header />
+    </div>
+  )
 }
 
 export default App
