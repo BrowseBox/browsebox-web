@@ -19,7 +19,7 @@ exports.makeUser = (req, res, next) => {
       password == null || password.trim() === '' ||
       img == null || img.trim() === ''
       ) {
-        console.log("Bad data");
+        res.status(500).send("Bad data. Some field is null or blank.");
       } else {
 
         // database makes all users active and not admin by default. No change here.
@@ -100,7 +100,7 @@ exports.logIn = (req, res, next) => {
       ).then(
         (rows) => {
           const userId = rows[0][0].user_id;
-          console.log(userId); 
+          // console.log(userId); 
 
           res.status(200).send({
             user_id: userId
