@@ -89,8 +89,8 @@ exports.logIn = (req, res, next) => {
       db.query(
         `SELECT user_id FROM users WHERE user_email = '${email}' AND user_password = '${password}'`
         ).then(
-          (rows) => {
-            const userId = rows[0][0].user_id;
+          ([rows, fieldData]) => {
+            const userId = rows[0].user_id;
             // console.log(userId); 
   
             res.status(200).send({
