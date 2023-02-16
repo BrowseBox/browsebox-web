@@ -70,8 +70,6 @@ exports.logIn = (req, res, next) => {
   let email = req.body.email;
   let password = req.body.password;
 
-  let authentic = false;
-
   function authenticateUser(email, password, callback) {
     const query = `SELECT * FROM users WHERE user_email = '${email}' AND user_password = '${password}'`;
     db.pool.query(query, (error, results) => {
@@ -87,29 +85,25 @@ exports.logIn = (req, res, next) => {
     if (error) {
       res.status(500).send(error)
     } else if (authenticated) {
-      authentic = true;
+      
+      db.query(
+        `SELECT user_id FROM users WHERE user_email = '${email}' AND user_password = '${password}'`
+        ).then(
+          (rows) => {
+            const userId = rows[0][0].user_id;
+            // console.log(userId); 
+  
+            res.status(200).send({
+              user_id: userId
+            });
+  
+          }
+        );
+
     } else {
       res.status(500).send(error)
     }
   });
-
-  if (authentic) {
-
-    db.query(
-      `SELECT user_id FROM users WHERE user_email = '${email}' AND user_password = '${password}'`
-      ).then(
-        (rows) => {
-          const userId = rows[0][0].user_id;
-          // console.log(userId); 
-
-          res.status(200).send({
-            user_id: userId
-          });
-
-        }
-      );
-
-  }
 }
 
 /**
