@@ -124,7 +124,6 @@ exports.getUserData = (req, res, next) => {
       user_name: rows[0].user_name,
       user_email: rows[0].user_email,
       user_rating: rows[0].user_rating,
-      user_password: rows[0].user_password,
       user_img: rows[0].user_img,
       isActive: rows[0].isActive
     })
