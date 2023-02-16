@@ -10,5 +10,6 @@ const router = express.Router();
 router.post('/add-user', userControllers.makeUser);
 router.get('/delete-user/:id', userControllers.deleteUser);
 router.post('/login-user', userControllers.logIn);
+router.post('/get-user', userControllers.getUserData);
 
 module.exports = router;
