@@ -2,6 +2,7 @@ import { Box, Button, TextField } from '@mui/material'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
+import axios from 'axios'
 
 export default function LoginForm() {
   // form valiation
@@ -17,7 +18,21 @@ export default function LoginForm() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      values.email = values.email.toLowerCase()
+
       console.log(values)
+
+      axios
+        .post('http://localhost:3001/login-user', values)
+        .then((res) => {
+          if (res.status === 200) {
+            alert('User successfully logged in')
+            //save username and imageLocation in local storage
+            // console.log(res.data)
+            localStorage.setItem('id', res.data.user_id)
+          } else Promise.reject()
+        })
+        .catch((err) => alert('Something went wrong'))
     },
   })
 
