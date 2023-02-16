@@ -46,9 +46,7 @@ exports.makeUser = (req, res, next) => {
  */
 exports.deleteUser = (req, res, next) => {
 
-    let deleteId = req.params.id // TODO: update name of input base on frontend
-
-      // TODO: logout user
+    let deleteId = req.params.id // TODO: update when made into POST request
 
       // delete user from database
       db.execute(
@@ -96,8 +94,66 @@ authenticateUser(username, password, (error, authenticated) => {
 }
 
 /**
+ * Get user information.
+*/
+exports.getUserData = (req, res, next) => {
+
+  let id = req.body.id;
+
+  // get user info
+  db.execute(
+    'SELECT * FROM users where user_id=?',
+    [id]
+  ).then(([rows, fieldData]) => (
+
+    
+    res.status(200).send({
+      user_name: rows[0].user_name,
+      user_email: rows[0].user_email,
+      user_rating: rows[0].user_rating,
+      user_password: rows[0].user_password,
+      user_img: rows[0].user_img,
+      isActive: rows[0].isActive
+    })
+    
+
+  ))
+}
+
+/**
+ * Update a user based on ID
+ */
+exports.updateUser = (req, res, next) => {
+  let user_name;
+  let user_email;
+  let user_img;
+  let user_password;
+  let id = req.body.id;
+
+  // update user
+  db.execute(
+    'update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?',
+    [user_name, user_email, user_password, user_img, id]
+  ).then(results => (
+    res.status(200).send("User " + id + " has been updated")
+
+  )).catch(err => {
+    res.status(500).send(err)
+  });
+
+}
+
+
+
+
+
+
+
+
+
+/**
  * See reputaion of a user
- * TODO: move into Tyler's reviews.js file
+ * TODO: move into Tyler's review-constoller.js file once he's got it in.
  */
 exports.getReviews = (req, res, next) => {
 
@@ -109,10 +165,10 @@ exports.getReviews = (req, res, next) => {
   db.execute(
     'SELECT user_rating FROM browsebox.users WHERE user_id = ?',
     [userId]
-  ).then(([ratings]) => (
+  ).then(([ratings, fieldData]) => (
     
     // TODO test: assign user rating from results
-    userRating = ratings[0]
+    userRating = ratings[0].user_rating
 
   )).catch(err => {
     res.status(500).send(err)
