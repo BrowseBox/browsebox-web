@@ -3,10 +3,10 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
 import axios from 'axios'
+import { createAvatar } from '@dicebear/core'
+import { initials } from '@dicebear/collection'
 
 export default function SignupForm() {
-  // const [formValues, setFormValues] = useState({ username: '', email: '', password: '', imageLocation: '' })
-
   // form validation
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('Required'),
@@ -19,24 +19,34 @@ export default function SignupForm() {
       username: '',
       email: '',
       password: '',
+      imageLocation: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       values.email = values.email.toLowerCase()
 
-      // axios
-      //   .post('http://localhost:3001/add-user', values)
-      //   .then((res) => {
-      //     if (res.status === 200) {
-      //       alert('User successfully created')
-      //     } else Promise.reject()
-      //   })
-      //   .catch((err) => alert('Something went wrong'))
+      // console.log(values)
 
-      console.log(values)
+      axios
+        .post('http://localhost:3001/add-user', values)
+        .then((res) => {
+          if (res.status === 200) {
+            alert('User successfully created')
+          } else Promise.reject()
+        })
+        .catch((err) => alert('Something went wrong'))
     },
   })
+
+  // avatar
+  const avatar = createAvatar(initials, {
+    seed: formik.values.username,
+  })
+
+  const svg = avatar.toString()
+  formik.values.imageLocation = svg
+  // console.log(svg)
 
   // styles
   const textFieldStyle = {
