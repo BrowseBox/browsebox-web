@@ -6,7 +6,9 @@ import axios from 'axios'
 import { createAvatar } from '@dicebear/core'
 import { initials } from '@dicebear/collection'
 
-export default function SignupForm() {
+export default function SignupForm(props) {
+  const { handleCloseSignupModal } = props
+
   // form validation
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('Required'),
@@ -32,6 +34,7 @@ export default function SignupForm() {
         .post('http://localhost:3001/add-user', values)
         .then((res) => {
           if (res.status === 200) {
+            handleCloseSignupModal()
             alert('User successfully created')
           } else Promise.reject()
         })
@@ -44,7 +47,7 @@ export default function SignupForm() {
     seed: formik.values.username,
   })
 
-  const svg = avatar.toString()
+  const svg = avatar.toString() // change this to data uri
   formik.values.imageLocation = svg
   // console.log(svg)
 

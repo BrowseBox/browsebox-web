@@ -6,7 +6,17 @@ import axios from 'axios'
 
 export default function Edit(props) {
   const { user, setUser } = props
-  // console.log(user)
+  console.log(user)
+
+  // check if this is needed @Jireh
+  if (user === null) {
+    axios.get('http://localhost:3001/get-user', { params: { id: localStorage.getItem('id') } }).then((res) => {
+      if (res.status === 200) {
+        setUser(res.data)
+        // console.log(res.data)
+      }
+    })
+  }
 
   const validationSchema = Yup.object().shape({
     user_name: Yup.string().required('Required'),

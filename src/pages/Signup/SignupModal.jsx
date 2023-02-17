@@ -23,7 +23,7 @@ export default function SignupModal(props) {
         <Box sx={style}>
           <h2>Sign up</h2>
           <Divider />
-          <SignupForm />
+          <SignupForm handleCloseSignupModal={handleCloseSignupModal} />
         </Box>
       </Modal>
     </>
