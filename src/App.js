@@ -1,6 +1,6 @@
-import CreateUserComponent from './Components/UserComponents/CreateUser.component'
+// import CreateUserComponent from './Components/UserComponents/CreateUser.component'
 import Header from './pages/Header/Header'
-import Home from './pages/Home/Home'
+// import Home from './pages/Home/Home'
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -14,7 +14,7 @@ function App() {
     if (localStorage.getItem('id') !== null) {
       axios.post('http://localhost:3001/get-user', { id: localStorage.getItem('id') }).then((res) => {
         setUser(res.data)
-        console.log(user) // this is null fix it @Jireh
+        // console.log(user) // this is null fix it @Jireh
         // console.log(res.data)
       })
     }
