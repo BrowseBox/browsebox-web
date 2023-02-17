@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dicebear/collection": "^5.3.4",
+    "@dicebear/core": "^5.3.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.6",
@@ -20,8 +22,8 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-scripts": "5.0.1",
-    "react-yup": "^1.24.1",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4",
     "yp": "^2.0.3",
