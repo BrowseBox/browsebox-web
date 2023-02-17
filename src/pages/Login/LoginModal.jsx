@@ -3,7 +3,7 @@ import { Box, Divider, Modal } from '@mui/material'
 import LoginForm from './LoginForm'
 
 export default function LoginModal(props) {
-  const { openLoginModal, handleCloseLoginModal } = props
+  const { openLoginModal, handleCloseLoginModal, setUser } = props
 
   const style = {
     position: 'absolute',
@@ -23,7 +23,7 @@ export default function LoginModal(props) {
         <Box sx={style}>
           <h2>Log in</h2>
           <Divider />
-          <LoginForm />
+          <LoginForm setUser={setUser} handleCloseLoginModal={handleCloseLoginModal} />
         </Box>
       </Modal>
     </>

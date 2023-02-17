@@ -4,7 +4,9 @@ import { useFormik } from 'formik'
 import React from 'react'
 import axios from 'axios'
 
-export default function LoginForm() {
+export default function LoginForm(props) {
+  const { setUser, handleCloseLoginModal } = props
+
   // form valiation
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('You have enter an invalid email address').required('Required'),
@@ -20,16 +22,18 @@ export default function LoginForm() {
     onSubmit: (values) => {
       values.email = values.email.toLowerCase()
 
-      console.log(values)
-
       axios
         .post('http://localhost:3001/login-user', values)
         .then((res) => {
           if (res.status === 200) {
-            alert('User successfully logged in')
-            //save username and imageLocation in local storage
-            // console.log(res.data)
+            // alert('User successfully logged in')
+            handleCloseLoginModal()
             localStorage.setItem('id', res.data.user_id)
+            axios.post('http://localhost:3001/get-user', { id: localStorage.getItem('id') }).then((res) => {
+              setUser(res.data)
+              // console.log(res.data)
+            })
+            // console.log(res.data)
           } else Promise.reject()
         })
         .catch((err) => alert('Something went wrong'))
