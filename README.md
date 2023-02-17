@@ -44,7 +44,7 @@ docker-compose up -d
 Run the following command to install `npm` dependencies:
 
 ```bash
-npm install --force
+npm install
 ```
 
 ## Licence
