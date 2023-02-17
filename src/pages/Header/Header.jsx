@@ -5,7 +5,9 @@ import { useState } from 'react'
 import SignupModal from '../Signup/SignupModal'
 import LoginModal from '../Login/LoginModal'
 
-export default function Header() {
+export default function Header(props) {
+  const { setUser } = props
+
   // User Menu
   const [anchorEl, setAnchorEl] = useState(null)
   const openMenu = Boolean(anchorEl)
@@ -21,13 +23,26 @@ export default function Header() {
 
   // Sign-up Modal
   const [openSignupModal, setOpenSignupModal] = useState(false)
-  const handleOpenSignupModal = () => setOpenSignupModal(true)
+  const handleOpenSignupModal = () => {
+    handleMenuClose()
+    setOpenSignupModal(true)
+  }
   const handleCloseSignupModal = () => setOpenSignupModal(false)
 
   // Login Modal
   const [openLoginModal, setOpenLoginModal] = useState(false)
-  const handleOpenLoginModal = () => setOpenLoginModal(true)
+  const handleOpenLoginModal = () => {
+    handleMenuClose()
+    setOpenLoginModal(true)
+  }
   const handleCloseLoginModal = () => setOpenLoginModal(false)
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem('id')
+    setUser(null)
+    handleMenuClose()
+  }
 
   return (
     <header>
@@ -53,17 +68,17 @@ export default function Header() {
             ),
           }}
         />
-        {/* <Tooltip title="User Settings"> */}
         <IconButton onClick={handleMenuClick}>
           <FaUserAlt />
         </IconButton>
-        {/* </Tooltip> */}
         <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
-          <MenuItem onClick={handleOpenSignupModal}>Sign In</MenuItem>
-          <MenuItem onClick={handleOpenLoginModal}>Log In</MenuItem>
+          {localStorage.getItem('id') === null && <MenuItem onClick={handleOpenSignupModal}>Sign Up</MenuItem>}
+          {localStorage.getItem('id') === null && <MenuItem onClick={handleOpenLoginModal}>Log In</MenuItem>}
+          {localStorage.getItem('id') !== null && <MenuItem onClick={handleLogout}>Log Out</MenuItem>}
+          {/* <MenuItem onClick={handleMenuClose}>Log Out</MenuItem> */}
         </Menu>
         <SignupModal openSignupModal={openSignupModal} handleCloseSignupModal={handleCloseSignupModal} />
-        <LoginModal openLoginModal={openLoginModal} handleCloseLoginModal={handleCloseLoginModal} />
+        <LoginModal openLoginModal={openLoginModal} handleCloseLoginModal={handleCloseLoginModal} setUser={setUser} />
       </Box>
     </header>
   )
