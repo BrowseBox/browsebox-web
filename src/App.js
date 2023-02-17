@@ -7,7 +7,7 @@ import axios from 'axios'
 import Edit from './pages/Edit/Edit'
 
 function App() {
-  const [userLogin, setUserLogin] = React.useState(false)
+  // const [userLogin, setUserLogin] = React.useState(false)
   const [user, setUser] = React.useState(null)
 
   useEffect(() => {
