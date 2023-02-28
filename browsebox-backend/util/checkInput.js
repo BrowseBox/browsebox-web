@@ -85,3 +85,34 @@ exports.checkEmail = (email) => {
     return true;
 
 }
+
+/**
+ * Price chars can only be numbers 0-9.
+ * @param price price to be checked
+ * @returns false if not a number. True if is good.
+ */
+exports.checkPrice = (price) => {
+
+    let acceptableChars = [
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
+    ];
+
+    // check if null or empty
+    if (price === null || price.trim() === "") {
+        return false;
+    
+    }
+
+
+    // check all chars are acceptable
+    for (let i = 0; i < price.length; i++) {
+        
+        if (!acceptableChars.includes(price.charAt(i).toLowerCase())) {
+            return false;
+        }
+    }
+
+    // if no other errors, good price
+    return true;
+
+}

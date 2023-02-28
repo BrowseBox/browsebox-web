@@ -1,4 +1,5 @@
 const db = require("../util/datapool");
+const check = require('../util/checkInput');
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -11,52 +12,45 @@ exports.makeSale = (req, res, next) => {
     let price = req.body.price;
     let img = req.body.img;
     let id = req.body.id;
-    
 
-    // console.log("saleName: " + saleName);
-    // console.log("description: " + description);
-    // console.log("price: " + price);
-    // console.log("Image URL: " + img);
-
-    // TODO: UPDATE how we handle good and bad data.
     if (
-        saleName == null || saleName.trim() === '' || 
-        description == null || description.trim() === '' ||
-        price == null || price.trim() === '' ||
-      img == null || img.trim() === ''
+        !check.checkUsername(saleName) ||
+        !check.checkUsername(description) ||
+        !check.checkPrice(price) ||
+        img === null || img.trim() === ""
       ) {
-        console.log("Bad data");
+        res.status(500).send('Bad data.')
       } else {
         
-        
-
-
-        // database makes all users active and not admin by default. No change here.
+        // insert sale item
         db.execute(
             'INSERT INTO sales (sale_name, sale_description, sale_price, sale_image, owner) VALUES (?, ?, ?, ?, ?)',
             [saleName, description, price, img, id]
           ).then(results => (
     
-            // console.log("Sales " + saleName + " has been created")
             res.status(200).send("Sales " + saleName + " has been added to the database")
 
-            // res.status(200).redirect(307, '/login')
           )).catch(err => {
-            res.status(500).send("Database error")
+            res.status(500).send(err)
           });
 
         
 
       }
     }
-//test get all item from database
 
+
+
+/**
+ * get all item from database
+ */
 exports.getItems = function(req, res, next) {
   db.query("SELECT * FROM sales").then(([rows, fields]) => {
     // console.log(rows);
     res.status(200).send(rows);
   });
 
+  // Can removw after testing function as is.
   /*
   db.query(retrieveDataQuery, function(err, results) {
     if (err) {
@@ -69,6 +63,7 @@ exports.getItems = function(req, res, next) {
     // console.log({ sales: results });
   });
   */
+
 };
 
 
