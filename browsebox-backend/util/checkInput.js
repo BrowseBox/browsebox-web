@@ -22,7 +22,7 @@ exports.checkUsername = (username) => {
 
 
     // check all chars are acceptable
-    for (i = 0; i < username.length; i++) {
+    for (let i = 0; i < username.length; i++) {
         
         if (!acceptableChars.includes(username.charAt(i).toLowerCase())) {
             return false;
@@ -59,7 +59,7 @@ exports.checkEmail = (email) => {
 
 
     // check all chars are acceptable
-    for (i = 0; i < email.length; i++) {
+    for (let i = 0; i < email.length; i++) {
 
         if (email.charAt(i) == '@') {
             atCount++;
