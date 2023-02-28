@@ -13,7 +13,8 @@ exports.makeUser = (req, res, next) => {
   let img = req.body.imageLocation
 
   if (
-    !check.checkUsername(username)
+    !check.checkUsername(username) && 
+    !check.checkEmail(email)
   ) {
     res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
   } else {
