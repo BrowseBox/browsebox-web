@@ -15,7 +15,7 @@ exports.checkUsername = (username) => {
     ];
 
     // check if null or empty
-    if (username == null || username.trim() == "") {
+    if (username === null || username.trim() === "") {
         return false;
     
     }
@@ -52,7 +52,7 @@ exports.checkEmail = (email) => {
     ];
 
     // check if null or empty
-    if (email == null || email.trim() == "") {
+    if (email === null || email.trim() === "") {
         return false;
     
     }
@@ -61,7 +61,7 @@ exports.checkEmail = (email) => {
     // check all chars are acceptable
     for (let i = 0; i < email.length; i++) {
 
-        if (email.charAt(i) == '@') {
+        if (email.charAt(i) === '@') {
             atCount++;
         }
         
@@ -72,7 +72,7 @@ exports.checkEmail = (email) => {
 
 
     // check only @
-    if (atCount != 1) {
+    if (atCount !== 1) {
         return false;
     }
 
