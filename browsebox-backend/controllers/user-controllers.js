@@ -1,4 +1,5 @@
 const db = require('../util/datapool')
+const check = require('../util/checkInput')
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -12,16 +13,10 @@ exports.makeUser = (req, res, next) => {
   let img = req.body.imageLocation
 
   if (
-    username == null ||
-    username.trim() === '' ||
-    email == null ||
-    email.trim() === '' ||
-    password == null ||
-    password.trim() === '' ||
-    img == null ||
-    img.trim() === ''
+    !check.checkUsername(username) ||
+    !check.checkEmail(email)
   ) {
-    res.status(500).send('Bad data. Some field is null or blank.')
+    res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
   } else {
     // database makes all users active and not admin by default. No change here.
     db.execute(
@@ -115,25 +110,39 @@ exports.updateUser = (req, res, next) => {
   let user_password = req.body.password
   let id = req.body.id
 
-  // update user
-  db.execute('update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?', [
-    user_name,
-    user_email,
-    user_password,
-    user_img,
-    id,
-  ])
-    .then((results) =>
-      res.status(200).send({
-        user_name: user_name,
-        user_email: user_email,
-        user_img: user_img,
-        id: id,
-      }),
-    )
-    .catch((err) => {
-      res.status(500).send(err)
-    })
+  // run checks check
+  if (
+    !check.checkUsername(user_name) ||
+    !check.checkEmail(user_email)
+  ) {
+    res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
+  } else {
+
+
+    // update user
+    db.execute('update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?', [
+      user_name,
+      user_email,
+      user_password,
+      user_img,
+      id,
+    ])
+      .then((results) =>
+        res.status(200).send({
+          user_name: user_name,
+          user_email: user_email,
+          user_img: user_img,
+          id: id,
+        }),
+      )
+      .catch((err) => {
+        res.status(500).send(err)
+      })
+
+
+  }
+
+  
 }
 
 /**
