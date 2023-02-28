@@ -1,4 +1,5 @@
 const db = require('../util/datapool')
+const check = require('../util/checkInput')
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -12,16 +13,9 @@ exports.makeUser = (req, res, next) => {
   let img = req.body.imageLocation
 
   if (
-    username == null ||
-    username.trim() === '' ||
-    email == null ||
-    email.trim() === '' ||
-    password == null ||
-    password.trim() === '' ||
-    img == null ||
-    img.trim() === ''
+    !check.checkUsername(username)
   ) {
-    res.status(500).send('Bad data. Some field is null or blank.')
+    res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
   } else {
     // database makes all users active and not admin by default. No change here.
     db.execute(
