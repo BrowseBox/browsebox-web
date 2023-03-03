@@ -34,7 +34,7 @@ exports.makeUser = (req, res, next) => {
  * Delete a user's own account
  */
 exports.deleteUser = (req, res, next) => {
-  let deleteId = req.params.id // TODO: update when made into POST request
+  let deleteId = req.body.id
 
   // delete user from database
   db.execute('DELETE FROM users WHERE user_id = ?', [deleteId])
