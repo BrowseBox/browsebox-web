@@ -5,6 +5,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import Edit from './pages/Edit/Edit'
+import Dashboard from "./Components/AdminDashboard/Dashboard";
 
 function App() {
   // const [userLogin, setUserLogin] = React.useState(false)
@@ -22,8 +23,9 @@ function App() {
 
   return (
     <div className="App">
+        <Dashboard />
       {/* <CreateUserComponent /> */}
-      <Header setUser={setUser} />
+      {/*<Header setUser={setUser} />*/}
       {user !== null && <Edit user={user} setUser={setUser} />}
       {/* <Home user={user} /> */}
     </div>
