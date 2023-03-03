@@ -13,8 +13,8 @@ exports.getReviews = (req, res, next) => {
     // get user's review avg
     db.execute('SELECT user_rating FROM browsebox.users WHERE user_id = ?', [userId])
         .then(([ratings, fieldData]) => {
-            // TODO test: assign user rating from results
-            (userRating = ratings[0].user_rating)
+            
+            userRating = ratings[0].user_rating
         })
         .catch((err) => {
             res.status(500).send(err)
@@ -23,7 +23,7 @@ exports.getReviews = (req, res, next) => {
     // get reviews of user
     db.execute('SELECT * FROM browsebox.reviews where user_id=?', [userId])
         .then(([rows, fieldData]) => {
-            // TODO test: return reviews of the user as objects and avg score
+            
             res.status(200).send({
                 rows: rows,
                 avg: userRating,
