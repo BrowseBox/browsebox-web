@@ -1,13 +1,18 @@
-// import CreateUserComponent from './Components/UserComponents/CreateUser.component'
+
 import Header from './pages/Header/Header'
-// import Home from './pages/Home/Home'
+import TestPage1 from "./Components/Testing Compnents/TestPage1";
+import TestPage2 from "./Components/Testing Compnents/TestPage2";
+import SimpleNav from "./Components/Testing Compnents/SimpleNav";
+
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
-import Edit from './pages/Edit/Edit'
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from "./Components/AdminDashboard/AdminDashboard";
 
 function App() {
-  // const [userLogin, setUserLogin] = React.useState(false)
+  const [userLogin, setUserLogin] = React.useState(false)
   const [user, setUser] = React.useState(null)
 
   useEffect(() => {
@@ -21,12 +26,19 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <Router>
+        <Header setUser={setUser} />
+        <SimpleNav />
+
+        <Routes>
+            <Route path='/' element={<TestPage1 />} />
+            <Route path='/testpage2' element={<TestPage2 />} />
+        </Routes>
       {/* <CreateUserComponent /> */}
-      <Header setUser={setUser} />
-      {user !== null && <Edit user={user} setUser={setUser} />}
+      {/*<Header setUser={setUser} />*/}
+      {/*{user !== null && <Edit user={user} setUser={setUser} />}*/}
       {/* <Home user={user} /> */}
-    </div>
+    </Router>
   )
 }
 
