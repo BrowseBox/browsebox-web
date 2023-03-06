@@ -1,6 +1,10 @@
+// Import from react-router-dom
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// Import other React Component
 // import CreateUserComponent from './Components/UserComponents/CreateUser.component'
 import Header from './pages/Header/Header'
 // import Home from './pages/Home/Home'
+
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -21,12 +25,18 @@ function App() {
   }, [])
 
   return (
+    <Router>
     <div className="App">
       {/* <CreateUserComponent /> */}
       <Header setUser={setUser} />
       {user !== null && <Edit user={user} setUser={setUser} />}
       {/* <Home user={user} /> */}
     </div>
+        <Routes>
+            <Route exact path="/" element={<Header />} />
+        </Routes>
+
+    </Router>
   )
 }
 
