@@ -9,5 +9,8 @@ const router = express.Router();
 
 // TODO: can change the URL later to match fron end
 router.post('/add-sale', saleControllers.makeSale);
+router.post('/delete-sale', saleControllers.deleteSale);
+router.post('/get-sale', saleControllers.searchSale);
+router.post('/update-sale', saleControllers.updateSale);
 
 module.exports = router;
