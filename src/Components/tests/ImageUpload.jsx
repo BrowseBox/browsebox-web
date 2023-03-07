@@ -15,12 +15,32 @@ export default function ImageUpload() {
         event.preventDefault()
         const formData = new FormData();
 
-        formData.append("request", request)
-        formData.append("type", type)
-        formData.append("id", id)
-        formData.append("image", file)
-        formData.append("index", index)
-        await axios.post("/api/images/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        switch (request) {
+            case "upload":
+                formData.append("type", type)
+                formData.append("id", id)
+                formData.append("image", file)
+                formData.append("index", index)
+                await axios.post("/api/images/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            break;
+
+            case "update":
+                formData.append("type", type)
+                formData.append("id", id)
+                formData.append("image", file)
+                formData.append("index", index)
+                await axios.post("/api/images/update", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            break;
+
+            case "delete":
+                formData.append("type", type)
+                formData.append("id", id)
+                formData.append("index", index)
+                await axios.post("/api/images/delete", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            break;
+
+            default:
+                console.log("Invalid request")
     }
 
     const fileSelected = event => {
@@ -42,4 +62,5 @@ export default function ImageUpload() {
             </form>
         </div>
     )
+}
 }
