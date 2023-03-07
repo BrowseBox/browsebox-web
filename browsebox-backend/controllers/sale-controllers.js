@@ -72,6 +72,22 @@ exports.getSaleByDate = (req, res, next) => {
 
 }
 
+/**
+ * Get all sales by price (cheapest first).
+ */
+exports.getSaleByCheapest = (req, res, next) => {
+
+  // get all items based on date
+  db.execute('SELECT * FROM browsebox.sales ORDER BY sale_price ASC')
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
+}
+
 
 /**
  * Update a sales item in the database. Takes data from front-end form.
