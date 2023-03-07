@@ -101,6 +101,17 @@ exports.getUserData = (req, res, next) => {
 }
 
 /**
+ * Get all users
+ */
+exports.getAllUsers = (req, res, next) => {
+
+  // get user info
+  db.execute('SELECT * FROM users').then(([rows, fieldData]) =>
+    res.status(200).send(rows),
+  )
+}
+
+/**
  * Update a user based on ID
  */
 exports.updateUser = (req, res, next) => {
