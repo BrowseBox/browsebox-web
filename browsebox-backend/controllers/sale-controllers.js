@@ -52,6 +52,12 @@ exports.searchSale = (req, res, next) => {
     });
 };
 
+
+exports.getSaleByDate = (req, res, next) => {
+  
+}
+
+
 /**
  * Update a sales item in the database. Takes data from front-end form.
  */
