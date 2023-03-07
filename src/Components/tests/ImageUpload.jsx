@@ -8,6 +8,7 @@ export default function ImageUpload() {
     const [request, setRequest] = useState("")
     const [type, setType] = useState("")
     const [id, setid] = useState("")
+    const [index, setIndex] = useState(0)
     const [file, setFile] = useState()
 
     const submit = async event => {
@@ -18,6 +19,7 @@ export default function ImageUpload() {
         formData.append("type", type)
         formData.append("id", id)
         formData.append("image", file)
+        formData.append("index", index)
         await axios.post("/api/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     }
 
@@ -31,9 +33,11 @@ export default function ImageUpload() {
             <h1>Upload Tests</h1>
             <form onSubmit={submit} style={{ width: 650 }} className="flex flex-col space-y-5 px-5 py-14">
                 <input onChange={fileSelected} type="file" accept="image/*"></input>
-                <input value={request} onChange={e => setRequest(e.target.value)} type="text" placeholder='request'></input>
-                <input value={type} onChange={e => setType(e.target.value)} type="text" placeholder='type'></input>
-                <input value={id} onChange={e => setid(e.target.value)} type="text" placeholder='id'></input>
+                <input value={request} onChange={e => setRequest(e.target.value)} type="text" placeholder='request: upload, update'></input>
+                <input value={type} onChange={e => setType(e.target.value)} type="text" placeholder='type: profile, listing'></input>
+                <input value={id} onChange={e => setid(e.target.value)} type="text" placeholder='id: either profile or listing id'></input>
+                <p>Only use index for listings</p>
+                <input value={index} onChange={e => setIndex(e.target.value)} type="text" placeholder='index'></input>
                 <button type="submit">Submit</button>
             </form>
         </div>
