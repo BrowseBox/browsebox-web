@@ -1,46 +1,45 @@
 import { useState } from 'react'
 import axios from 'axios'
-import React from 'react';
 
 axios.defaults.baseURL = 'http://localhost:8080';
 
-export default function ImageUpload() {
+export default function NewPost() {
     const [request, setRequest] = useState("")
     const [type, setType] = useState("")
     const [id, setid] = useState("")
-    const [index, setIndex] = useState(0)
+    const [index, setIndex] = useState("")
     const [file, setFile] = useState()
+
 
     const submit = async event => {
         event.preventDefault()
+
+        console.log("Request: " + request)
+        console.log("Type: " + type)
+        console.log("ID: " + id)
+        console.log("Index: " + index)
+
         const formData = new FormData();
-
-        switch (request) {
-            case "upload":
-                formData.append("type", type)
-                formData.append("id", id)
-                formData.append("image", file)
-                formData.append("index", index)
-                await axios.post("/api/images/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-            break;
-
-            case "update":
-                formData.append("type", type)
-                formData.append("id", id)
-                formData.append("image", file)
-                formData.append("index", index)
-                await axios.post("/api/images/update", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-            break;
-
-            case "delete":
-                formData.append("type", type)
-                formData.append("id", id)
-                formData.append("index", index)
-                await axios.post("/api/images/delete", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-            break;
-
-            default:
-                console.log("Invalid request")
+        if (request === "update") {
+            formData.append("type", type)
+            formData.append("id", id)
+            formData.append("index", index)
+            formData.append("image", file)
+            await axios.post("/api/image/update", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        } else if (request === "upload") {
+            formData.append("type", type)
+            formData.append("id", id)
+            formData.append("index", index)
+            formData.append("image", file)
+            await axios.post("/api/image/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        } else if (request === "delete") {
+            formData.append("type", type)
+            formData.append("id", id)
+            formData.append("index", index)
+            await axios.post("/api/image/delete", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        } else {
+            console.log("Invalid request")
+        }
     }
 
     const fileSelected = event => {
@@ -53,7 +52,7 @@ export default function ImageUpload() {
             <h1>Upload Tests</h1>
             <form onSubmit={submit} style={{ width: 650 }} className="flex flex-col space-y-5 px-5 py-14">
                 <input onChange={fileSelected} type="file" accept="image/*"></input>
-                <input value={request} onChange={e => setRequest(e.target.value)} type="text" placeholder='request: upload, update'></input>
+                <input value={request} onChange={e => setRequest(e.target.value)} type="text" placeholder='request: upload, update, delete'></input>
                 <input value={type} onChange={e => setType(e.target.value)} type="text" placeholder='type: profile, listing'></input>
                 <input value={id} onChange={e => setid(e.target.value)} type="text" placeholder='id: either profile or listing id'></input>
                 <p>Only use index for listings</p>
@@ -62,5 +61,4 @@ export default function ImageUpload() {
             </form>
         </div>
     )
-}
 }
