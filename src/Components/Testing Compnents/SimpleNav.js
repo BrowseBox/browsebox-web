@@ -5,6 +5,8 @@ const SimpleNav = () => {
         <div>
             <Link to="/"><button>Push me</button></Link>
             <Link to="/testpage2"><button>push me</button></Link>
+            <Link to="/user-list"><button>User List</button></Link>
+            <Link to="/signup"><button>Create User</button></Link>
 
         </div>
     )

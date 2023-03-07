@@ -3,6 +3,8 @@ import Header from './pages/Header/Header'
 import TestPage1 from "./Components/Testing Compnents/TestPage1";
 import TestPage2 from "./Components/Testing Compnents/TestPage2";
 import SimpleNav from "./Components/Testing Compnents/SimpleNav";
+import UserList from "./Components/AdminDashboard/components/UserList";
+import SignupForm from "./pages/Signup/SignupForm";
 
 import React from 'react'
 import { useEffect } from 'react'
@@ -33,6 +35,8 @@ function App() {
         <Routes>
             <Route path='/' element={<TestPage1 />} />
             <Route path='/testpage2' element={<TestPage2 />} />
+            <Route path='/user-list' element={<UserList />} />
+            <Route path='/signup' element={<SignupForm />} />
         </Routes>
       {/* <CreateUserComponent /> */}
       {/*<Header setUser={setUser} />*/}
