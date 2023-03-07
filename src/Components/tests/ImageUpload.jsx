@@ -20,7 +20,7 @@ export default function ImageUpload() {
         formData.append("id", id)
         formData.append("image", file)
         formData.append("index", index)
-        await axios.post("/api/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        await axios.post("/api/images/upload", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     }
 
     const fileSelected = event => {
