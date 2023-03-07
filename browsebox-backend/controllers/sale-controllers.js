@@ -52,9 +52,24 @@ exports.searchSale = (req, res, next) => {
     });
 };
 
-
+/**
+ * Get all sales by date.
+ * If 'newest' is true, return newest first. If false, return oldest first.
+ */
 exports.getSaleByDate = (req, res, next) => {
-  
+
+  // bool. If newest = true, show newest first, else oldest first.
+ let newest = req.body.newest === 'true'
+
+  // get all items based on date
+  db.execute('SELECT * FROM browsebox.sales ORDER BY sale_date ' + (newest ? 'DESC' : 'ASC' ) )
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
 }
 
 

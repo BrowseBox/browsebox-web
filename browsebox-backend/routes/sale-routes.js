@@ -12,5 +12,6 @@ router.post('/add-sale', saleControllers.makeSale);
 router.post('/delete-sale', saleControllers.deleteSale);
 router.post('/get-sale', saleControllers.searchSale);
 router.post('/update-sale', saleControllers.updateSale);
+router.post('/by-date', saleControllers.getSaleByDate);
 
 module.exports = router;
