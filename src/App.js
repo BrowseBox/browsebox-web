@@ -1,17 +1,17 @@
-
 import Header from './pages/Header/Header'
-import TestPage1 from "./Components/Testing Compnents/TestPage1";
-import TestPage2 from "./Components/Testing Compnents/TestPage2";
-import SimpleNav from "./Components/Testing Compnents/SimpleNav";
-import UserList from "./Components/AdminDashboard/components/UserList";
-import SignupForm from "./pages/Signup/SignupForm";
+import TestPage1 from './Components/Testing Compnents/TestPage1'
+import TestPage2 from './Components/Testing Compnents/TestPage2'
+import SimpleNav from './Components/Testing Compnents/SimpleNav'
+import UserList from './Components/AdminDashboard/components/UserList'
+import SignupForm from './pages/Signup/SignupForm'
+import Home from './pages/Home/Home'
 
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from "./Components/AdminDashboard/AdminDashboard";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Dashboard from './Components/AdminDashboard/AdminDashboard'
 
 function App() {
   const [userLogin, setUserLogin] = React.useState(false)
@@ -29,15 +29,16 @@ function App() {
 
   return (
     <Router>
-        <Header setUser={setUser} />
-        <SimpleNav />
+      <Header setUser={setUser} />
+      {/* <SimpleNav /> */}
 
-        <Routes>
-            <Route path='/' element={<TestPage1 />} />
-            <Route path='/testpage2' element={<TestPage2 />} />
-            <Route path='/user-list' element={<UserList />} />
-            <Route path='/signup' element={<SignupForm />} />
-        </Routes>
+      <Routes>
+        {/* <Route path="/" element={<TestPage1 />} /> */}
+        <Route path="/" element={<Home />} />
+        <Route path="/testpage2" element={<TestPage2 />} />
+        <Route path="/user-list" element={<UserList />} />
+        {/* <Route path='/signup' element={<SignupForm />} /> */}
+      </Routes>
       {/* <CreateUserComponent /> */}
       {/*<Header setUser={setUser} />*/}
       {/*{user !== null && <Edit user={user} setUser={setUser} />}*/}
