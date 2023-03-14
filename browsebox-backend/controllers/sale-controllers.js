@@ -199,3 +199,20 @@ exports.deleteSale = (req, res, next) => {
       res.status(500).send(err);
     });
 };
+
+
+/**
+ * Get all filters with names and IDs
+ */
+exports.getFilters = (req, res, next) => {
+
+  // get all filters
+  db.execute('SELECT * FROM browsebox.categories')
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
+}

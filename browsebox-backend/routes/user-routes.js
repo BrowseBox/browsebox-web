@@ -14,4 +14,6 @@ router.post('/get-user', userControllers.getUserData);
 router.get('/all-users', userControllers.getAllUsers);
 router.post('/update-user', userControllers.updateUser);
 
+router.post('/get-schools', userControllers.getSchools);
+
 module.exports = router;

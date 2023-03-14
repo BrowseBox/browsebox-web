@@ -7,7 +7,6 @@ const saleControllers = require('../controllers/sale-controllers');
 
 const router = express.Router();
 
-// TODO: can change the URL later to match fron end
 router.post('/add-sale', saleControllers.makeSale);
 router.post('/delete-sale', saleControllers.deleteSale);
 router.post('/get-sale', saleControllers.searchSale);
@@ -15,5 +14,7 @@ router.post('/update-sale', saleControllers.updateSale);
 router.post('/get-sale-date', saleControllers.getSaleByDate);
 router.post('/get-sale-price', saleControllers.getSaleByCheapest);
 router.post('/get-sale-filter', saleControllers.getSaleByFilters);
+
+router.post('/get-filters', saleControllers.getFilters);
 
 module.exports = router;

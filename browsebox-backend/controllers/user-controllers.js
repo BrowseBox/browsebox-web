@@ -155,3 +155,20 @@ exports.updateUser = (req, res, next) => {
 
   
 }
+
+
+/**
+ * Get all schools
+ */
+exports.getSchools = (req, res, next) => {
+
+  // get all filters
+  db.execute('SELECT * FROM browsebox.schools')
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
+}
