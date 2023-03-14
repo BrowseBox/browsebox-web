@@ -90,6 +90,40 @@ exports.getSaleByCheapest = (req, res, next) => {
 
 
 /**
+ * Get all sales by filters (category id)
+ */
+exports.getSaleByFilters = (req, res, next) => {
+
+  // REQUIRES: an array of the filter IDs
+  let catIDs = [];
+  catIDs = req.body.filters;
+
+  // start query string with first filter
+  let query = 'SELECT * FROM browsebox.sales WHERE sale_id IN (SELECT sale_id FROM browsebox.tag_sales WHERE cat_id = ' + catIDs[0];
+
+  // add all filters
+  if (catIDs.length > 1) {
+    for (let i = 1; i < catIDs.length; i++) {
+      query += ' OR cat_id = ' + catIDs[i];
+    }
+  }
+
+  // finish query
+  query += ')'
+
+  // get all sales with given filter IDs
+  db.execute(query)
+    .then(([rows, fieldData]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
+}
+
+
+/**
  * Update a sales item in the database. Takes data from front-end form.
  */
 exports.updateSale = (req, res, next) => {
@@ -165,3 +199,20 @@ exports.deleteSale = (req, res, next) => {
       res.status(500).send(err);
     });
 };
+
+
+/**
+ * Get all filters with names and IDs
+ */
+exports.getFilters = (req, res, next) => {
+
+  // get all filters
+  db.execute('SELECT * FROM browsebox.categories')
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
+}
