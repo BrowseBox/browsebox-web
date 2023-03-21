@@ -12,11 +12,7 @@ exports.makeSale = (req, res, next) => {
   let id = req.body.id;
 
   if (
-    !check.checkUsername(saleName) ||
-    !check.checkUsername(description) ||
-    !check.checkPrice(price) ||
-    img === null || img.trim() === ""
-  ) {
+    !check.checkUsername(saleName)) {
     res.status(500).send('Bad data.')
   } else {
     // Insert sales item
