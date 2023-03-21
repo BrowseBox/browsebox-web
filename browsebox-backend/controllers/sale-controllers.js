@@ -253,3 +253,23 @@ function setFilterFunction (saleId, filterIds, res) {
   res.status(200).send("All filters added.");
 
 }
+
+/**
+ * Remove a filter from a sale
+ * Expects sale_id and an array of filter_ids
+ */
+exports.removeFilters = (req, res, next) => {
+
+  let saleId = req.body.sale_id;
+  let filterId = req.body.filter_ids;
+
+  db.execute(
+    'DELETE FROM tag_sales WHERE sale_id = ? AND cat_id = ?',
+    [saleId, filterId]
+  ).catch(err => {
+    res.status(500).send(err);
+  })
+
+  res.status(200).send("All filters deleted.");
+  
+}
