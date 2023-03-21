@@ -11,6 +11,9 @@ exports.makeSale = (req, res, next) => {
   let img = req.body.img;
   let id = req.body.id;
 
+  let filterIds = [];
+  filterIds = req.body.filter_ids;
+
   if (
     !check.checkUsername(saleName)) {
     res.status(500).send('Bad data.')
@@ -21,7 +24,11 @@ exports.makeSale = (req, res, next) => {
       [saleName, description, price, img, id]
     )
       .then(results => (
-        res.status(200).send("Sales " + saleName + " has been added to the database")
+        
+        db.execute('select last_insert_id() AS "last_id"').then(([rows, fields]) => {
+          let sale_id = rows[0].last_id;
+          setFilterFunction(sale_id, filterIds, res);
+        })
       ))
       .catch(err => {
         res.status(500).send(err)
@@ -210,5 +217,39 @@ exports.getFilters = (req, res, next) => {
     .catch(err => {
       res.status(500).send(err);
     });
+
+}
+
+/**
+ * Add filters to a sale item by calling function
+ * Expects sale_id and an array of filter_ids
+ */
+exports.setFilters = (req, res, next) => {
+
+  let saleId = req.body.sale_id;
+  let filterIds = [];
+  filterIds = req.body.filter_ids;
+
+  setFilterFunction(saleId, filterIds, res);
+  
+}
+
+/**
+ * Add filters to bridging table
+ */
+function setFilterFunction (saleId, filterIds, res) {
+
+  // insert into database - for each filter id
+  filterIds.forEach(filter_id => {
+
+    db.execute(
+      'INSERT INTO tag_sales (sale_id, cat_id) VALUES (?, ?)',
+      [saleId, filter_id]
+    ).catch(err => {
+      res.status(500).send(err);
+    })
+    
+  });
+  res.status(200).send("All filters added.");
 
 }
