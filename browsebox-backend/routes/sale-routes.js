@@ -16,5 +16,6 @@ router.post('/get-sale-price', saleControllers.getSaleByCheapest);
 router.post('/get-sale-filter', saleControllers.getSaleByFilters);
 
 router.post('/get-filters', saleControllers.getFilters);
+router.post('/set-filters', saleControllers.setFilters);
 
 module.exports = router;

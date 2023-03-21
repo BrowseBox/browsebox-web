@@ -212,3 +212,27 @@ exports.getFilters = (req, res, next) => {
     });
 
 }
+
+/**
+ * Add filters to a sale item.
+ * Expects sale_id and an array of filter_ids
+ */
+exports.setFilters = (req, res, next) => {
+
+  let saleId = req.body.sale_id;
+  let filterIds = [];
+  filterIds = req.body.filter_ids;
+
+  // insert into database - for each filter id
+  filterIds.forEach(filter_id => {
+
+    db.execute(
+      'INSERT INTO tag_sales (sale_id, cat_id) VALUES (?, ?)',
+      [saleId, filter_id]
+    ).catch(err => {
+      res.status(500).send(err);
+    })
+    
+  });
+  res.status(200).send("All filters added.");
+}
