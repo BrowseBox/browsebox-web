@@ -8,6 +8,7 @@ const SimpleNav = () => {
             <Link to="/user-list"><button>User List</button></Link>
             <Link to="/signup"><button>Create User</button></Link>
             <Link to="/create-ad"><button>Create Ad</button></Link>
+            <Link to="ShowAd"><button>Show Ads</button></Link>
         </div>
     )
 }

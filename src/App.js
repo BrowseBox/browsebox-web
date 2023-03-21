@@ -5,6 +5,7 @@ import SimpleNav from './Components/Testing Compnents/SimpleNav'
 import UserList from './Components/AdminDashboard/components/UserList'
 import SignupForm from './pages/Signup/SignupForm'
 import Home from './pages/Home/Home'
+import ShowAds from './Components/ItemComponents/ShowAds'
 
 
 
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/testpage2" element={<TestPage2 />} />
                 <Route path="/user-list" element={<UserList />} />
                 <Route path="/create-ad" element={<CreateAd2 />} />
+                <Route path="/ShowAd" element={<ShowAds />} />
                 {/* <Route path='/signup' element={<SignupForm />} /> */}
             </Routes>
             {/* <CreateUserComponent /> */}
