@@ -261,7 +261,7 @@ function setFilterFunction (saleId, filterIds, res) {
 exports.removeFilters = (req, res, next) => {
 
   let saleId = req.body.sale_id;
-  filterId = req.body.filter_ids;
+  let filterId = req.body.filter_ids;
 
   db.execute(
     'DELETE FROM tag_sales WHERE sale_id = ? AND cat_id = ?',
