@@ -6,6 +6,7 @@ import UserList from './Components/AdminDashboard/components/UserList'
 import SignupForm from './pages/Signup/SignupForm'
 import Home from './pages/Home/Home'
 import ShowAds from './Components/ItemComponents/ShowAds'
+import ViewAd from "./Components/ItemComponents/ViewAd";
 
 
 
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/user-list" element={<UserList />} />
                 <Route path="/create-ad" element={<CreateAd2 />} />
                 <Route path="/ShowAd" element={<ShowAds />} />
+                <Route path="/ViewAd" element={<ViewAd />} />
                 {/* <Route path='/signup' element={<SignupForm />} /> */}
             </Routes>
             {/* <CreateUserComponent /> */}
