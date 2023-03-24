@@ -1,81 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { Box, IconButton } from '@mui/material';
-// import DeleteIcon from '@mui/icons-material/Delete';
-import Dropzone from 'react-dropzone';
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const DropzoneContainer = styled.div`
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
 `;
 
-const StyledBox = styled(Box)`
-  width: calc(25% - 16px);
-  height: 200px;
-  border: 1px dashed #c4c4c4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+const DeleteButton = styled.button`
+    margin-top: 16px;
 `;
 
-const Image = styled.img`
+const ImagePreview = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
 
-const StyledIconButton = styled(IconButton)`
-  position: absolute;
-  top: 4px;
-  right: 4px;
-`;
+const PictureBox = ({ onImageChange }) => {
+    const [image, setImage] = useState(null);
 
-const PictureBox = ({ onFileUpload }) => {
-    const [files, setFiles] = useState([]);
+    const onDrop = useCallback((acceptedFiles) => {
+        if (acceptedFiles.length === 0) return;
+        const file = acceptedFiles[0];
+        const reader = new FileReader();
 
-    const handleFileDrop = (acceptedFiles) => {
-        const validFiles = acceptedFiles.filter(file => (
-            file.size <= 100000 && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')
-        ));
-        setFiles(validFiles);
-        onFileUpload(validFiles);
-    }
+        reader.onload = () => {
+            setImage(reader.result);
+            onImageChange(file);
+        };
+        reader.readAsDataURL(file);
+    }, [onImageChange]);
 
-    const handleFileDelete = (fileIndex) => {
-        const updatedFiles = [...files];
-        updatedFiles.splice(fileIndex, 1);
-        setFiles(updatedFiles);
-        onFileUpload(updatedFiles);
-    }
+    const maxSize = 2 * 1024 * 1024;
+    const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
+        onDrop,
+        // accept: 'image/*',
+        accept: 'image/jpeg, image/png, image/gif, image/bmp',
+        minSize: 0,
+        maxSize,
+    });
+
+    const deleteImage = () => {
+        setImage(null);
+        onImageChange(null);
+    };
 
     return (
-        <Container>
-            {[...Array(4)].map((_, index) => {
-                const file = files[index];
-                return (
-                    <Dropzone key={index} onDrop={handleFileDrop}>
-                        {({ getRootProps, getInputProps }) => (
-                            <StyledBox {...getRootProps()}>
-                                {file ? (
-                                    <>
-                                        <Image src={URL.createObjectURL(file)} alt={`Uploaded file ${index + 1}`} />
-                                        <StyledIconButton onClick={() => handleFileDelete(index)}>
-                                            {/*<Delete />*/}
-                                        </StyledIconButton>
-                                    </>
-                                ) : (
-                                    <div>
-                                        <input {...getInputProps()} />
-                                        <p>Drag and drop a JPG, PNG or GIF file (max 100KB)</p>
-                                    </div>
-                                )}
-                            </StyledBox>
-                        )}
-                    </Dropzone>
-                )
-            })}
-        </Container>
+        <div>
+            <DropzoneContainer {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <p>Drop the image here...</p>
+                ) : isDragReject ? (
+                    <p>File rejected. Please upload an image under 2MB.</p>
+                ) : (
+                    <p>Drag and drop an image here, or click to select a file (max 2MB)</p>
+                )}
+                {image && <ImagePreview src={image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
+            </DropzoneContainer>
+            {image && (
+                <DeleteButton onClick={deleteImage}>Delete Image</DeleteButton>
+            )}
+        </div>
     );
 };
 
