@@ -14,6 +14,17 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`categories`  (
 	PRIMARY KEY (`cat_id`)
 	);
 
+
+-- ----------------------------------------
+-- Table Schools
+-- ----------------------------------------
+CREATE TABLE IF NOT EXISTS `browsebox`.`schools` (
+	`school_id` 	INT 			NOT NULL 	AUTO_INCREMENT,
+	`school_name` 	    VARCHAR(50)		NOT NULL,
+	`school_link`   	VARCHAR(100),
+	PRIMARY KEY (`school_id`)
+);
+
 -- ----------------------------------------
 -- Table Users
 -- ----------------------------------------
@@ -26,19 +37,13 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`users` (
 	`user_img`		VARCHAR(1024),
 	`isActive`		TINYINT(1) NOT NULL DEFAULT '1',
 	`isAdmin`		TINYINT(1) NOT NULL DEFAULT '0',
-	PRIMARY KEY (`user_id`)
+	`school_id` 	INT,
+	PRIMARY KEY (`user_id`),
+	CONSTRAINT `fk_user_school`
+		FOREIGN KEY (`school_id`)
+		REFERENCES `browsebox`.`schools` (`school_id`)
 );
 
-
--- ----------------------------------------
--- Table Schools
--- ----------------------------------------
-CREATE TABLE IF NOT EXISTS `browsebox`.`schools` (
-	`school_id` 	INT 			NOT NULL 	AUTO_INCREMENT,
-	`school_name` 	    VARCHAR(50)		NOT NULL,
-	`school_link`   	VARCHAR(100),
-	PRIMARY KEY (`school_id`)
-);
 
 -- ----------------------------------------
 -- Table Reviews
@@ -69,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`sale_description`   	VARCHAR(100),
 	`sale_price` 		DOUBLE(5,2),
 	`sale_image`		VARCHAR(100),
+	`sale_date`			TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (`sale_id`),
 	CONSTRAINT `fk_sales_users`
 		FOREIGN KEY (`owner`)

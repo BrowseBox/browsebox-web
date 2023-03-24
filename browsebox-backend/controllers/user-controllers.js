@@ -1,4 +1,5 @@
 const db = require('../util/datapool')
+const check = require('../util/checkInput')
 
 /**
  * Make a user in the database. Take data from front end form.
@@ -10,23 +11,18 @@ exports.makeUser = (req, res, next) => {
   let email = req.body.email
   let password = req.body.password
   let img = req.body.imageLocation
+  let school = req.body.school
 
   if (
-    username == null ||
-    username.trim() === '' ||
-    email == null ||
-    email.trim() === '' ||
-    password == null ||
-    password.trim() === '' ||
-    img == null ||
-    img.trim() === ''
+    !check.checkUsername(username) ||
+    !check.checkEmail(email)
   ) {
-    res.status(500).send('Bad data. Some field is null or blank.')
+    res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
   } else {
     // database makes all users active and not admin by default. No change here.
     db.execute(
-      'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
-      [username, email, password, img, 0],
+      'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating, school_id) VALUES (?, ?, ?, ?, ?, ?)',
+      [username, email, password, img, 0, school],
     )
       .then((results) => res.status(200).send('User ' + username + ' has been added to the database'))
       .catch((err) => {
@@ -39,7 +35,7 @@ exports.makeUser = (req, res, next) => {
  * Delete a user's own account
  */
 exports.deleteUser = (req, res, next) => {
-  let deleteId = req.params.id // TODO: update when made into POST request
+  let deleteId = req.body.id
 
   // delete user from database
   db.execute('DELETE FROM users WHERE user_id = ?', [deleteId])
@@ -101,7 +97,19 @@ exports.getUserData = (req, res, next) => {
       user_rating: rows[0].user_rating,
       user_img: rows[0].user_img,
       isActive: rows[0].isActive,
+      school: getSchoolData(rows[0].school_id),
     }),
+  )
+}
+
+/**
+ * Get all users
+ */
+exports.getAllUsers = (req, res, next) => {
+
+  // get user info
+  db.execute('SELECT * FROM users').then(([rows, fieldData]) =>
+    res.status(200).send(rows),
   )
 }
 
@@ -114,58 +122,73 @@ exports.updateUser = (req, res, next) => {
   let user_img = req.body.img
   let user_password = req.body.password
   let id = req.body.id
+  let school = req.body.school
 
-  // update user
-  db.execute('update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?', [
-    user_name,
-    user_email,
-    user_password,
-    user_img,
-    id,
-  ])
-    .then((results) =>
-      res.status(200).send({
-        user_name: user_name,
-        user_email: user_email,
-        user_img: user_img,
-        id: id,
-      }),
-    )
-    .catch((err) => {
-      res.status(500).send(err)
+  // run checks check
+  if (
+    !check.checkUsername(user_name) ||
+    !check.checkEmail(user_email)
+  ) {
+    res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
+  } else {
+
+
+    // update user
+    db.execute('update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?, school_id=?', [
+      user_name,
+      user_email,
+      user_password,
+      user_img,
+      id,
+      school,
+    ])
+      .then((results) =>
+        res.status(200).send({
+          user_name: user_name,
+          user_email: user_email,
+          user_img: user_img,
+          id: id,
+          school: school
+        }),
+      )
+      .catch((err) => {
+        res.status(500).send(err)
+      })
+
+
+  }
+
+  
+}
+
+
+/**
+ * Get all schools
+ */
+exports.getSchools = (req, res, next) => {
+
+  // get all filters
+  db.execute('SELECT * FROM browsebox.schools')
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
     })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+
 }
 
 /**
- * See reputaion of a user
- * TODO: move into Tyler's review-constoller.js file once he's got it in.
+ * Get school data
  */
-exports.getReviews = (req, res, next) => {
-  // id of user to get reviews of
-  let userId = req.body.userId
-  let userRating
+function getSchoolData(ID) {
 
-  // get user's review avg
-  db.execute('SELECT user_rating FROM browsebox.users WHERE user_id = ?', [userId])
-    .then(
-      ([ratings, fieldData]) =>
-        // TODO test: assign user rating from results
-        (userRating = ratings[0].user_rating),
-    )
-    .catch((err) => {
-      res.status(500).send(err)
+  db.execute('SELECT * FROM browsebox.schools WHERE school_id=?', [ID])
+    .then(([rows, fields]) => {
+      return rows[0]
     })
+    .catch(err => {
+      return null
+    });
 
-  // get reviews of user
-  db.execute('SELECT * FROM browsebox.reviews where user_id=?', [userId])
-    .then(([rows, fieldData]) =>
-      // TODO test: return reviews of the user as objects and avg score
-      res.status(200).send({
-        rows: rows,
-        avg: userRating,
-      }),
-    )
-    .catch((err) => {
-      res.status(500).send(err)
-    })
 }
