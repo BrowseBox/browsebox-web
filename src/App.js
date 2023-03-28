@@ -5,6 +5,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import Edit from './pages/Edit/Edit'
+import ImageUpload from './Components/tests/ImageUpload'
 
 function App() {
   // const [userLogin, setUserLogin] = React.useState(false)
@@ -23,9 +24,10 @@ function App() {
   return (
     <div className="App">
       {/* <CreateUserComponent /> */}
-      <Header setUser={setUser} />
-      {user !== null && <Edit user={user} setUser={setUser} />}
+      {/* <Header setUser={setUser} />
+      {user !== null && <Edit user={user} setUser={setUser} />} */}
       {/* <Home user={user} /> */}
+      <ImageUpload />
     </div>
   )
 }

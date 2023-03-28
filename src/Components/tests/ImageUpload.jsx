@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = 'http://localhost:7355';
 
 export default function NewPost() {
     const [request, setRequest] = useState("")
@@ -37,6 +37,9 @@ export default function NewPost() {
             formData.append("id", id)
             formData.append("index", index)
             await axios.post("/api/image/delete", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        } else if (request === "retrieve") {
+            // /api/image/:type/:id/:index
+            axios.get(`/api/image/retrieve/${type}/${id}/${index}`)
         } else {
             console.log("Invalid request")
         }
