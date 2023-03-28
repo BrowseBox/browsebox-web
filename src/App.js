@@ -17,6 +17,7 @@ import axios from 'axios'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './Components/AdminDashboard/AdminDashboard'
 import CreateAd2 from "./Components/ItemComponents/CreateAd2";
+import Navbar from "./Components/ItemComponents/Navbar";
 
 function App() {
     const [userLogin, setUserLogin] = React.useState(false)
@@ -36,6 +37,7 @@ function App() {
         <Router>
             <Header setUser={setUser} />
             <SimpleNav />
+            <Navbar />
 
             <Routes>
                 {/* <Route path="/" element={<TestPage1 />} /> */}
