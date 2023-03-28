@@ -35,7 +35,6 @@ const CreateAd2 = () => {
             description: '',
             image: '',
             price: '',
-            email: '',
             category: '',
         },
         validationSchema: validationSchema,
@@ -44,7 +43,7 @@ const CreateAd2 = () => {
            // values.image = image;
             alert("submitting");
             axios
-                .post('http://localhost:3001/add-item', values)
+                .post('http://localhost:3001/add-sale', values)
                 .then((res) => {
                     if (res.status === 200) {
                         alert('Item successfully created');
