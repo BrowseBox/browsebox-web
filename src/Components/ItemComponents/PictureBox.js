@@ -54,13 +54,13 @@ const PictureBox = ({ onImageChange }) => {
         <div>
             <DropzoneContainer {...getRootProps()}>
                 <input {...getInputProps()} />
-                {isDragActive ? (
-                    <p>Drop the image here...</p>
-                ) : isDragReject ? (
-                    <p>File rejected. Please upload an image under 2MB.</p>
-                ) : (
-                    <p>Drag and drop an image here, or click to select a file (max 2MB)</p>
-                )}
+                {/*{isDragActive ? (*/}
+                {/*    <p>Drop the image here...</p>*/}
+                {/*) : isDragReject ? (*/}
+                {/*    <p>File rejected. Please upload an image under 2MB.</p>*/}
+                {/*) : (*/}
+                {/*    <p>Drag and drop an image here, or click to select a file (max 2MB)</p>*/}
+                {/*)}*/}
                 {image && <ImagePreview src={image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>}
             </DropzoneContainer>
             {image && (
