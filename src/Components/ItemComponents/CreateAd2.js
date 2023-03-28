@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Button,
@@ -9,49 +9,40 @@ import {
     FormControl,
     InputLabel,
 } from '@mui/material';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import PictureBox2 from './PictureBox2';
-import PictureBox from './PictureBox';
+import * as Yup from 'yup';
 import axios from 'axios';
+import PictureBox from './PictureBox';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
-    condition: Yup.string().required('Condition is required'),
     description: Yup.string().required('Description is required'),
-    postalCode: Yup.string().required('Postal code is required'),
     price: Yup.number().required('Price is required'),
-    email: Yup.string().required('Email is required'),
-    phone: Yup.string().required('Phone number is required'),
+    category: Yup.string().required('Category is required'),
 });
 
 const CreateAd2 = () => {
-    const style = {
-        display: 'flex',
-        justifyContent: 'center',
-    };
-
     const [image, setImage] = useState(null);
+    const [category, setCategory] = useState(['']);
 
     const handleImageChange = (image) => {
         setImage(image);
     };
 
-    const [category, setCategory] = useState(['']);
     const { handleSubmit, handleChange, values, errors } = useFormik({
         initialValues: {
             title: '',
-            condition: '',
             description: '',
-            imageLocation: '',
-            postalCode: '',
+            image: '',
             price: '',
             email: '',
-            phone: '',
             category: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm }) => {
+            // This is where I would add the image to the values object
+           // values.image = image;
+            alert("submitting");
             axios
                 .post('http://localhost:3001/add-item', values)
                 .then((res) => {
@@ -69,7 +60,6 @@ const CreateAd2 = () => {
             .post('http://localhost:3001/get-filters')
             .then((res) => {
                 console.log(res.data);
-
                 setCategory(['', ...res.data.map(({ cat_name }) => cat_name)]);
             })
             .catch((err) => {
@@ -77,25 +67,30 @@ const CreateAd2 = () => {
             });
     }, []);
 
-    const categoryList = category.map((cat_name) => {
-        return (
-            <MenuItem key={cat_name} value={cat_name}>
-                {cat_name}
-            </MenuItem>
-        );
-    });
+    const categoryList = category.map((cat_name) => (
+        <MenuItem key={cat_name} value={cat_name}>
+            {cat_name}
+        </MenuItem>
+    ));
 
     return (
-        <div>
-            <Typography variant="h4" style={style}>
-                Sell Something
-            </Typography>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '100vh',
+                padding: 2,
+            }}
+        >
+            <Typography variant="h4">Sell Something</Typography>
             <form
                 onSubmit={handleSubmit}
                 aria-label="create-ad-form"
                 id="create-ad-form"
             >
-                <div style={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>
                     <TextField
                         fullWidth
                         label="What are you selling?"
@@ -104,31 +99,11 @@ const CreateAd2 = () => {
                         onChange={handleChange}
                         value={values.title}
                         variant="outlined"
-                        style={{ flexBasis: '75%', marginRight: '1rem' }}
                         error={Boolean(errors.title)}
-
                     />
-                    <div style={{ flexBasis: '25%' }}>
-                        <FormControl variant="outlined" fullWidth margin="normal">
-                            <InputLabel id="condition-label">Condition</InputLabel>
-                            <Select
-                                labelId="condition-label"
-                                label="Condition"
-                                name="condition"
-                                onChange={handleChange}
-                                value={values.condition}
-                                variant="outlined"
-                                error={Boolean(errors.condition)}
+                </Box>
 
-                            >
-                                <MenuItem value="new">New</MenuItem>
-                                <MenuItem value="used">Used</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                </div>
-
-                <div style={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>
                     <FormControl variant="outlined" fullWidth margin="normal">
                         <InputLabel id="category-label">Item Category</InputLabel>
                         <Select
@@ -138,14 +113,12 @@ const CreateAd2 = () => {
                             onChange={handleChange}
                             value={values.category}
                             variant="outlined"
-                            style={{ flexBasis: '75%', marginRight: '1rem' }}
                             error={Boolean(errors.category)}
-
                         >
                             {categoryList}
                         </Select>
                     </FormControl>
-                    <div style={{ flexBasis: '25%' }}>
+                    <Box sx={{ marginLeft: 2 }}>
                         <TextField
                             fullWidth
                             label="Selling Price"
@@ -154,11 +127,13 @@ const CreateAd2 = () => {
                             onChange={handleChange}
                             value={values.price}
                             variant="outlined"
-                            error={Boolean(errors.price)}
+                            error={Boolean(errors
 
+                                .price)}
                         />
-                    </div>
-                </div>
+                    </Box>
+                </Box>
+
 
                 <TextField
                     fullWidth
@@ -171,69 +146,48 @@ const CreateAd2 = () => {
                     multiline
                     rows={2}
                     error={Boolean(errors.description)}
-
+                    sx={{ marginBottom: 2 }}
                 />
 
-                <Typography variant="h6" style={style} sx={{ padding: 2 }}>
+                <Typography variant="h6" sx={{ padding: 2 }}>
                     Uploads some pics to get your item noticed!
                 </Typography>
 
-                {/*<PictureBox setImage={setImage}*/}
-                {/*image={image}*/}
                 <PictureBox onImageChange={handleImageChange} />
 
-
-                />
-
-
-                <div style={{ display: 'flex' }}>
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        margin="normal"
-                        name="email"
-                        onChange={handleChange}
-                        value={values.email}
-                        variant="outlined"
-                        style={{ flexBasis: '40%', marginRight: '1rem' }}
-                        error={Boolean(errors.email)}
-
-                    />
-                    <TextField
-                        fullWidth
-                        label="Postal Code"
-                        margin="normal"
-                        name="postalCode"
-                        onChange={handleChange}
-                        value={values.postalCode}
-                        variant="outlined"
-                        style={{ flexBasis: '30%', marginRight: '1rem' }}
-                        error={Boolean(errors.postalCode)}
-
-                    />
-                    <TextField
-                        fullWidth
-                        label="Phone Number"
-                        margin="normal"
-                        name="phone"
-                        onChange={handleChange}
-                        value={values.phone}
-                        variant="outlined"
-                        style={{ flexBasis: '30%', marginRight: '1rem' }}
-                        error={Boolean(errors.phone)}
-
-                    />
-                </div>
+                {/*<Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>*/}
+                {/*    <TextField*/}
+                {/*        fullWidth*/}
+                {/*        label="Email"*/}
+                {/*        margin="normal"*/}
+                {/*        name="email"*/}
+                {/*        onChange={handleChange}*/}
+                {/*        value={values.email}*/}
+                {/*        variant="outlined"*/}
+                {/*        error={Boolean(errors.email)}*/}
+                {/*    />*/}
+                {/*</Box>*/}
                 <Button
+                    // onSubmit={handleSubmit}
                     variant="contained"
                     color="primary"
                     type="submit"
                     id="create-ad-btn"
+                    sx={{ marginTop: 2, marginRight: 2 }}
                 >
                     Submit
                 </Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    id="create-bk-btn"
+                    sx={{ marginTop: 2 }}
+                >
+                    Cancel
+                </Button>
             </form>
-        </div>
+        </Box>
     );
 };
 
