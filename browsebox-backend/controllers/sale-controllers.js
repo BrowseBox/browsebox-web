@@ -40,12 +40,31 @@ exports.makeSale = (req, res, next) => {
  * Search for sales items in the database by keyword
  */
 exports.searchSale = (req, res, next) => {
-  let keyword = req.query.keyword;
+  let keyword = req.body.keyword;
 
   // Search for sales items with the keyword in their name or description
   db.execute(
     'SELECT * FROM sales WHERE sale_name LIKE ? OR sale_description LIKE ?',
     [`%${keyword}%`, `%${keyword}%`]
+  )
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+};
+
+/**
+ * Get a user's sales
+ */
+exports.searchUserSale = (req, res, next) => {
+  let owner = req.body.id;
+
+  // Search for sales items with the keyword in their name or description
+  db.execute(
+    'SELECT * FROM sales WHERE owner = ?',
+    [owner]
   )
     .then(([rows, fields]) => {
       res.status(200).send(rows);
