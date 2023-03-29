@@ -31,16 +31,20 @@ const CreateAd2 = () => {
 
     const { handleSubmit, handleChange, values, errors } = useFormik({
         initialValues: {
+            id: '',
             title: '',
             description: '',
             image: '',
             price: '',
-            category: '',
+            filter_ids: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm }) => {
             // This is where I would add the image to the values object
-           // values.image = image;
+            //values.image = image;
+            values.id = 1;
+            values.image = 'test';
+            values.filter_ids = category;
             alert("submitting");
             axios
                 .post('http://localhost:3001/add-sale', values)
