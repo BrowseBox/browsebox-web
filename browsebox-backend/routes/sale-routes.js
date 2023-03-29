@@ -9,7 +9,8 @@ const router = express.Router();
 
 router.post('/add-sale', saleControllers.makeSale);
 router.post('/delete-sale', saleControllers.deleteSale);
-router.post('/get-sale', saleControllers.searchSale);
+router.post('/get-sales', saleControllers.searchUserSale);
+router.post('/search-sale', saleControllers.searchSale);
 router.post('/update-sale', saleControllers.updateSale);
 router.post('/get-sale-date', saleControllers.getSaleByDate);
 router.post('/get-sale-price', saleControllers.getSaleByCheapest);
