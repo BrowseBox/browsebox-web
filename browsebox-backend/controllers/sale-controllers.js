@@ -5,10 +5,10 @@ const check = require('../util/checkInput');
  * Make a sales item in the database. Takes data from front-end form.
  */
 exports.makeSale = (req, res, next) => {
-  let saleName = req.body.saleName;
+  let saleName = req.body.title;
   let description = req.body.description;
   let price = req.body.price;
-  let img = req.body.img;
+  let img = req.body.image;
   let id = req.body.id;
 
   let filterIds = [];
