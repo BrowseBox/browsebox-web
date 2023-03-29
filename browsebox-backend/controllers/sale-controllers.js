@@ -239,6 +239,8 @@ exports.setFilters = (req, res, next) => {
  */
 function setFilterFunction (saleId, filterIds, res) {
 
+  let error = null;
+
   // insert into database - for each filter id
   filterIds.forEach(filter_id => {
 
@@ -246,11 +248,18 @@ function setFilterFunction (saleId, filterIds, res) {
       'INSERT INTO tag_sales (sale_id, cat_id) VALUES (?, ?)',
       [saleId, filter_id]
     ).catch(err => {
-      res.status(500).send(err);
+      error = err;
     })
     
   });
-  res.status(200).send("All filters added.");
+
+  if (error == null) {
+
+    res.status(200).send("All filters added.");
+  } else {
+    res.status(500).send(error);
+  }
+
 
 }
 
