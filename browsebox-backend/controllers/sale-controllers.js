@@ -193,32 +193,19 @@ exports.updateSale = (req, res, next) => {
  * Delete a sales item from the database
  */
 exports.deleteSale = (req, res, next) => {
-  let saleId = req.params.id;
-  let ownerId = req.body.id;
-  let saleName = req.body.saleName;
+  let saleId = req.body.id;
 
 
-  // check that the user making the request is the owner of the sale item being deleted
-  db.execute("SELECT owner FROM sales WHERE sale_id = ?", [saleId])
-    .then(([rows, fieldData]) => {
-      if (rows.length === 0 || rows[0].owner !== ownerId) {
-        res.status(500).send("user not authorized to delete this item");
-      } else {
-        // Delete sales item
-        db.execute(
-          'DELETE FROM sales WHERE sale_id = ?',
-          [saleId]
-        )
-          .then(results => (
-            res.status(200).send("Sales item " + saleName + " has been deleted from the database")
-          ))
-          .catch(err => {
-            res.status(500).send(err)
-          });
-      };
-    })
-    .catch((err) => {
-      res.status(500).send(err);
+  // Delete sales item
+  db.execute(
+    'DELETE FROM sales WHERE sale_id = ?',
+    [saleId]
+  )
+    .then(results => (
+      res.status(200).send("Sales item " + saleId + " has been deleted from the database")
+    ))
+    .catch(err => {
+      res.status(500).send(err)
     });
 };
 
