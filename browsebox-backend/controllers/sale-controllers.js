@@ -166,9 +166,10 @@ exports.getSaleByFilters = (req, res, next) => {
 
 /**
  * Update a sales item in the database. Takes data from front-end form.
+ * Must have a saleId, but the other values are optional.
  */
 exports.updateSale = (req, res, next) => {
-  let saleId = req.params.id;
+  let saleId = req.body.id;
   let saleName = req.body.saleName;
   let description = req.body.description;
   let price = req.body.price;
@@ -178,30 +179,61 @@ exports.updateSale = (req, res, next) => {
   let query = "UPDATE sales SET ";
   let values = [];
 
-  // add to query and values based on filled out fields       ================================================================ TODO: add to query and values
+  // add to query and values based on filled out fields
+  if (saleName != undefined && saleName != null && saleName != "") {
+    query += "sale_name = ?, ";
+    values.push(saleName);
+  }
+
+  if (description != undefined && description != null && description != "") {
+    query += "sale_description = ?, ";
+    values.push(description);
+  }
+
+  if (price != undefined && price != null && price != "") {
+    query += "sale_price = ?, ";
+    values.push(price);
+  }
+
+  if (img != undefined && img != null && img != "") {
+    query += "sale_image = ?, ";
+    values.push(img);
+  }
+
+  // remove last comma
+  let lastIndex = query.lastIndexOf(",");
+  query = query.slice(0, lastIndex) + query.slice(lastIndex + 1);
   
+  // if there are values that are not null or undefined, excute
+  if (values.length > 0) {
 
-  // finish query
-  query += "WHERE sale_id = ?";
+    // finish query and add sale id
+    query += "WHERE sale_id = ?";
+    values.push(saleId);
 
-
-  // update the sale item
-  db.execute(
-    query,
-    values
-  )
-    .then((results) =>
-      res.status(200).send({
-        sale_id: saleId,
-        sale_name: saleName,
-        sale_description: description,
-        sale_price: price,
-        sale_image: img,
-      })
+    // update the sale item
+    db.execute(
+      query,
+      values
     )
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+      .then((results) =>
+        res.status(200).send({
+          sale_id: saleId,
+          sale_name: saleName,
+          sale_description: description,
+          sale_price: price,
+          sale_image: img,
+        })
+      )
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+
+  } else {
+
+    res.status(500).send("No new data was entered");
+  }
+
 
 };
 
