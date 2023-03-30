@@ -7,6 +7,7 @@ const saleControllers = require('../controllers/sale-controllers');
 
 const router = express.Router();
 
+router.post('/sale', saleControllers.getSaleById);
 router.post('/add-sale', saleControllers.makeSale);
 router.post('/delete-sale', saleControllers.deleteSale);
 router.post('/get-sales', saleControllers.searchUserSale);

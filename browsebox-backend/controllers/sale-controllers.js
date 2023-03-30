@@ -75,6 +75,25 @@ exports.searchUserSale = (req, res, next) => {
 };
 
 /**
+ * Get a sale by ID
+ */
+exports.getSaleById = (req, res, next) => {
+  let saleId = req.body.id;
+
+  // Search for sales items with the keyword in their name or description
+  db.execute(
+    'SELECT * FROM browsebox.sales where sale_id = ?',
+    [saleId]
+  )
+    .then(([rows, fields]) => {
+      res.status(200).send(rows);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+};
+
+/**
  * Get all sales by date.
  * If 'newest' is true, return newest first. If false, return oldest first.
  */
@@ -147,44 +166,74 @@ exports.getSaleByFilters = (req, res, next) => {
 
 /**
  * Update a sales item in the database. Takes data from front-end form.
+ * Must have a saleId, but the other values are optional.
  */
 exports.updateSale = (req, res, next) => {
-  let saleId = req.params.id;
-  let ownerId = req.body.id;
+  let saleId = req.body.id;
   let saleName = req.body.saleName;
   let description = req.body.description;
   let price = req.body.price;
   let img = req.body.img;
 
+  // start query and values
+  let query = "UPDATE sales SET ";
+  let values = [];
 
-  // check that the user making the request is the owner of the sale item being updated
-  db.execute("SELECT owner FROM sales WHERE sale_id = ?", [saleId])
-    .then(([rows, fieldData]) => {
-      if (rows.length === 0 || rows[0].owner !== ownerId) {
-        res.status(500).send("item not found or user not authorized");
-      } else {
-        // update the sale item
-        db.execute(
-          "UPDATE sales SET sale_name = ?, sale_description = ?, sale_price = ?, sale_image = ? WHERE sale_id = ?",
-          [saleName, description, price, img, saleId]
-        )
-          .then((results) =>
-            res.status(200).send({
-              sale_id: saleId,
-              sale_name: saleName,
-              sale_description: description,
-              sale_price: price,
-              sale_image: img,
-            })
-          )
-          .catch((err) => {
-            res.status(500).send(err);
-          });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+  // add to query and values based on filled out fields
+  if (saleName != undefined && saleName != null && saleName != "") {
+    query += "sale_name = ?, ";
+    values.push(saleName);
+  }
+
+  if (description != undefined && description != null && description != "") {
+    query += "sale_description = ?, ";
+    values.push(description);
+  }
+
+  if (price != undefined && price != null && price != "") {
+    query += "sale_price = ?, ";
+    values.push(price);
+  }
+
+  if (img != undefined && img != null && img != "") {
+    query += "sale_image = ?, ";
+    values.push(img);
+  }
+
+  // remove last comma
+  let lastIndex = query.lastIndexOf(",");
+  query = query.slice(0, lastIndex) + query.slice(lastIndex + 1);
+  
+  // if there are values that are not null or undefined, excute
+  if (values.length > 0) {
+
+    // finish query and add sale id
+    query += "WHERE sale_id = ?";
+    values.push(saleId);
+
+    // update the sale item
+    db.execute(
+      query,
+      values
+    )
+      .then((results) =>
+        res.status(200).send({
+          sale_id: saleId,
+          sale_name: saleName,
+          sale_description: description,
+          sale_price: price,
+          sale_image: img,
+        })
+      )
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+
+  } else {
+
+    res.status(500).send("No new data was entered");
+  }
+
 
 };
 
