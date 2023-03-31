@@ -11,9 +11,9 @@ const Navbar = ({ user }) => {
             <Toolbar>
                 {user === 1 ? (
                     <>
-                        <IconButton edge="end" color="inherit" aria-label="menu">
+                        <Link to="/ShowAd"><IconButton edge="end" color="inherit" aria-label="menu">
                             <MenuIcon /> View Ads
-                        </IconButton>
+                        </IconButton></Link>
                         <IconButton edge="end" color="inherit" aria-label="favorite">
                             <Favorite /> Favirotes
                         </IconButton>

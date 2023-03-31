@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import styled from 'styled-components';
+import Congratulations from "./Congratulations";
+import EditItemModal from "./EditItemModal";
 
 const AdList = styled.div`
   display: flex;
@@ -51,21 +53,45 @@ const DeleteButton = styled(Button)`
 `;
 
 const Ad = ({ ad }) => {
+    const [showCongratulations, setShowCongratulations] = useState(false);
+    const [showEditModalOpen, setIsEditModalOpen] = useState(false);
+
+    const handleDeleteButtonClick = () => {
+        setShowCongratulations(true);
+    };
+
+    const handleCloseCongratulations = () => {
+        setShowCongratulations(false);
+        window.location.reload();
+    };
+
+    const handleIsEditModalOpen = () => {
+        setIsEditModalOpen(true);
+    };
+
+    const handleCloseEditModalOpen = () => {
+        setIsEditModalOpen(false);
+        window.location.reload();
+    };
+
+    const placeholderImage = "https://via.placeholder.com/150";
     return (
         <AdList>
-            <AdImage src={ad.image} alt={ad.title} />
+            <AdImage src={ad.sales_image ? ad.sales_image : placeholderImage} alt="Ad" />
             <AdContent>
                 <div>
-                    <AdTitle variant="h6">{ad.title}</AdTitle>
-                    <AdDescription variant="body1">{ad.description}</AdDescription>
+                    <AdTitle variant="h6">{ad.sale_name}</AdTitle>
+                    <AdDescription variant="body1">{ad.sale_description}</AdDescription>
                 </div>
-                <AdPrice variant="h6">${ad.price}</AdPrice>
+                <AdPrice variant="h6">${ad.sale_price}</AdPrice>
             </AdContent>
             <AdActions>
-                <EditButton variant="contained" color="primary">
+                <EditButton variant="contained" color="primary" onClick={handleIsEditModalOpen}>
                     Edit
                 </EditButton>
-                <DeleteButton variant="text">Delete</DeleteButton>
+                <DeleteButton variant="text" onClick={handleDeleteButtonClick}>Delete</DeleteButton>
+                <Congratulations trigger={showCongratulations} onClose={handleCloseCongratulations} id={ad.sale_id} />
+                <EditItemModal trigger={showEditModalOpen} onClose={handleCloseEditModalOpen} id={ad.sale_id} />
             </AdActions>
         </AdList>
     );
