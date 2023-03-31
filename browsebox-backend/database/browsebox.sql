@@ -75,36 +75,18 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`sale_price` 		DOUBLE(7,2),
 	`sale_image`		VARCHAR(100),
 	`sale_date`			TIMESTAMP DEFAULT NOW(),
+	`cat_id`			INT,
 	PRIMARY KEY (`sale_id`),
 	CONSTRAINT `fk_sales_users`
 		FOREIGN KEY (`owner`)
 		REFERENCES `browsebox`.`users` (`user_id`)
 		ON DELETE NO ACTION
-		ON UPDATE NO ACTION
-);
-
--- ON DELETE NO ACTION && ON UPDATE NO ACTION on foreign keys?
--- ON DELETE CASCADE probably for sale_id?
--- categories depends on how often they update or set in stone
-
--- ----------------------------------------
--- Table Tag_Sales
--- ----------------------------------------
-
-CREATE TABLE IF NOT EXISTS `browsebox`.`tag_sales` (
-	`cat_id` 	INT 	NOT NULL,
-	`sale_id` 	INT 	NOT NULL,
-	PRIMARY KEY (`cat_id`, `sale_id`),
-	CONSTRAINT `fk_tagsales_categories`
+		ON UPDATE NO ACTION,
+	CONSTRAINT `fk_cat_id`
 		FOREIGN KEY (`cat_id`)
 		REFERENCES `browsebox`.`categories` (`cat_id`)
+		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
-		ON DELETE NO ACTION,
-	CONSTRAINT `fk_tagsales_sales`
-		FOREIGN KEY (`sale_id`)
-		REFERENCES `browsebox`.`sales` (`sale_id`)
-		ON UPDATE NO ACTION
-		ON DELETE CASCADE
 );
 
 -- ON DELETE AND UPDATE SHOULDNT NEED ANYTHING HERE, THEY'LL BE CASCADED
