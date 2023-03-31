@@ -25,9 +25,22 @@ const CreateAd2 = () => {
     const [image, setImage] = useState(null);
     const [category, setCategory] = useState(['']);
 
+    // Added this to store the name to Id mapping
+    const [catNameToIdMap, setCatNameToIdMap] = useState({});
+
+
     const handleImageChange = (image) => {
         setImage(image);
     };
+
+    // This is when it is changed or better yet just before it is submitted
+    // const handleCategoryChange = (selectedCatName) => {
+    //     const selectedCatId = catNameToIdMap[selectedCatName];
+    //     console.log('Selected cat_name:', selectedCatName, 'cat_id:', selectedCatId);
+    //     // Perform any action you want with the selected cat_id
+    // };
+
+
 
     const { handleSubmit, handleChange, values, errors } = useFormik({
         initialValues: {
@@ -36,15 +49,25 @@ const CreateAd2 = () => {
             description: '',
             image: '',
             price: '',
-            filter_ids: '',
+            // filter_ids: '',
+            category: '',
+            catId: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm }) => {
             // This is where I would add the image to the values object
+            // As well the user id is hard set when it should be soft
             //values.image = image;
             values.id = 1;
             values.image = 'test';
-            values.filter_ids = category;
+            // values.filter_ids = category;
+            // values.catId = category;
+            //     values.catId  = category.indexOf(values.category);
+            //get the cat_id from the category array
+            // handleCategoryChange(values.category)
+            values.catId = catNameToIdMap[values.category];
+
+
             alert("submitting");
             axios
                 .post('http://localhost:3001/add-sale', values)
@@ -52,23 +75,45 @@ const CreateAd2 = () => {
                     if (res.status === 200) {
                         alert('Item successfully created');
                         resetForm();
+                        setImage(null);
                     } else Promise.reject();
                 })
                 .catch((err) => alert('Something went wrong'));
         },
     });
 
+    // useEffect(() => {
+    //     axios
+    //         .post('http://localhost:3001/get-filters')
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             //setCategory(['', ...res.data.map(({ cat_name }) => cat_name)]);
+    //             // make a map of cat_name to cat_id
+    //             setCategory(['', ...res.data.map(({ cat_name, cat_id }) => cat_name)]);
+    //
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, []);
+
     useEffect(() => {
         axios
             .post('http://localhost:3001/get-filters')
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
+                const nameToIdMap = res.data.reduce((acc, { cat_name, cat_id }) => {
+                    acc[cat_name] = cat_id;
+                    return acc;
+                }, {});
+                setCatNameToIdMap(nameToIdMap);
                 setCategory(['', ...res.data.map(({ cat_name }) => cat_name)]);
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
+
 
     const categoryList = category.map((cat_name) => (
         <MenuItem key={cat_name} value={cat_name}>
