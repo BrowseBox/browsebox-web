@@ -9,10 +9,8 @@ exports.makeSale = (req, res, next) => {
   let description = req.body.description;
   let price = req.body.price;
   let img = req.body.image;
-  let id = req.body.id;
-
-  let filterIds = [];
-  filterIds = req.body.filter_ids;
+  let owner = req.body.id;
+  let caltegory = req.body.catId;
 
   if (
     !check.checkUsername(saleName)) {
@@ -20,15 +18,12 @@ exports.makeSale = (req, res, next) => {
   } else {
     // Insert sales item
     db.execute(
-      'INSERT INTO sales (sale_name, sale_description, sale_price, sale_image, owner) VALUES (?, ?, ?, ?, ?)',
-      [saleName, description, price, img, id]
+      'INSERT INTO sales (sale_name, sale_description, sale_price, sale_image, owner, cat_id) VALUES (?, ?, ?, ?, ?, ?)',
+      [saleName, description, price, img, owner, caltegory]
     )
       .then(results => (
+        res.status(200).send("Added to database")
         
-        db.execute('select last_insert_id() AS "last_id"').then(([rows, fields]) => {
-          let sale_id = rows[0].last_id;
-          setFilterFunction(sale_id, filterIds, res);
-        })
       ))
       .catch(err => {
         res.status(500).send(err)
@@ -44,7 +39,7 @@ exports.searchSale = (req, res, next) => {
 
   // Search for sales items with the keyword in their name or description
   db.execute(
-    'SELECT * FROM sales WHERE sale_name LIKE ? OR sale_description LIKE ?',
+    'SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id WHERE sale_name LIKE ? OR sale_description LIKE ?',
     [`%${keyword}%`, `%${keyword}%`]
   )
     .then(([rows, fields]) => {
@@ -63,7 +58,7 @@ exports.searchUserSale = (req, res, next) => {
 
   // Search for sales items with the keyword in their name or description
   db.execute(
-    'SELECT * FROM sales WHERE owner = ?',
+    'SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id WHERE owner = ?',
     [owner]
   )
     .then(([rows, fields]) => {
@@ -82,7 +77,7 @@ exports.getSaleById = (req, res, next) => {
 
   // Search for sales items with the keyword in their name or description
   db.execute(
-    'SELECT * FROM browsebox.sales where sale_id = ?',
+    'SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id where sale_id = ?',
     [saleId]
   )
     .then(([rows, fields]) => {
@@ -103,7 +98,7 @@ exports.getSaleByDate = (req, res, next) => {
  let newest = req.body.newest === 'true'
 
   // get all items based on date
-  db.execute('SELECT * FROM browsebox.sales ORDER BY sale_date ' + (newest ? 'DESC' : 'ASC' ) )
+  db.execute('SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id ORDER BY sale_date ' + (newest ? 'DESC' : 'ASC' ) )
     .then(([rows, fields]) => {
       res.status(200).send(rows);
     })
@@ -119,7 +114,7 @@ exports.getSaleByDate = (req, res, next) => {
 exports.getSaleByCheapest = (req, res, next) => {
 
   // get all items based on date
-  db.execute('SELECT * FROM browsebox.sales ORDER BY sale_price ASC')
+  db.execute('SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id ORDER BY sale_price ASC')
     .then(([rows, fields]) => {
       res.status(200).send(rows);
     })
@@ -135,25 +130,10 @@ exports.getSaleByCheapest = (req, res, next) => {
  */
 exports.getSaleByFilters = (req, res, next) => {
 
-  // REQUIRES: an array of the filter IDs
-  let catIDs = [];
-  catIDs = req.body.filters;
+  let catId = req.body.catId;
 
-  // start query string with first filter
-  let query = 'SELECT * FROM browsebox.sales WHERE sale_id IN (SELECT sale_id FROM browsebox.tag_sales WHERE cat_id = ' + catIDs[0];
-
-  // add all filters
-  if (catIDs.length > 1) {
-    for (let i = 1; i < catIDs.length; i++) {
-      query += ' OR cat_id = ' + catIDs[i];
-    }
-  }
-
-  // finish query
-  query += ')'
-
-  // get all sales with given filter IDs
-  db.execute(query)
+  // get all sales with given filter ID
+  db.execute('SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id WHERE cat_id = ?', [catId])
     .then(([rows, fieldData]) => {
       res.status(200).send(rows);
     })
@@ -174,6 +154,7 @@ exports.updateSale = (req, res, next) => {
   let description = req.body.description;
   let price = req.body.price;
   let img = req.body.img;
+  let catId = req.body.catId;
 
   // start query and values
   let query = "UPDATE sales SET ";
@@ -200,6 +181,11 @@ exports.updateSale = (req, res, next) => {
     values.push(img);
   }
 
+  if (catId != undefined && catId != null && catId != "") {
+    query += "cat_id = ?, ";
+    values.push(catId);
+  }
+
   // remove last comma
   let lastIndex = query.lastIndexOf(",");
   query = query.slice(0, lastIndex) + query.slice(lastIndex + 1);
@@ -223,6 +209,7 @@ exports.updateSale = (req, res, next) => {
           sale_description: description,
           sale_price: price,
           sale_image: img,
+          cat_id: catId
         })
       )
       .catch((err) => {
@@ -273,67 +260,4 @@ exports.getFilters = (req, res, next) => {
       res.status(500).send(err);
     });
 
-}
-
-/**
- * Add filters to a sale item by calling function
- * Expects sale_id and an array of filter_ids
- */
-exports.setFilters = (req, res, next) => {
-
-  let saleId = req.body.sale_id;
-  let filterIds = [];
-  filterIds = req.body.filter_ids;
-
-  setFilterFunction(saleId, filterIds, res);
-  
-}
-
-/**
- * Add filters to bridging table
- */
-function setFilterFunction (saleId, filterIds, res) {
-
-  let error = null;
-
-  // insert into database - for each filter id
-  filterIds.forEach(filter_id => {
-
-    db.execute(
-      'INSERT INTO tag_sales (sale_id, cat_id) VALUES (?, ?)',
-      [saleId, filter_id]
-    ).catch(err => {
-      error = err;
-    })
-    
-  });
-
-  if (error == null) {
-
-    res.status(200).send("All filters added.");
-  } else {
-    res.status(500).send(error);
-  }
-
-
-}
-
-/**
- * Remove a filter from a sale
- * Expects sale_id and an array of filter_ids
- */
-exports.removeFilters = (req, res, next) => {
-
-  let saleId = req.body.sale_id;
-  let filterId = req.body.filter_ids;
-
-  db.execute(
-    'DELETE FROM tag_sales WHERE sale_id = ? AND cat_id = ?',
-    [saleId, filterId]
-  ).catch(err => {
-    res.status(500).send(err);
-  })
-
-  res.status(200).send("All filters deleted.");
-  
 }

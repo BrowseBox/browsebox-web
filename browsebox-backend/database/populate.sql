@@ -8,18 +8,15 @@ insert into browsebox.schools(school_name, school_link) values ('University of C
 insert into browsebox.reviews(reviewer, user_id, review_description, review_value) values (2, 1, 'What a great guy!', 5.00);
 insert into browsebox.reviews(reviewer, user_id, review_description, review_value) values (3, 1, 'What an ok guy!', 4.00);
 
-insert into browsebox.sales(owner, sale_name, sale_description, sale_price) values (2, 'Cat Toy', 'random cat toy', 258.34);
-insert into browsebox.sales(owner, sale_name, sale_description, sale_price) values (3, 'Graphing Calculator', 'A new Graphing Calculator', 2.34);
-insert into browsebox.sales(owner, sale_name, sale_description, sale_price) values (3, 'Pencil', 'Half-used pencil', 112.34);
-
 insert into browsebox.categories(cat_name) values ('Calculator');
 insert into browsebox.categories(cat_name) values ('Textbook');
 insert into browsebox.categories(cat_name) values ('Stationary');
 insert into browsebox.categories(cat_name) values ('Computer');
 insert into browsebox.categories(cat_name) values ('Misc');
 
-insert into browsebox.favorites(user_id, sale_id) values (1, 2);
+insert into browsebox.sales(owner, sale_name, sale_description, sale_price, cat_id) values (2, 'Cat Toy', 'random cat toy', 258.34, 5);
+insert into browsebox.sales(owner, sale_name, sale_description, sale_price, cat_id) values (3, 'Graphing Calculator', 'A new Graphing Calculator', 2.34, 1);
+insert into browsebox.sales(owner, sale_name, sale_description, sale_price, cat_id) values (3, 'Pencil', 'Half-used pencil', 112.34, 3);
 
-insert into browsebox.tag_sales(cat_id, sale_id) values (1, 2);
-insert into browsebox.tag_sales(cat_id, sale_id) values (3, 3);
-insert into browsebox.tag_sales(cat_id, sale_id) values (5, 1);
+
+insert into browsebox.favorites(user_id, sale_id) values (1, 2);
