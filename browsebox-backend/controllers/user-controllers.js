@@ -90,16 +90,24 @@ exports.getUserData = (req, res, next) => {
   let id = req.body.id
 
   // get user info
-  db.execute('SELECT * FROM users where user_id=?', [id]).then(([rows, fieldData]) =>
-    res.status(200).send({
-      user_name: rows[0].user_name,
-      user_email: rows[0].user_email,
-      user_rating: rows[0].user_rating,
-      user_img: rows[0].user_img,
-      isActive: rows[0].isActive,
-      school: getSchoolData(rows[0].school_id),
-    }),
-  )
+  db.execute('SELECT * FROM users where user_id=?', [id]).then(([rows, fieldData]) => {
+
+    if (rows[0] != null && rows[0] != undefined) {
+
+      res.status(200).send({
+        user_name: rows[0].user_name,
+        user_email: rows[0].user_email,
+        user_rating: rows[0].user_rating,
+        user_img: rows[0].user_img,
+        isActive: rows[0].isActive,
+        school: getSchoolData(rows[0].school_id),
+      })
+
+    }
+
+    
+  })
+
 }
 
 /**
