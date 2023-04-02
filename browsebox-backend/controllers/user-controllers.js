@@ -92,7 +92,7 @@ exports.getUserData = (req, res, next) => {
   // get user info
   db.execute('SELECT * FROM users where user_id=?', [id]).then(([rows, fieldData]) => {
 
-    if (rows[0] != null && rows[0] != undefined) {
+    if (rows[0] != null && rows[0] !== undefined) {
 
       res.status(200).send({
         user_name: rows[0].user_name,
