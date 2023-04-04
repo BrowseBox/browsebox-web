@@ -20,7 +20,7 @@ exports.makeUser = (req, res, next) => {
   } else {
     // database makes all users active and not admin by default. No change here.
     db.execute(
-      'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating, school_id) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
       [username, email, password, img, 0],
     )
       .then((results) => res.status(200).send('User ' + username + ' has been added to the database'))
