@@ -10,6 +10,7 @@ const SimpleNav = () => {
             <Link to="/create-ad"><button>Create Ad</button></Link>
             <Link to="ShowAd"><button>Show Ads</button></Link>
             <Link to="ViewAd"><button>View Ad</button></Link>
+            <Link to="chat"><button>Chat</button></Link>
         </div>
     )
 }
