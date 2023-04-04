@@ -18,6 +18,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './Components/AdminDashboard/AdminDashboard'
 import CreateAd2 from "./Components/ItemComponents/CreateAd2";
 import Navbar from "./Components/ItemComponents/Navbar";
+import Chat from "./Components/UserComponents/Chat";
 
 function App() {
     const [userLogin, setUserLogin] = React.useState(false)
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/create-ad" element={<CreateAd2 />} />
                 <Route path="/ShowAd" element={<ShowAds />} />
                 <Route path="/ViewAd" element={<ViewAd />} />
+                <Route path="/chat" element={<Chat />} />
                 {/* <Route path='/signup' element={<SignupForm />} /> */}
             </Routes>
             {/* <CreateUserComponent /> */}
