@@ -57,9 +57,9 @@ const CreateAd2 = () => {
         onSubmit: async (values, { resetForm }) => {
             // This is where I would add the image to the values object
             // As well the user id is hard set when it should be soft
-            //values.image = image;
+            values.image = image;
             values.id = 1;
-            values.image = 'test';
+            // values.image = 'test';
             // values.filter_ids = category;
             // values.catId = category;
             //     values.catId  = category.indexOf(values.category);

@@ -37,7 +37,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-server": "node .\\browsebox-backend\\socketServer.js",
+    "start-server": "node .\\browsebox-backend\\server.js",
+    "start-chat": "node .\\browsebox-backend\\socketServer.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
