@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://54.218.71.46:7355';
+axios.defaults.baseURL = 'http://35.91.95.141:7355';
 
 export default function NewPost() {
     const [request, setRequest] = useState("")
