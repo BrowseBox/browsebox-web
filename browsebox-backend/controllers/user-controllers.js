@@ -11,7 +11,6 @@ exports.makeUser = (req, res, next) => {
   let email = req.body.email
   let password = req.body.password
   let img = req.body.imageLocation
-  let school = req.body.school
 
   if (
     !check.checkUsername(username) ||
@@ -21,8 +20,8 @@ exports.makeUser = (req, res, next) => {
   } else {
     // database makes all users active and not admin by default. No change here.
     db.execute(
-      'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating, school_id) VALUES (?, ?, ?, ?, ?, ?)',
-      [username, email, password, img, 0, school],
+      'INSERT INTO browsebox.users (user_name, user_email, user_password, user_img, user_rating) VALUES (?, ?, ?, ?, ?)',
+      [username, email, password, img, 0],
     )
       .then((results) => res.status(200).send('User ' + username + ' has been added to the database'))
       .catch((err) => {
@@ -191,12 +190,18 @@ exports.getSchools = (req, res, next) => {
  */
 function getSchoolData(ID) {
 
-  db.execute('SELECT * FROM browsebox.schools WHERE school_id=?', [ID])
+  if (ID !== undefined || ID !== null) {
+
+    db.execute('SELECT * FROM browsebox.schools WHERE school_id=?', [ID])
     .then(([rows, fields]) => {
       return rows[0]
     })
     .catch(err => {
       return null
     });
+
+  }
+
+  
 
 }

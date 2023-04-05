@@ -8,7 +8,7 @@ const app = express();
 
 // let us use req.body to get form data without parsing
 app.use(cors())
-app.use(express.json()); 
+app.use(express.json());
 
 // use routes
 app.use(userRoutes);

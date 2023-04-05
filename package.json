@@ -32,6 +32,8 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4",
     "yp": "^2.0.3",
@@ -40,6 +42,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start-server": "node .\\browsebox-backend\\server.js",
+    "start-chat": "node .\\browsebox-backend\\socketServer.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
