@@ -13,6 +13,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import PictureBox from './PictureBox';
+import background from '../../Media/fabric.jpg';
+
+
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -58,7 +61,10 @@ const CreateAd2 = () => {
             // This is where I would add the image to the values object
             // As well the user id is hard set when it should be soft
             values.image = image;
-            values.id = 1;
+            // values.id = 1;
+            // get id from local storage
+            values.id = localStorage.getItem('id');
+
             // values.image = 'test';
             // values.filter_ids = category;
             // values.catId = category;
@@ -122,120 +128,138 @@ const CreateAd2 = () => {
     ));
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '100vh',
-                padding: 2,
-            }}
-        >
-            <Typography variant="h4">Sell Something</Typography>
-            <form
-                onSubmit={handleSubmit}
-                aria-label="create-ad-form"
-                id="create-ad-form"
+        <div id="MainBody">
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '90vh',
+                    padding: 2,
+
+                    width : '100vw',
+
+                    backgroundColor: '#b7ac9a',
+                    backgroundImage: `url(${background})`,
+                    backgroundSize: 'cover',
+
+
+
+                }}
             >
-                <Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>
-                    <TextField
-                        fullWidth
-                        label="What are you selling?"
-                        margin="normal"
-                        name="title"
-                        onChange={handleChange}
-                        value={values.title}
-                        variant="outlined"
-                        error={Boolean(errors.title)}
-                    />
-                </Box>
-
-                <Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>
-                    <FormControl variant="outlined" fullWidth margin="normal">
-                        <InputLabel id="category-label">Item Category</InputLabel>
-                        <Select
-                            labelId="category-label"
-                            label="Item Category"
-                            name="category"
-                            onChange={handleChange}
-                            value={values.category}
-                            variant="outlined"
-                            error={Boolean(errors.category)}
+                <div style={{ backgroundColor:'#f7f2e5', width: '50%', height: '80%', borderRadius: '20px',alignItems: 'center', margin : 'auto',
+                    // content: '', position: 'absalute', left: '10px', bottom: '-20px', zIndex: '-1', boxShadow: '0 0 20px 0 rgba(0, 0, 0, 0.1)'
+                    boxShadow: '12px 12px 16px 0 rgba(0, 0, 0, 0.2), -12px -12px 16px 0 rgba(255, 255, 255, .1), opacity: 0.5'
+                }}>
+                    <div style={{margin: 'auto', width: '80%', padding: 30, height: '80%'}}>
+                        <Typography variant="h4">Sell Something</Typography>
+                        <form
+                            onSubmit={handleSubmit}
+                            aria-label="create-ad-form"
+                            id="create-ad-form"
                         >
-                            {categoryList}
-                        </Select>
-                    </FormControl>
-                    <Box sx={{ marginLeft: 2 }}>
-                        <TextField
-                            fullWidth
-                            label="Selling Price"
-                            margin="normal"
-                            name="price"
-                            onChange={handleChange}
-                            value={values.price}
-                            variant="outlined"
-                            error={Boolean(errors
+                            <Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>
+                                <TextField
+                                    fullWidth
+                                    label="What are you selling?"
+                                    margin="normal"
+                                    name="title"
+                                    onChange={handleChange}
+                                    value={values.title}
+                                    variant="outlined"
+                                    error={Boolean(errors.title)}
+                                />
+                            </Box>
 
-                                .price)}
-                        />
-                    </Box>
-                </Box>
+                            <Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>
+                                <FormControl variant="outlined" fullWidth margin="normal">
+                                    <InputLabel id="category-label">Item Category</InputLabel>
+                                    <Select
+                                        labelId="category-label"
+                                        label="Item Category"
+                                        name="category"
+                                        onChange={handleChange}
+                                        value={values.category}
+                                        variant="outlined"
+                                        error={Boolean(errors.category)}
+                                    >
+                                        {categoryList}
+                                    </Select>
+                                </FormControl>
+                                <Box sx={{ marginLeft: 2 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Selling Price"
+                                        margin="normal"
+                                        name="price"
+                                        onChange={handleChange}
+                                        value={values.price}
+                                        variant="outlined"
+                                        error={Boolean(errors
+
+                                            .price)}
+                                    />
+                                </Box>
+                            </Box>
 
 
-                <TextField
-                    fullWidth
-                    label="Description"
-                    margin="normal"
-                    name="description"
-                    onChange={handleChange}
-                    value={values.description}
-                    variant="outlined"
-                    multiline
-                    rows={2}
-                    error={Boolean(errors.description)}
-                    sx={{ marginBottom: 2 }}
-                />
+                            <TextField
+                                fullWidth
+                                label="Description"
+                                margin="normal"
+                                name="description"
+                                onChange={handleChange}
+                                value={values.description}
+                                variant="outlined"
+                                multiline
+                                rows={2}
+                                error={Boolean(errors.description)}
+                                sx={{ marginBottom: 2 }}
+                            />
 
-                <Typography variant="h6" sx={{ padding: 2 }}>
-                    Uploads some pics to get your item noticed!
-                </Typography>
+                            <Typography variant="h6" sx={{ padding: 2 }}>
+                                Uploads some pics to get your item noticed!
+                            </Typography>
 
-                <PictureBox onImageChange={handleImageChange} />
+                            <PictureBox onImageChange={handleImageChange} />
 
-                {/*<Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>*/}
-                {/*    <TextField*/}
-                {/*        fullWidth*/}
-                {/*        label="Email"*/}
-                {/*        margin="normal"*/}
-                {/*        name="email"*/}
-                {/*        onChange={handleChange}*/}
-                {/*        value={values.email}*/}
-                {/*        variant="outlined"*/}
-                {/*        error={Boolean(errors.email)}*/}
-                {/*    />*/}
-                {/*</Box>*/}
-                <Button
-                    // onSubmit={handleSubmit}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    id="create-ad-btn"
-                    sx={{ marginTop: 2, marginRight: 2 }}
-                >
-                    Submit
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    id="create-bk-btn"
-                    sx={{ marginTop: 2 }}
-                >
-                    Cancel
-                </Button>
-            </form>
-        </Box>
+                            {/*<Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>*/}
+                            {/*    <TextField*/}
+                            {/*        fullWidth*/}
+                            {/*        label="Email"*/}
+                            {/*        margin="normal"*/}
+                            {/*        name="email"*/}
+                            {/*        onChange={handleChange}*/}
+                            {/*        value={values.email}*/}
+                            {/*        variant="outlined"*/}
+                            {/*        error={Boolean(errors.email)}*/}
+                            {/*    />*/}
+                            {/*</Box>*/}
+                            <Button
+                                // onSubmit={handleSubmit}
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                id="create-ad-btn"
+                                sx={{ marginTop: 2, marginRight: 2 }}
+                            >
+                                Submit
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                type="submit"
+                                id="create-bk-btn"
+                                sx={{ marginTop: 2 }}
+                            >
+                                Cancel
+                            </Button>
+                        </form>
+                    </div>
+                </div>
+            </Box>
+        </div>
     );
 };
 

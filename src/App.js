@@ -19,9 +19,10 @@ import Dashboard from './Components/AdminDashboard/AdminDashboard'
 import CreateAd2 from "./Components/ItemComponents/CreateAd2";
 import Navbar from "./Components/ItemComponents/Navbar";
 import Chat from "./Components/UserComponents/Chat";
+import FavoriteAds from "./Components/ItemComponents/ShowFavorites";
 
 function App() {
-    const [userLogin, setUserLogin] = React.useState(false)
+    // const [userLogin, setUserLogin] = React.useState(false)
     const [user, setUser] = React.useState(null)
 
     useEffect(() => {
@@ -36,9 +37,10 @@ function App() {
 
     return (
         <Router>
+            {/*{console.log(user.user_name)}*/}
             <Header setUser={setUser} />
-            <SimpleNav />
-            <Navbar />
+            {/*<SimpleNav />*/}
+            <Navbar LoggedIn={user} />
 
             <Routes>
                 {/* <Route path="/" element={<TestPage1 />} /> */}
@@ -49,6 +51,7 @@ function App() {
                 <Route path="/ShowAd" element={<ShowAds />} />
                 <Route path="/ViewAd" element={<ViewAd />} />
                 <Route path="/chat" element={<Chat />} />
+                <Route path="/favorites" element={<FavoriteAds />} />
                 {/* <Route path='/signup' element={<SignupForm />} /> */}
             </Routes>
             {/* <CreateUserComponent /> */}
