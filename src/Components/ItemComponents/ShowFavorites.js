@@ -24,15 +24,15 @@ const ShowAds = () => {
 
     return (
         <div>
-            <Typography variant="h4" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>View Your Ads</Typography>
+            <Typography variant="h4" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>View Your Favorites</Typography>
             {ads.length > 0 ? (
                 ads.map((ad) => (
                     // <Ad key={ad.id} ad={ad} />
                     <Ad key={ad.sale_id} ad={ad} />
                 ))
-            ) : (
-                <Typography variant="h5" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>You have no ads</Typography>
-            )}
+                ) : (
+                <Typography variant="h5" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>You have no favorites</Typography>
+                )}
         </div>
     );
 };

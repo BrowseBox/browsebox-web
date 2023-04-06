@@ -36,12 +36,12 @@ const Congratulations = ({ trigger, onClose, id }) => {
 
     const handleRemoveItem = () => {
         //remove item with axios
-        alert ("removing item" + id)
+        //alert ("removing item" + id)
         axios.post(`http://localhost:3001/delete-sale`, { id: id })
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-                alert({id} + " has been deleted");
+               // alert({id} + " has been deleted");
             })
 
         handleClose();
