@@ -32,6 +32,8 @@ exports.makeSale = (req, res, next) => {
             "message" : "added to database",
             "sale_id": rows[0].sale_id
           })
+        }).catch(err => {
+          res.status(500).send(err)
         })
 
         
