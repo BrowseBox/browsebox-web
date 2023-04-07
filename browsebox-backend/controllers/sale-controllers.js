@@ -22,7 +22,21 @@ exports.makeSale = (req, res, next) => {
       [saleName, description, price, img, owner, caltegory]
     )
       .then(results => (
-        res.status(200).send("Added to database")
+
+        // Get back the new item id. Retuned owner's sales, order by newest to oldest. First one is the one just added.
+        db.execute(
+          'SELECT sale_id FROM sales WHERE owner = ? ORDER BY sale_date DESC',
+          [owner]
+        ).then(([rows, fields]) => {
+          res.status(200).send({
+            "message" : "added to database",
+            "sale_id": rows[0].sale_id
+          })
+        }).catch(err => {
+          res.status(500).send(err)
+        })
+
+        
         
       ))
       .catch(err => {
