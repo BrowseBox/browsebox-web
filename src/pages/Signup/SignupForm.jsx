@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
@@ -7,7 +7,18 @@ import { createAvatar } from '@dicebear/core'
 import { initials } from '@dicebear/collection'
 
 export default function SignupForm(props) {
-  const { handleCloseSignupModal } = props
+  const { handleCloseSignupModal, schools } = props
+  // const [schools, setSchools] = React.useState([])
+
+  // React.useEffect(() => {
+  //   axios.post('http://localhost:3001/get-schools').then((res) => {
+  //     if (res.status === 200) {
+  //       setSchools(res.data)
+  //       // console.log(res.data)
+  //     }
+  //   })
+  // }, [])
+  // console.log(schools)
 
   // form validation
   const validationSchema = Yup.object().shape({
@@ -93,6 +104,14 @@ export default function SignupForm(props) {
           fullWidth
           style={textFieldStyle}
         />
+        <InputLabel id="select-label">Schools</InputLabel>
+        <Select labelId="select-label" label="Schools">
+          {schools.map((school) => (
+            <MenuItem key={school.id} value={school.id}>
+              {school.name}
+            </MenuItem>
+          ))}
+        </Select>
         <Button
           variant="contained"
           fullWidth

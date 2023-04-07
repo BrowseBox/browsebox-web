@@ -6,9 +6,7 @@ import UserList from './Components/AdminDashboard/components/UserList'
 import SignupForm from './pages/Signup/SignupForm'
 import Home from './pages/Home/Home'
 import ShowAds from './Components/ItemComponents/ShowAds'
-import ViewAd from "./Components/ItemComponents/ViewAd";
-
-
+import ViewAd from './Components/ItemComponents/ViewAd'
 
 import React from 'react'
 import { useEffect } from 'react'
@@ -16,50 +14,58 @@ import axios from 'axios'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './Components/AdminDashboard/AdminDashboard'
-import CreateAd2 from "./Components/ItemComponents/CreateAd2";
-import Navbar from "./Components/ItemComponents/Navbar";
-import Chat from "./Components/UserComponents/Chat";
-import FavoriteAds from "./Components/ItemComponents/ShowFavorites";
+import CreateAd2 from './Components/ItemComponents/CreateAd2'
+import Navbar from './Components/ItemComponents/Navbar'
+import Chat from './Components/UserComponents/Chat'
+import FavoriteAds from './Components/ItemComponents/ShowFavorites'
 
 function App() {
-    // const [userLogin, setUserLogin] = React.useState(false)
-    const [user, setUser] = React.useState(null)
+  // const [userLogin, setUserLogin] = React.useState(false)
+  const [user, setUser] = React.useState(null)
+  const [schools, setSchools] = React.useState(null)
 
-    useEffect(() => {
-        if (localStorage.getItem('id') !== null) {
-            axios.post('http://localhost:3001/get-user', { id: localStorage.getItem('id') }).then((res) => {
-                setUser(res.data)
-                // console.log(user) // this is null fix it @Jireh
-                // console.log(res.data)
-            })
-        }
-    }, [])
+  useEffect(() => {
+    if (localStorage.getItem('id') !== null) {
+      axios.post('http://localhost:3001/get-user', { id: localStorage.getItem('id') }).then((res) => {
+        setUser(res.data)
+        // console.log(user) // this is null fix it @Jireh
+        // console.log(res.data)
+      })
+    }
 
-    return (
-        <Router>
-            {/*{console.log(user.user_name)}*/}
-            <Header setUser={setUser} />
-            {/*<SimpleNav />*/}
-            <Navbar LoggedIn={user} />
+    axios.post('http://localhost:3001/get-schools').then((res) => {
+      if (res.status === 200) {
+        setSchools(res.data)
+        // console.log(res.data)
+      }
+    })
+  }, [])
 
-            <Routes>
-                {/* <Route path="/" element={<TestPage1 />} /> */}
-                <Route path="/" element={<Home />} />
-                <Route path="/testpage2" element={<TestPage2 />} />
-                <Route path="/user-list" element={<UserList />} />
-                <Route path="/create-ad" element={<CreateAd2 />} />
-                <Route path="/ShowAd" element={<ShowAds />} />
-                <Route path="/ViewAd" element={<ViewAd />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/favorites" element={<FavoriteAds />} />
-                {/* <Route path='/signup' element={<SignupForm />} /> */}
-            </Routes>
-            {/* <CreateUserComponent /> */}
-            {/*<Header setUser={setUser} />*/}
-            {/*{user !== null && <Edit user={user} setUser={setUser} />}*/}
-            {/* <Home user={user} /> */}
-        </Router>
-    )
+  return (
+    <Router>
+      {/*{console.log(user.user_name)}*/}
+      <Header user={user} setUser={setUser} schools={schools} />
+      {/*<SimpleNav />*/}
+      <Navbar LoggedIn={user} />
+
+      <Routes>
+        {/* <Route path="/" element={<TestPage1 />} /> */}
+        <Route path="/" element={<Home />} />
+        <Route path="/testpage2" element={<TestPage2 />} />
+        <Route path="/user-list" element={<UserList />} />
+        <Route path="/create-ad" element={<CreateAd2 />} />
+        <Route path="/ShowAd" element={<ShowAds />} />
+        <Route path="/ViewAd" element={<ViewAd />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/favorites" element={<FavoriteAds />} />
+        {/* <Route path='/signup' element={<SignupForm />} /> */}
+      </Routes>
+      {/* <CreateUserComponent /> */}
+      {/*<Header setUser={setUser} />*/}
+      {/*{user !== null && <Edit user={user} setUser={setUser} />}*/}
+      {/* <Home user={user} /> */}
+    </Router>
+  )
 }
 
 export default App
