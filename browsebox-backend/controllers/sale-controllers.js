@@ -32,7 +32,6 @@ exports.makeSale = (req, res, next) => {
             "message" : "added to database",
             "sale_id": rows[0].sale_id
           })
-          console.log(rows[0].id)
         })
 
         
