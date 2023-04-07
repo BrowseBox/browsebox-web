@@ -131,24 +131,49 @@ exports.updateUser = (req, res, next) => {
   let id = req.body.id
   let school = req.body.school
 
-  // run checks check
-  if (
-    !check.checkUsername(user_name) ||
-    !check.checkEmail(user_email)
-  ) {
-    res.status(500).send('Bad data. Some field is null, blank or has bad characters.')
-  } else {
+    // start query and values
+    let query = "UPDATE users SET ";
+    let values = [];
+
+    // add to query and values based on filled out fields
+    if (user_name != undefined && user_name != null && user_name != "") {
+      query += "user_name = ?, ";
+      values.push(user_name);
+    }
+
+    if (user_email != undefined && user_email != null && user_email != "") {
+      query += "user_email = ?, ";
+      values.push(user_email);
+    }
+
+    if (user_img != undefined && user_img != null && user_img != "") {
+      query += "user_img = ?, ";
+      values.push(user_img);
+    }
+
+    if (user_password != undefined && user_password != null && user_password != "") {
+      query += "user_password = ?, ";
+      values.push(user_password);
+    }
+
+    if (school != undefined && school != null && school != "") {
+      query += "school_id = ?, ";
+      values.push(school);
+    }
+
+    // remove last comma
+    let lastIndex = query.lastIndexOf(",");
+    query = query.slice(0, lastIndex) + query.slice(lastIndex + 1);
 
 
     // update user
-    db.execute('update users set user_name = ?, user_email = ?, user_password = ? , user_img = ? where user_id=?, school_id=?', [
-      user_name,
-      user_email,
-      user_password,
-      user_img,
-      id,
-      school,
-    ])
+    if (values.length > 0) {
+
+      // finish query and add sale id
+      query += "WHERE user_id = ?";
+      values.push(id);
+
+      db.execute(query, values)
       .then((results) =>
         res.status(200).send({
           user_name: user_name,
@@ -161,9 +186,12 @@ exports.updateUser = (req, res, next) => {
       .catch((err) => {
         res.status(500).send(err)
       })
+    } else {
+      res.status(500).send("No new data was entered");
+    }
 
 
-  }
+  
 
   
 }
