@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box, Divider, Modal } from '@mui/material'
-import SignupForm from './SignupForm'
+import EditForm from './EditForm'
 
-export default function SignupModal(props) {
-  const { openSignupModal, handleCloseSignupModal, schools } = props
+export default function EditModal(props) {
+  const { openEditModal, handleCloseEditModal, user, setUser } = props
 
   const style = {
     position: 'absolute',
@@ -19,11 +19,11 @@ export default function SignupModal(props) {
 
   return (
     <>
-      <Modal open={openSignupModal} onClose={handleCloseSignupModal}>
+      <Modal open={openEditModal} onClose={handleCloseEditModal}>
         <Box sx={style}>
-          <h2>Sign up</h2>
+          <h2>Edit Profile</h2>
           <Divider />
-          <SignupForm handleCloseSignupModal={handleCloseSignupModal} schools={schools} />
+          <EditForm user={user} setUser={setUser} handleCloseEditModal={handleCloseEditModal} />
         </Box>
       </Modal>
     </>
