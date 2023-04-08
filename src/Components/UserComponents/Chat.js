@@ -1,4 +1,4 @@
-// Chat.js
+
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import { Container, Paper, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, TextField, Button } from '@mui/material';
@@ -147,4 +147,5 @@ const Chat = () => {
 };
 
 export default Chat;
+
 

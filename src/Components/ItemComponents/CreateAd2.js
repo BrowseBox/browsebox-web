@@ -17,6 +17,7 @@ import background from '../../Media/fabric.jpg';
 
 
 
+
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     description: Yup.string().required('Description is required'),
@@ -30,11 +31,44 @@ const CreateAd2 = () => {
 
     // Added this to store the name to Id mapping
     const [catNameToIdMap, setCatNameToIdMap] = useState({});
-
+    // const placeholderImage = 'https://via.placeholder.com/150';
 
     const handleImageChange = (image) => {
         setImage(image);
     };
+
+    const sendImage = (listingid) => {
+        const formData = new FormData();
+        // formData.append('type', 'listing');
+        formData.append('id', listingid);
+        formData.append('image', image);
+        formData.append('index', 1)
+        // alert (listingingid.values.salesId+" "+FormData.id);
+        //alert(listingingid + " " + formData.get("id"));
+        axios
+            // .post('http://52.13.116.107:7355/api/image/upload ', formData)
+            .post('http://52.13.116.107:7355/api/image/upload/listing', formData)
+            .then((res) => {
+                if (res.status === 200) {
+                    // alert("in AWS")
+                    // console.log(res.data.imageUrl);
+                    // setImage(res.data.imageUrl);
+                    // console.log("Sending image 2"+listingid+" "+" "+image+" "+res.data.imageUrl);
+                    // alert("Sending image 2"+listingid+" "+res.data.imgUrl);
+                    updateImageInMainDatabase(listingid, res.data.imageUrl);
+                }
+            })
+            .catch((err) => console.log(err));
+    }
+
+    const updateImageInMainDatabase = (sale_id, imageUrl) => {
+        console.log("Sending image 3 "+sale_id+" "+" "+image+" "+imageUrl);
+        axios.post('http://localhost:3001/update-sale', { id: sale_id, img: imageUrl })
+            .then((res) => {
+
+                console.log(res);
+            })
+    }
 
     // This is when it is changed or better yet just before it is submitted
     // const handleCategoryChange = (selectedCatName) => {
@@ -60,7 +94,7 @@ const CreateAd2 = () => {
         onSubmit: async (values, { resetForm }) => {
             // This is where I would add the image to the values object
             // As well the user id is hard set when it should be soft
-            values.image = image;
+            // values.image = image;
             // values.id = 1;
             // get id from local storage
             values.id = localStorage.getItem('id');
@@ -73,18 +107,36 @@ const CreateAd2 = () => {
             // handleCategoryChange(values.category)
             values.catId = catNameToIdMap[values.category];
 
+            // if (image == null) {
+            //     setImage(placeholderImage);
+            // }
+            // console.log(values);
+            // sendImage(values.sale_id, image);
+            // values.image = image;
 
-            alert("submitting");
             axios
                 .post('http://localhost:3001/add-sale', values)
                 .then((res) => {
-                    if (res.status === 200) {
-                        alert('Item successfully created');
+                    if (res.status === 200)  {
+                        // console.log (res.data[0].sale_id);
+                        //
+                        if (image != null) {
+                            sendImage(res.data.sale_id);
+                        }
+                        // updateImageInMainDatabase(res.data[0].sale_id);
+                        // values.image = image;
+
+
+
+
                         resetForm();
                         setImage(null);
+                        // go to home page
+                        window.location.href = '/';
+
                     } else Promise.reject();
                 })
-                .catch((err) => alert('Something went wrong'));
+                .catch((err) => alert(`Something went wrong: ${err.message}`));
         },
     });
 
@@ -126,6 +178,10 @@ const CreateAd2 = () => {
             {cat_name}
         </MenuItem>
     ));
+
+    const handleCancelClick = () => {
+        window.location.href = '/';
+    };
 
     return (
         <div id="MainBody">
@@ -249,9 +305,10 @@ const CreateAd2 = () => {
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                type="submit"
+                                type="reset"
                                 id="create-bk-btn"
                                 sx={{ marginTop: 2 }}
+                                onClick={handleCancelClick}
                             >
                                 Cancel
                             </Button>
