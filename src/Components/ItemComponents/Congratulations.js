@@ -17,7 +17,7 @@ const ModalContent = styled.div`
     max-width: 100%;
 `;
 
-const Congratulations = ({ trigger, onClose, id, image }) => {
+const Congratulations = ({ trigger, onClose, id }) => {
     const [open, setOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
 
