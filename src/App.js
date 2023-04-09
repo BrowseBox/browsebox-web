@@ -7,7 +7,7 @@ import SignupForm from './pages/Signup/SignupForm'
 import Home from './pages/Home/Home'
 import ShowAds from './Components/ItemComponents/ShowAds'
 import ViewAd from './Components/ItemComponents/ViewAd'
-
+import ShowSearchedAds from './Components/ItemComponents/ShowSearchedAds'
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
@@ -58,6 +58,7 @@ function App() {
         <Route path="/ViewAd" element={<ViewAd />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/favorites" element={<FavoriteAds />} />
+        <Route path ="/searched" element={<ShowSearchedAds/>} />
         {/* <Route path='/signup' element={<SignupForm />} /> */}
       </Routes>
       {/* <CreateUserComponent /> */}
