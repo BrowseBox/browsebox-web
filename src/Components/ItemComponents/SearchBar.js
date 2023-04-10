@@ -4,6 +4,7 @@ import { InputAdornment, TextField} from '@mui/material'
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from 'react-icons/fa'
 import HandleSearch from "./HandleSearch";
+import ShowSearchedAds from "./ShowSearchedAds";
 
 
 const SearchBar = () => {

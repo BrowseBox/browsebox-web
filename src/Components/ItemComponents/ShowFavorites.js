@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Typography} from "@mui/material";
 
 const ShowAds = () => {
-    // const id = 1;
+
     const id = localStorage.getItem('id');
 
     const [ads, setAds] = useState([]);
@@ -14,6 +14,7 @@ const ShowAds = () => {
             .post('http://localhost:3001/get-sales', { id })
             .then((res) => {
                 setAds(res.data);
+                // console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);

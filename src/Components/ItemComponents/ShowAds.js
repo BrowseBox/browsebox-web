@@ -14,6 +14,7 @@ const ShowAds = () => {
             .post('http://localhost:3001/get-sales', { id })
             .then((res) => {
                 setAds(res.data);
+                // console.log(id)
             })
             .catch((err) => {
                 console.log(err);

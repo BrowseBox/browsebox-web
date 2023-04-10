@@ -5,8 +5,6 @@ import { useState } from 'react'
 import SignupModal from '../Signup/SignupModal'
 import LoginModal from '../Login/LoginModal'
 import EditModal from '../Edit/EditModal'
-import { setIn } from 'formik'
-import ShowSearchedAds from '../../Components/ItemComponents/ShowSearchedAds'
 import SearchBar from '../../Components/ItemComponents/SearchBar'
 
 export default function Header(props) {
