@@ -4,11 +4,11 @@ import Ad from './AdList';
 import axios from 'axios';
 
 
-const ShowSearchedAds = (props) => {
+const ShowSearchedAds = () => {
 
-    const keyword = props.prompt;
-    // console.log(keyword)
-
+    const keyword = localStorage.getItem("input");
+    // console.log(input)
+    const id = localStorage.getItem("id")
     const [ads, setAds] = useState([]);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const ShowSearchedAds = (props) => {
             .post('http://localhost:3001/search-sale', { keyword })
             .then((res) => {
                 setAds(res.data);
-                console.log(keyword)
+                console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);

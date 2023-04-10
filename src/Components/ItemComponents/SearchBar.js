@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react'
 import { InputAdornment, TextField} from '@mui/material'
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from 'react-icons/fa'
-import HandleSearch from "./HandleSearch";
-import ShowSearchedAds from "./ShowSearchedAds";
 
 
 const SearchBar = () => {
@@ -14,7 +12,7 @@ const SearchBar = () => {
 
   const handleSearch = (event) =>{
     setInput(event.target.value) 
-    
+    localStorage.setItem("input", input);
   }
 
   const handleClick = () => {
@@ -38,7 +36,6 @@ const SearchBar = () => {
           onChange={handleSearch}
         />
         <button onClick={handleClick}>Find</button>
-        <HandleSearch input={input}/>
     </header>
     
    )
