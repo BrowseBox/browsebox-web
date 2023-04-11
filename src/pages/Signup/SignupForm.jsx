@@ -7,7 +7,7 @@ import { createAvatar } from '@dicebear/core'
 import { initials } from '@dicebear/collection'
 
 export default function SignupForm(props) {
-  const { handleCloseSignupModal, schools } = props
+  const { handleCloseSignupModal } = props
   // const [schools, setSchools] = React.useState([])
 
   // React.useEffect(() => {
@@ -104,14 +104,6 @@ export default function SignupForm(props) {
           fullWidth
           style={textFieldStyle}
         />
-        <InputLabel id="select-label">Schools</InputLabel>
-        <Select labelId="select-label" label="Schools">
-          {schools.map((school) => (
-            <MenuItem key={school.id} value={school.id}>
-              {school.name}
-            </MenuItem>
-          ))}
-        </Select>
         <Button
           variant="contained"
           fullWidth
