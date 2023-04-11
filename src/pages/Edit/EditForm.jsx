@@ -1,11 +1,21 @@
 import React from 'react'
 import * as Yup from 'yup'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, MenuItem, Select, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import axios from 'axios'
 
 export default function EditForm(props) {
   const { user, setUser } = props
+  const [schools, setSchools] = React.useState([])
+
+  React.useEffect(() => {
+    axios.post('http://localhost:3001/get-schools').then((res) => {
+      if (res.status === 200) {
+        setSchools(res.data)
+        // console.log(res.data)
+      }
+    })
+  }, [])
   console.log(user)
 
   // check if this is needed @Jireh
@@ -31,22 +41,15 @@ export default function EditForm(props) {
       password: user.user_password,
       id: localStorage.getItem('id'),
       img: user.user_img,
+      school_id: '',
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      // axios.post('http://localhost:3001/update-user', values).then((res) => {
-      //   a
-      //   setUser(res)
-      //   // console.log(res)
-      // })
       axios.post('http://localhost:3001/update-user', values).then((res) => {
         if (res.status === 200) {
           setUser(res.data)
-          // console.log(res.data)
         }
       })
-
-      // console.log(values)
     },
   })
 
@@ -97,6 +100,17 @@ export default function EditForm(props) {
                 fullWidth
                 style={textFieldStyle}
               />
+              <Select
+                label="School"
+                name="school"
+                value={formik.values.school_id}
+                onChange={formik.handleChange}
+                variant="outlined"
+                fullWidth>
+                {schools.map((school) => (
+                  <MenuItem value={school.school_id}>{school.school_name}</MenuItem>
+                ))}
+              </Select>
               <Button
                 variant="contained"
                 fullWidth
