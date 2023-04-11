@@ -16,7 +16,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './Components/AdminDashboard/AdminDashboard'
 import CreateAd2 from './Components/ItemComponents/CreateAd2'
 import Navbar from './Components/ItemComponents/Navbar'
-import Chat from './Components/UserComponents/Chat'
+import Chatpage from "./Components/ChatComponents/Chatpage"
+import ChatProvider from "./Components/ChatComponents/ChatProvider"
 import FavoriteAds from './Components/ItemComponents/ShowFavorites'
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <Router>
+        <ChatProvider>
       {/*{console.log(user.user_name)}*/}
       <Header user={user} setUser={setUser} schools={schools} />
       {/*<SimpleNav />*/}
@@ -56,7 +58,7 @@ function App() {
         <Route path="/create-ad" element={<CreateAd2 />} />
         <Route path="/ShowAd" element={<ShowAds />} />
         <Route path="/ViewAd" element={<ViewAd />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<Chatpage />} />
         <Route path="/favorites" element={<FavoriteAds />} />
         {/* <Route path='/signup' element={<SignupForm />} /> */}
       </Routes>
@@ -64,6 +66,7 @@ function App() {
       {/*<Header setUser={setUser} />*/}
       {/*{user !== null && <Edit user={user} setUser={setUser} />}*/}
       {/* <Home user={user} /> */}
+        </ChatProvider>
     </Router>
   )
 }
