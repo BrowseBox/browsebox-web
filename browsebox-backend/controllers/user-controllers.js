@@ -92,14 +92,13 @@ exports.getUserData = (req, res, next) => {
   db.execute('SELECT * FROM users where user_id=?', [id]).then(([rows, fieldData]) => {
 
     if (rows[0] != null && rows[0] !== undefined) {
-
       res.status(200).send({
         user_name: rows[0].user_name,
         user_email: rows[0].user_email,
         user_rating: rows[0].user_rating,
         user_img: rows[0].user_img,
         isActive: rows[0].isActive,
-        school: getSchoolData(rows[0].school_id),
+        school: rows[0].school_id
       })
 
     }
@@ -202,7 +201,7 @@ exports.updateUser = (req, res, next) => {
  */
 exports.getSchools = (req, res, next) => {
 
-  // get all filters
+  // get all schools
   db.execute('SELECT * FROM browsebox.schools')
     .then(([rows, fields]) => {
       res.status(200).send(rows);
@@ -216,20 +215,16 @@ exports.getSchools = (req, res, next) => {
 /**
  * Get school data
  */
-function getSchoolData(ID) {
+exports.getSchoolData = (req, res, next) => {
 
-  if (ID !== undefined || ID !== null) {
+  let ID = req.body.school_id;
 
-    db.execute('SELECT * FROM browsebox.schools WHERE school_id=?', [ID])
+  db.execute('SELECT * FROM browsebox.schools WHERE school_id=?', [ID])
     .then(([rows, fields]) => {
-      return rows[0]
+      res.status(200).send(rows);
     })
     .catch(err => {
-      return null
+      res.status(500).send(err);
     });
-
-  }
-
-  
 
 }
