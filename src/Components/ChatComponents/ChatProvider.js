@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 const ChatContext = createContext();
 
@@ -8,6 +9,7 @@ const ChatProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [notification, setNotification] = useState([]);
     const [chats, setChats] = useState();
+    const [socket, setSocket] = useState(null);
 
     const navigate = useNavigate();
 
@@ -16,8 +18,15 @@ const ChatProvider = ({ children }) => {
         setUser(userInfo);
 
         if (!userInfo) navigate("/");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
+
+    useEffect(() => {
+        // Replace 'http://localhost:3001' with your server URL
+        const newSocket = io("http://localhost:3005");
+        setSocket(newSocket);
+
+        return () => newSocket.close();
+    }, []);
 
     return (
         <ChatContext.Provider
@@ -30,6 +39,7 @@ const ChatProvider = ({ children }) => {
                 setNotification,
                 chats,
                 setChats,
+                socket, // Add the socket here
             }}
         >
             {children}

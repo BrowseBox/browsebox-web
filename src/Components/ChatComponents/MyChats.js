@@ -6,29 +6,40 @@ import { ChatState } from './ChatProvider';
 const MyChats = ({ fetchAgain }) => {
     const [loggedUser, setLoggedUser] = useState();
 
+
     const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
     const fetchChats = async () => {
+        if (!loggedUser) return;
         try {
             const response = await axios.get(`http://localhost:3005/user/${loggedUser}/conversations`);
 
             const chatDataPromises = response.data.map(async (conversation) => {
-                const adResponse = await axios.post('http://localhost:3001/sale', { id: conversation.sale_id });
-                const ad = adResponse.data[0];
-
                 const otherUserId = conversation.user1_id === loggedUser ? conversation.user2_id : conversation.user1_id;
-                const userResponse = await axios.get(`http://localhost:3005/users/${otherUserId}`);
-                const otherUser = userResponse.data;
+                const [otherUserResponse, adResponse] = await Promise.all([
+                    axios.post('http://localhost:3001/get-user', { id: otherUserId }),
+                    // axios.get(`http://localhost:3005/ad/${conversation.ad_id}`),
+                    axios.post(`http://localhost:3001/sale`, { id: conversation.sale_id })
+
+                ]);
+
+                const otherUser = otherUserResponse.data;
+                const ad = adResponse.data;
+
 
                 return {
                     conversationId: conversation.conversation_id,
                     itemName: ad.sale_name,
-                    otherUserName: otherUser.name,
+                    itemImage: ad.sale_image, // Assuming the image url is stored as 'image_url'
+                    otherUserName: otherUser.user_name,
                 };
             });
 
             const chatData = await Promise.all(chatDataPromises);
+            console.log('Final chat data:', chatData);
+            console.log('Chats:', chats)
             setChats(chatData);
+            console.log('Chats:', chats)
         } catch (error) {
             console.error(`Error fetching conversations for user ${loggedUser}: `, error);
         }
@@ -36,9 +47,11 @@ const MyChats = ({ fetchAgain }) => {
 
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem('id')));
+    }, []);
 
+    useEffect(() => {
         fetchChats();
-    }, [fetchAgain]);
+    }, [loggedUser, fetchAgain]);
 
     return (
         <Box
@@ -93,11 +106,12 @@ const MyChats = ({ fetchAgain }) => {
                                         py: 2,
                                         borderRadius: 'lg',
                                     }}
-                                    key={chat.conversation_id} // Update the key to use conversation_id
+                                    key={chat.conversationId}
                                 >
                                     <Typography>
-                                        {loggedUser === chat.user1_id ? chat.user2_name : chat.user1_name} - {chat.itemName}
+                                        {chat.otherUserName} - {chat.itemName}
                                     </Typography>
+                                    <img src={chat.itemImage} alt={chat.itemName} style={{ width: '100px', height: 'auto' }} />
                                 </Box>
                             ))}
                         </Stack>
@@ -111,5 +125,3 @@ const MyChats = ({ fetchAgain }) => {
 };
 
 export default MyChats;
-
-

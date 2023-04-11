@@ -1,29 +1,29 @@
 const db = require("../util/datapool");
 
-/**
- * Create a new conversation between two users
- */
-exports.createConversation = async (req, res, next) => {
-    const user1_id = req.body.user1_id;
-    const user2_id = req.body.user2_id;
-    const sale_id = req.body.sale_id;
-
-    if (user1_id === undefined || user2_id === undefined || sale_id === undefined) {
-        res.status(400).send("Bad request. One or more required parameters are missing or undefined.");
-        return;
-    }
-
-    try {
-        const result = await db.execute(
-            "INSERT INTO browsebox.conversations (user1_id, user2_id, sale_id) VALUES (?, ?, ?)",
-            [user1_id, user2_id, sale_id]
-        );
-        const conversationId = result[0].insertId;
-        res.status(201).json({ message: "Conversation created successfully.", conversation_id: conversationId });
-    } catch (err) {
-        res.status(500).send(err);
-    }
-};
+// /**
+//  * Create a new conversation between two users
+//  */
+// exports.createConversation = async (req, res, next) => {
+//     const user1_id = req.body.user1_id;
+//     const user2_id = req.body.user2_id;
+//     const sale_id = req.body.sale_id;
+//
+//     if (user1_id === undefined || user2_id === undefined || sale_id === undefined) {
+//         res.status(400).send("Bad request. One or more required parameters are missing or undefined.");
+//         return;
+//     }
+//
+//     try {
+//         const result = await db.execute(
+//             "INSERT INTO browsebox.conversations (user1_id, user2_id, sale_id) VALUES (?, ?, ?)",
+//             [user1_id, user2_id, sale_id]
+//         );
+//         const conversationId = result[0].insertId;
+//         res.status(201).json({ message: "Conversation created successfully.", conversation_id: conversationId });
+//     } catch (err) {
+//         res.status(500).send(err);
+//     }
+// };
 
 /**
  * Fetch all conversations for a user

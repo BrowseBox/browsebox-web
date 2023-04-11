@@ -19,6 +19,8 @@ import Dashboard from './Components/AdminDashboard/AdminDashboard'
 import CreateAd2 from "./Components/ItemComponents/CreateAd2";
 import Navbar from "./Components/ItemComponents/Navbar";
 import Chatpage from "./Components/ChatComponents/Chatpage";
+import ChatProvider from "./Components/ChatComponents/ChatProvider";
+
 
 import FavoriteAds from "./Components/ItemComponents/ShowFavorites";
 
@@ -38,6 +40,7 @@ function App() {
 
     return (
         <Router>
+            <ChatProvider>
             {/*{console.log(user.user_name)}*/}
             <Header setUser={setUser} />
             {/*<SimpleNav />*/}
@@ -59,6 +62,7 @@ function App() {
             {/*<Header setUser={setUser} />*/}
             {/*{user !== null && <Edit user={user} setUser={setUser} />}*/}
             {/* <Home user={user} /> */}
+                </ChatProvider>
         </Router>
     )
 }
