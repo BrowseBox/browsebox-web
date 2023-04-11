@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 
@@ -21,8 +21,12 @@ const ImagePreview = styled.img`
   max-height: 100%;
 `;
 
-const PictureBox = ({ onImageChange }) => {
+const PictureBox = ({ initialImage, onImageChange }) => {
     const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        setImage(initialImage);
+    }, [initialImage]);
 
     const onDrop = useCallback((acceptedFiles) => {
         if (acceptedFiles.length === 0) return;

@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`owner`				    INT 		    NOT NULL,
 	`sale_description`   	VARCHAR(100),
 	`sale_price` 		DOUBLE(7,2),
-	`sale_image`		VARCHAR(100),
+	`sale_image`		VARCHAR(500),
 	`sale_date`			TIMESTAMP DEFAULT NOW(),
 	`cat_id`			INT,
 	PRIMARY KEY (`sale_id`),
@@ -109,6 +109,54 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 );
+
+-- ----------------------------------------
+-- Table Conversations
+-- ----------------------------------------
+CREATE TABLE IF NOT EXISTS `browsebox`.`conversations` (
+        `conversation_id`    INT             NOT NULL AUTO_INCREMENT,
+        `user1_id`           INT             NOT NULL,
+        `user2_id`           INT             NOT NULL,
+        `sale_id`            INT             NOT NULL,
+        PRIMARY KEY (`conversation_id`),
+    CONSTRAINT `fk_conversations_user1`
+    FOREIGN KEY (`user1_id`)
+    REFERENCES `browsebox`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_conversations_user2`
+    FOREIGN KEY (`user2_id`)
+    REFERENCES `browsebox`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_conversations_sales`
+    FOREIGN KEY (`sale_id`)
+    REFERENCES `browsebox`.`sales` (`sale_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    );
+
+-- ----------------------------------------
+-- Table Messages
+-- ----------------------------------------
+CREATE TABLE IF NOT EXISTS `browsebox`.`messages` (
+        `message_id`         INT             NOT NULL AUTO_INCREMENT,
+        `conversation_id`    INT             NOT NULL,
+        `speaker_id`         INT             NOT NULL,
+        `message_content`    TEXT            NOT NULL,
+        `message_timestamp`  TIMESTAMP       DEFAULT NOW(),
+    PRIMARY KEY (`message_id`),
+    CONSTRAINT `fk_messages_conversations`
+    FOREIGN KEY (`conversation_id`)
+    REFERENCES `browsebox`.`conversations` (`conversation_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_messages_speaker`
+    FOREIGN KEY (`speaker_id`)
+    REFERENCES `browsebox`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    );
 
 -- GRANT ALL PRIVILEGES ON * . * TO 'browsebox'@'localhost';
 -- FLUSH PRIVILEGES;
