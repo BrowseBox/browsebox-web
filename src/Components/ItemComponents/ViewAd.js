@@ -79,9 +79,6 @@ const ViewAd = ({ adId }) => {
                 <Typography>Condition: {ad.condition}</Typography>
                 <Typography>Price: ${ad.price}</Typography>
                 <Typography>Description: {ad.description}</Typography>
-                <Typography>Postal Code: {ad.postalCode}</Typography>
-                <Typography>Email: {ad.email}</Typography>
-                <Typography>Phone: {ad.phone}</Typography>
             </Details>
             {/*<ChatButton onClick={openChat} color="primary">*/}
             {/*    <ChatIcon />*/}
