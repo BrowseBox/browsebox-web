@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	`owner`				    INT 		    NOT NULL,
 	`sale_description`   	VARCHAR(100),
 	`sale_price` 		DOUBLE(7,2),
-	`sale_image`		VARCHAR(100),
+	`sale_image`		VARCHAR(500),
 	`sale_date`			TIMESTAMP DEFAULT NOW(),
 	`cat_id`			INT,
 	PRIMARY KEY (`sale_id`),
