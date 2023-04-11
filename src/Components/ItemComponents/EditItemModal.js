@@ -39,7 +39,8 @@ const EditItemModal = ({ trigger, onClose, id }) => {
     // Added this to store the name to Id mapping
     const [catNameToIdMap, setCatNameToIdMap] = useState({});
     const [formValuesLoaded, setFormValuesLoaded] = useState(false);
-
+    let imageHasChanged = false;
+    const [selectedFile, setSelectedFile] = useState(null);
     const [Ad, setAd] = useState({});
     const [initialValues, setInitialValues] = useState({
         id: '',
@@ -52,17 +53,49 @@ const EditItemModal = ({ trigger, onClose, id }) => {
         catId: '',
     });
 
-    const handleImageChange = (image) => {
-        setImage(image);
+    const handleImageChange = (imageFile) => {
+        if (imageFile) {
+            setSelectedFile(imageFile);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(imageFile);
+        } else {
+            setImage(null);
+            setSelectedFile(null);
+        }
     };
+
+    const updateImageInMainDatabase = (sale_id, imageUrl) => {
+        axios.post('http://localhost:3001/update-sale', { id: sale_id, img: imageUrl })
+            .then((res) => {
+
+                console.log(res);
+            })
+    }
 
     const { handleSubmit, handleChange, values, errors, resetForm, setValues } = useFormik({
         initialValues: initialValues,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            axios.post('http://localhost:3001/update-sale', {id: values.id, saleName: values.title, description: values.description, price: values.price, catId: catNameToIdMap[values.category], image: image})
+            axios.post('http://localhost:3001/update-sale', {id: values.id, saleName: values.title, description: values.description, price: values.price, catId: catNameToIdMap[values.category]})
                 .then((res) => {
-                    console.log(res);
+
+                    // if (imageHasChanged) {
+                        const formData = new FormData();
+                        formData.append('id', values.id);
+                        formData.append('index', 1);
+                        formData.append('image', selectedFile);
+                        axios.post('http://52.13.116.107:7355/api/image/update/listing', formData)
+                            .then((res) => {
+                                // updateImageInMainDatabase(values.id, res.data.imageUrl);
+                                console.log(res);
+                                console.log(res.data);
+                                alert('Image updated successfully');
+                            })
+                            // }
                     // close modal
                     onClose();
                 })
@@ -88,6 +121,7 @@ const EditItemModal = ({ trigger, onClose, id }) => {
     // }, []);
 
     useEffect(() => {
+        if (open && !formValuesLoaded) {
         axios
             .post('http://localhost:3001/get-filters')
             .then((res) => {
@@ -102,7 +136,8 @@ const EditItemModal = ({ trigger, onClose, id }) => {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+        }
+    }, [open, formValuesLoaded]);
 
     useEffect(() => {
         if (open && !formValuesLoaded) {
@@ -110,18 +145,23 @@ const EditItemModal = ({ trigger, onClose, id }) => {
             .then((res) => {
                 setAd(res.data[0]);
                 // alert ("original id:"+id + " res.data.id:"+res.data[8].id);
-                console.log(res.data[0]);
-                console.log(Ad.sale_name);
+                // console.log(res.data[0]);
+                // console.log(Ad.sale_name);
 
 
                 setInitialValues({
                     id: res.data[0].sale_id,
                     title: res.data[0].sale_name,
                     description: res.data[0].sale_description,
-                    image: res.data[0].sale_image || 'https://www.slashgear.com/img/gallery/apple-macbook-pro-16-inch-review-after-5-months-im-convinced/l-intro-1646069705.jpg',
+                    image: res.data[0].sale_image,
                     price: res.data[0].sale_price,
                     category: res.data[0].cat_name,
                 });
+
+                // console.log(res.data[0].sale_image);
+                setImage(res.data[0].sale_image);
+                console.log(res.data[0].sale_image);
+
             })
             .catch((err) => {
                 console.log(err);
@@ -206,8 +246,9 @@ const EditItemModal = ({ trigger, onClose, id }) => {
                         </Typography>
 
                         <PictureBox
-                            onImageChange={handleImageChange}
                             initialImage={image}
+                            onImageChange={handleImageChange}
+
                         />
                     </form>
                 </DialogContent>

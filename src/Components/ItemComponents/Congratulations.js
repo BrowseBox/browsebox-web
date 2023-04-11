@@ -37,10 +37,25 @@ const Congratulations = ({ trigger, onClose, id }) => {
     const handleRemoveItem = () => {
         //remove item with axios
         //alert ("removing item" + id)
+
         axios.post(`http://localhost:3001/delete-sale`, { id: id })
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                // console.log(res);
+                // console.log(res.data);
+
+                if (image !== "") {
+                    const formData = new FormData();
+                    formData.append('id', id);
+                    formData.append('index', 1);
+
+                    axios.post(`http://52.13.116.107:7355/api/image/delete/listing`, formData)
+                        .then(res => {
+                            // console.log(res);
+                            // console.log(res.data);
+                            // alert('Image deleted successfully');
+                        })
+                }
+
                // alert({id} + " has been deleted");
             })
 
