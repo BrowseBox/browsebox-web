@@ -36,8 +36,8 @@ exports.makeSale = (req, res, next) => {
           res.status(500).send(err)
         })
 
-        
-        
+
+
       ))
       .catch(err => {
         res.status(500).send(err)
@@ -203,7 +203,7 @@ exports.updateSale = (req, res, next) => {
   // remove last comma
   let lastIndex = query.lastIndexOf(",");
   query = query.slice(0, lastIndex) + query.slice(lastIndex + 1);
-  
+
   // if there are values that are not null or undefined, excute
   if (values.length > 0) {
 
@@ -275,3 +275,4 @@ exports.getFilters = (req, res, next) => {
     });
 
 }
+

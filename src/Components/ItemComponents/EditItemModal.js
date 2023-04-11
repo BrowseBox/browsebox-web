@@ -121,6 +121,7 @@ const EditItemModal = ({ trigger, onClose, id }) => {
     // }, []);
 
     useEffect(() => {
+        if (open && !formValuesLoaded) {
         axios
             .post('http://localhost:3001/get-filters')
             .then((res) => {
@@ -135,7 +136,8 @@ const EditItemModal = ({ trigger, onClose, id }) => {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+        }
+    }, [open, formValuesLoaded]);
 
     useEffect(() => {
         if (open && !formValuesLoaded) {

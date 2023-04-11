@@ -63,7 +63,7 @@ const CreateAd2 = () => {
 
     const updateImageInMainDatabase = (sale_id, imageUrl) => {
         console.log("Sending image 3 "+sale_id+" "+" "+image+" "+imageUrl);
-        axios.post('http://localhost:3001/update-sale', { id: sale_id, img: imageUrl })
+        axios.post('http://localhost:3000/update-sale', { id: sale_id, img: imageUrl })
             .then((res) => {
 
                 console.log(res);

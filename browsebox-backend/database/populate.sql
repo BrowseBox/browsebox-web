@@ -20,3 +20,4 @@ insert into browsebox.sales(owner, sale_name, sale_description, sale_price, cat_
 
 
 insert into browsebox.favorites(user_id, sale_id) values (1, 2);
+

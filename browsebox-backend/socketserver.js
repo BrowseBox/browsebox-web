@@ -1,55 +1,64 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
+const chatRoutes = require("./routes/chatRoutes");
+const path = require("path");
+
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "*", // Replace this with your React app's domain in production
-        methods: ["GET", "POST"]
-    }
-});
+app.use(cors());
+app.use(express.json()); // to accept json data
+
+// app.get("/", (req, res) => {
+//   res.send("API Running!");
+// });
+
+app.use(chatRoutes)
+
+
 
 const PORT = process.env.PORT || 3005;
 
-// Store user sockets (key: userId, value: socket.id)
-const userSockets = new Map();
+const server = app.listen(
+    PORT,
+    console.log(`Server running on PORT ${PORT}...`)
+);
 
-app.use(cors());
+const io = require("socket.io")(server, {
+    pingTimeout: 60000,
+    cors: {
+        origin: "http://localhost:3000",
+        // credentials: true,
+    },
+});
 
-io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
-
-    // Authenticate the user and store their socket ID
-    socket.on('authenticate', (userId) => {
-        userSockets.set(userId, socket.id);
-        console.log(`User authenticated: ${userId} with socket ID: ${socket.id}`);
+io.on("connection", (socket) => {
+    console.log("Connected to socket.io");
+    socket.on("setup", (userData) => {
+        socket.join(userData._id);
+        socket.emit("connected");
     });
 
-    // Handle incoming messages and broadcast to other users
-    socket.on('sendMessage', (message) => {
-        console.log('Received message:', message);
-        // Find the recipient's socket.id and emit the message to them
-        // Assuming only two users are chatting, you can adjust this logic to handle multiple users
-        userSockets.forEach((recipientSocketId, userId) => {
-            if (userId !== message.sender) {
-                io.to(recipientSocketId).emit('newMessage', message);
-            }
+    socket.on("join chat", (room) => {
+        socket.join(room);
+        console.log("User Joined Room: " + room);
+    });
+    socket.on("typing", (room) => socket.in(room).emit("typing"));
+    socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
+    socket.on("new message", (newMessageRecieved) => {
+        var chat = newMessageRecieved.chat;
+
+        if (!chat.users) return console.log("chat.users not defined");
+
+        chat.users.forEach((user) => {
+            if (user._id == newMessageRecieved.sender._id) return;
+
+            socket.in(user._id).emit("message recieved", newMessageRecieved);
         });
     });
 
-    socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
-        // Remove the disconnected user's socket from the userSockets Map
-        const userId = [...userSockets.entries()].find(([, value]) => value === socket.id)?.[0];
-        if (userId) {
-            userSockets.delete(userId);
-        }
+    socket.off("setup", () => {
+        console.log("USER DISCONNECTED");
+        socket.leave(userData._id);
     });
-});
-
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
 });

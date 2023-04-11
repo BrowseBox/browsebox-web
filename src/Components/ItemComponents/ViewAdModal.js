@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-// import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Typography, IconButton, Dialog, DialogTitle, DialogContent } from '@mui/material';
-import axios from "axios";
+import { Typography, IconButton, Dialog, DialogTitle, DialogContent, TextField, Button } from '@mui/material';
+import axios from 'axios';
 import ChatIcon from '@mui/icons-material/Chat';
 import No_image_available from '../../Media/No_Image_Available.jpg';
 
@@ -28,14 +27,19 @@ const Details = styled.div`
     flex-direction: column;
 `;
 
-const ChatButton = styled(IconButton)`
+const ChatForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 1rem;
+    gap: 1rem;
 `;
 
 const ViewAd = ({ trigger, onClose, id }) => {
     const [ad, setAd] = useState(null);
     const [open, setOpen] = useState(false);
-
+    const [messageSent, setMessageSent] = useState(false);
+    let currentUser = JSON.parse(localStorage.getItem('id'));
 
     useEffect(() => {
         setOpen(trigger);
@@ -50,22 +54,47 @@ const ViewAd = ({ trigger, onClose, id }) => {
 
     useEffect(() => {
         if (open) {
-        axios
-            .post(`http://localhost:3001/sale`, { id: id })
-            .then((res) => {
-                setAd(res.data[0]);
-                console.log(res.data[0]);
-
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+            axios
+                .post(`http://localhost:3001/sale`, { id: id })
+                .then((res) => {
+                    setAd(res.data[0]);
+                    console.log(res.data[0]);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     }, [open, id]);
 
-    const openChat = () => {
-        // Open chatbox and send a message to the creator of the ad
+    const openChat = async (e) => {
+        e.preventDefault();
+
+        const messageText = e.target.elements[0].value;
+
+        try {
+            const conversationResponse = await axios.post('http://localhost:3005/create-conversation', {
+                user1_id: currentUser,
+                user2_id: ad.owner,
+                sale_id: ad.sale_id,
+            });
+
+            const conversationId = conversationResponse.data.conversation_id;
+
+            await axios.post('http://localhost:3005/send-message', {
+                conversation_id: conversationId,
+                speaker_id: currentUser,
+                message_content: messageText,
+            });
+
+            e.target.elements[0].value = '';
+            setMessageSent(true);
+
+            console.log('Message sent');
+        } catch (error) {
+            console.error('Error sending the message:', error);
+        }
     };
+
 
     if (!ad) {
         return <div></div>;
@@ -82,19 +111,38 @@ const ViewAd = ({ trigger, onClose, id }) => {
                 <Category variant="subtitle1">{ad.cat_name}</Category>
                 <Image src={ad.sale_image ? ad.sale_image : No_image_available} alt={ad.sale_name} />
                 <Details>
-                    {/*<Typography>Condition: {ad.condition}</Typography>*/}
                     <Typography>Price: ${ad.sale_price}</Typography>
                     <Typography>Description: {ad.sale_description}</Typography>
-                    {/*<Typography>Postal Code: {ad.postalCode}</Typography>*/}
-                    {/*<Typography>Email: {ad.email}</Typography>*/}
-                    {/*<Typography>Phone: {ad.phone}</Typography>*/}
                 </Details>
-                <ChatButton onClick={openChat} color="primary">
-                    <ChatIcon />
-                </ChatButton>
+                {currentUser !== ad.owner ? (
+                    !messageSent ? (
+                        <ChatForm onSubmit={openChat}>
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Message"
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                                fullWidth
+                            />
+                            <Button type="submit" variant="contained" color="primary">
+                                Send
+                            </Button>
+                        </ChatForm>
+                    ) : (
+                        <Typography variant="h6" color="primary" style={{ marginTop: '1rem' }}>
+                            Message sent!
+                        </Typography>
+                    )
+                ) : (
+                    <Typography variant="h6" color="primary" style={{ marginTop: '1rem' }}>
+                        This is your ad!
+                    </Typography>
+                )}
             </Container>
         </Dialog>
     );
 };
 
 export default ViewAd;
+

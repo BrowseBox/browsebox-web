@@ -104,7 +104,7 @@ exports.getUserData = (req, res, next) => {
 
     }
 
-    
+
   })
 
 }
@@ -165,7 +165,7 @@ exports.updateUser = (req, res, next) => {
 
   }
 
-  
+
 }
 
 
@@ -202,6 +202,6 @@ function getSchoolData(ID) {
 
   }
 
-  
+
 
 }

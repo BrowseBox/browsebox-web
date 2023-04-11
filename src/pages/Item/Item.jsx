@@ -1,16 +1,27 @@
-import React from 'react'
-import { Card, CardActions, CardContent, CardMedia, IconButton, Typography, Stack, CardActionArea } from '@mui/material'
+import React, {useState} from 'react'
+import { Card, CardActions, CardContent, CardMedia, IconButton, Typography, Stack, CardActionArea, Grid } from '@mui/material'
 import { FaStar } from 'react-icons/fa'
+import ViewAdModal from "../../Components/ItemComponents/ViewAdModal";
 
 export default function Item(props) {
+    const [showViewAdModalOpen, setIsViewAdModalOpen] = useState(false);
   const { item } = props
 
+    const handleIsViewAdModalOpen = () => {
+        setIsViewAdModalOpen(true);
+    }
+
+    const handleCloseViewAdModal = () => {
+        setIsViewAdModalOpen(false);
+    }
+
   return (
+      <Grid item xs={12} sm={6} md={4} lg={3}>
     <Card
       sx={{
         maxWidth: 345,
       }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleIsViewAdModalOpen}>
         <CardMedia sx={{ height: 220 }} image={item.img} alt={item.name} component="img" />
       </CardActionArea>
       <CardContent>
@@ -29,10 +40,12 @@ export default function Item(props) {
             </IconButton>
           </CardActions>
         </Stack>
-        <Typography variant="body2" color="text.secondary" fontSize={12}>
-          {item.description}
+        <Typography variant="body2" color="green" fontSize={15} fontWeight={600}>
+          ${item.price}
         </Typography>
       </CardContent>
+        <ViewAdModal trigger={showViewAdModalOpen} onClose={handleCloseViewAdModal} id={item.id} />
     </Card>
+        </Grid>
   )
 }
