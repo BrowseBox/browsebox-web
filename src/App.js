@@ -6,14 +6,14 @@ import UserList from './Components/AdminDashboard/components/UserList'
 import SignupForm from './pages/Signup/SignupForm'
 import Home from './pages/Home/Home'
 import ShowAds from './Components/ItemComponents/ShowAds'
-import ViewAd from './Components/ItemComponents/ViewAd'
+import ViewAd from './Components/Testing Compnents/ViewAd'
 
 import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Dashboard from './Components/AdminDashboard/AdminDashboard'
+import AdminPanel from './Components/AdminDashboard/components/AdminPanel'
 import CreateAd2 from './Components/ItemComponents/CreateAd2'
 import Navbar from './Components/ItemComponents/Navbar'
 import Chatpage from "./Components/ChatComponents/Chatpage"
@@ -59,6 +59,7 @@ function App() {
         <Route path="/ShowAd" element={<ShowAds />} />
         <Route path="/ViewAd" element={<ViewAd />} />
         <Route path="/chat" element={<Chatpage />} />
+        <Route path="/admin" element={<AdminPanel />} />
         <Route path="/favorites" element={<FavoriteAds />} />
         {/* <Route path='/signup' element={<SignupForm />} /> */}
       </Routes>

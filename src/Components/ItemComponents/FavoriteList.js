@@ -78,17 +78,17 @@ const DeleteButton = styled(Button)`
 `;
 
 const FavoriteAd = ({ ad }) => {
-    const [showCongratulations, setShowCongratulations] = useState(false);
-    const [showEditModalOpen, setIsEditModalOpen] = useState(false);
+    // const [showCongratulations, setShowCongratulations] = useState(false);
+    // const [showEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const handleDeleteButtonClick = () => {
         // TODO: Delete the ad from the database
     };
 
-    const handleCloseCongratulations = () => {
-        setShowCongratulations(false);
-        window.location.reload();
-    };
+    // const handleCloseCongratulations = () => {
+    //     setShowCongratulations(false);
+    //     window.location.reload();
+    // };
 
 
     const placeholderImage = 'https://via.placeholder.com/150';

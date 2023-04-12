@@ -72,19 +72,33 @@ const ViewAd = ({ trigger, onClose, id }) => {
         const messageText = e.target.elements[0].value;
 
         try {
-            const conversationResponse = await axios.post('http://localhost:3005/create-conversation', {
+            const conversationResponse = await axios.post('http://localhost:3005/try-make-conversation', {
                 user1_id: currentUser,
                 user2_id: ad.owner,
                 sale_id: ad.sale_id,
-            });
+            })
+                .then((res) => {
+                    axios.post('http://localhost:3005/send-message', {
+                        conversation_id: res.data.conversation_id,
+                        speaker_id: currentUser,
+                        message_content: messageText,
+                    })
+                })
+                .catch((err) => {console.log(err)});
 
-            const conversationId = conversationResponse.data.conversation_id;
+            // console.log ("____ Conversation Stuff ____")
+            // console.log (conversationResponse)
+            // console.log (conversationResponse.data)
+            // console.log (conversationResponse.data.conversation_id)
+            // console.log ("____ Conversation Stuff ____")
 
-            await axios.post('http://localhost:3005/send-message', {
-                conversation_id: conversationId,
-                speaker_id: currentUser,
-                message_content: messageText,
-            });
+            // const conversationId = conversationResponse.data.conversation_id;
+            //
+            // await axios.post('http://localhost:3005/send-message', {
+            //     conversation_id: conversationId,
+            //     speaker_id: currentUser,
+            //     message_content: messageText,
+            // });
 
             e.target.elements[0].value = '';
             setMessageSent(true);

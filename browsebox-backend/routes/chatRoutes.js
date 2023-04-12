@@ -8,9 +8,10 @@ const conversationControllers = require('../controllers/chatControllers');
 
 const router = express.Router();
 
-router.post('/create-conversation', conversationControllers.createConversation);
+// router.post('/create-conversation', conversationControllers.createConversation);
 router.get('/user/:user_id/conversations', conversationControllers.getConversations);
-router.post('/send-message', conversationControllers.createConversation);
+router.post('/try-make-conversation', conversationControllers.createConversation);
+router.post('/send-message', conversationControllers.createMessage);
 router.get('/conversation/:conversation_id/messages', conversationControllers.getMessages);
 
 
