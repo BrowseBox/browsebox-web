@@ -6,6 +6,9 @@ import SignupModal from '../Signup/SignupModal'
 import LoginModal from '../Login/LoginModal'
 import EditModal from '../Edit/EditModal'
 
+
+
+
 export default function Header(props) {
   const { user, setUser, schools } = props
 
@@ -65,7 +68,7 @@ export default function Header(props) {
           padding: '0 1rem',
           height: '5rem',
         }}>
-        <h1>BrowseBox</h1>
+          <h1>BrowseBox</h1>
         <TextField
           variant="outlined"
           size="small"
