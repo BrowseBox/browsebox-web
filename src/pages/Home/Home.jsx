@@ -66,7 +66,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Stack, IconButton, Typography } from '@mui/material'
 import Item from '../Item/Item'
 import axios from 'axios'
-
+import Filters from '../../Components/ItemComponents/Filters'
 // ... Not sure What this is
 
 export default function Home() {
@@ -108,7 +108,7 @@ export default function Home() {
   return (
     <>
       {/* ... these can be put back if needed ... */}
-
+        <Filters />
       <Box sx={{ width: '80%', margin: 'auto' }}>
         <Stack direction="row" spacing={3} m={5}>
           {itemElements}

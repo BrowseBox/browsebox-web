@@ -5,6 +5,7 @@ import { FaSearch } from 'react-icons/fa'
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Refresh } from '@mui/icons-material';
 
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -37,7 +38,7 @@ const SearchBar = () => {
           }}
           onChange={handleSearch}
         />
-        <StyledLink to="/searched"><Button color="primary" size="small" variant="contained">Search</Button></StyledLink>
+        <StyledLink to="/searched" onClick={Refresh}><Button color="primary" size="small" variant="contained">Search</Button></StyledLink>
     </header>
     
    )

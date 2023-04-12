@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { React, useState} from 'react'
 import styled from 'styled-components'
 import HandleFilters from './handleFilters';
+import { Refresh } from '@mui/icons-material';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -16,38 +17,39 @@ const StyledLink = styled(Link)`
 `
 const Filters = () => {
 
-  const [filterId, setId] = useState("")
   const id = useState("");
 
     const handleClick = (id) => {
+      // {refreshPage}
       localStorage.setItem('filterID', id)
+      console.log(localStorage.getItem('filterID'))
     }
 
   return (
-    <Toolbar sx={{ backgroundColor: '#6e6b6a', color: '#6e6b6a', display: 'flex', justifyContent: 'space-between' }}>
+    <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
       <>
         <ButtonGroup sx={{ display: 'flex', justifyContent: 'flex-end', float: 'right' }}>
-          <StyledLink to="/searched-filter">
-            <IconButton edge="end" color="primary" aria-label="MiscellaneousServicesIcon" title="Miscellenious" onClick={handleClick.bind(id, 4)}>
+          <StyledLink to="/searched-filter" onClick={Refresh}>
+            <IconButton edge="end" color="primary" aria-label="MiscellaneousServicesIcon" title="Miscellenious" onClick={handleClick.bind(id, 5)}>
               <MiscellaneousServicesIcon />
             </IconButton>
           </StyledLink>
-          <StyledLink to="/searched-filter">
-            <IconButton edge="end" color="primary" aria-label="MonitorIcon" title="Computer" onClick={handleClick.bind(id, 0)}>
+          <StyledLink to="/searched-filter" onClick={Refresh}>
+            <IconButton edge="end" color="primary" aria-label="MonitorIcon" title="Computer" onClick={handleClick.bind(id, 4)}>
               <MonitorIcon />
             </IconButton>
           </StyledLink>
-          <StyledLink to="/searched-filter">
+          <StyledLink to="/searched-filter" onClick={Refresh}>
             <IconButton edge="end" color="primary" aria-label="MenuBookIcon" title="Textbook" onClick={handleClick.bind(id, 2)}>
               <MenuBookIcon />
             </IconButton>
           </StyledLink>
-          <StyledLink to="/searched-filter">
+          <StyledLink to="/searched-filter" onClick={Refresh}>
             <IconButton edge="end" color="primary" aria-label="LinkIcon" title="Stationary" onClick={handleClick.bind(id, 3)}>
               <LinkIcon />
             </IconButton>
           </StyledLink>
-          <StyledLink to="/searched-filter">
+          <StyledLink to="/searched-filter" onClick={Refresh}>
             <IconButton edge="end" color="primary" aria-label="CalculateIcon" title="Calculator" onClick={handleClick.bind(id, 1)}>
               <CalculateIcon />
             </IconButton>
