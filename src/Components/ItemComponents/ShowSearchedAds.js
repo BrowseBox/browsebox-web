@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Ad from './AdList';
 import axios from 'axios';
 import Item from '../../pages/Item/Item';
-import { Box, Stack, IconButton, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
 const ShowSearchedAds = () => {
 
@@ -21,7 +20,7 @@ const ShowSearchedAds = () => {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [])
 
     const itemElements = items.map((item) => {
         return (

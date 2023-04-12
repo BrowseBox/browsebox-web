@@ -7,7 +7,6 @@ import LinkIcon from '@mui/icons-material/Link';
 import { Link } from 'react-router-dom'
 import { React, useState} from 'react'
 import styled from 'styled-components'
-import HandleFilters from './handleFilters';
 import { Refresh } from '@mui/icons-material';
 
 const StyledLink = styled(Link)`

@@ -3,7 +3,7 @@ import { useEffect, useState} from "react";
 import axios from "axios";
 import Filters from "./Filters";
 import Item from "../../pages/Item/Item";
-import { Box, Stack, IconButton, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
 const ShowFilteredAds = () => {
 
