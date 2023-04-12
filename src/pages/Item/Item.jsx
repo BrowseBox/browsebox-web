@@ -13,7 +13,6 @@ import {
 import { FaStar } from 'react-icons/fa'
 import ViewAdModal from '../../Components/ItemComponents/ViewAdModal'
 import NoImageAvailable from './../../Media/No_Image_Available.jpg'
-import axios from "axios";
 
 export default function Item(props) {
   const [showViewAdModalOpen, setIsViewAdModalOpen] = useState(false)

@@ -37,7 +37,6 @@ exports.favoriteItem = (req, res, next) => {
 }
 
 
-
 /**
  *  Deletes a favorite from the favorites table
  *
@@ -48,7 +47,7 @@ exports.deleteFavorite = (req, res, next) => {
 
 
     db.execute (
-
+        
         'DELETE FROM favorites where user_id = ? AND sale_id = ?',
         [user_id, sale_id], function(err, result) {
             if(err) {
