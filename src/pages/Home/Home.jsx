@@ -62,71 +62,68 @@
 //   )
 // }
 
-import React, { useEffect, useState } from 'react';
-import { Box, Stack, IconButton, Typography } from '@mui/material';
-import Item from '../Item/Item';
-import axios from 'axios';
-import Filters from '../../Components/ItemComponents/Filters';
+import React, { useEffect, useState } from 'react'
+import { Box, Stack, IconButton, Typography } from '@mui/material'
+import Item from '../Item/Item'
+import axios from 'axios'
+
 // ... Not sure What this is
 
 export default function Home() {
-    const [items, setItems] = useState([]);
-    const [message, setMessage] = useState('');
+  const [items, setItems] = useState([])
+  const [message, setMessage] = useState('')
 
-    useEffect(() => {
-        const fetchItems = async () => {
-            try {
-                const response = await axios.post('http://localhost:3001/get-sale-date', { newest: 'true' });
-                if (response.data && response.data.length) {
-                    setItems(response.data);
-                    // console.log(items);
-                } else {
-                    setMessage('There are no ads to view.');
-                }
-            } catch (error) {
-                setMessage('Error fetching ads. Please try again later.');
-            }
-        };
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.post('http://localhost:3001/get-sale-date', { newest: 'true' })
+        if (response.data && response.data.length) {
+          setItems(response.data)
+        } else {
+          setMessage('There are no ads to view.')
+        }
+      } catch (error) {
+        setMessage('Error fetching ads. Please try again later.')
+      }
+    }
 
-        fetchItems();
-    }, []);
+    fetchItems()
+  }, [])
 
-    const itemElements = items.map((item) => {
-        return (
-            <Item
-                key={item.sale_id}
-                item={{
-                    id: item.sale_id,
-                    name: item.sale_name,
-                    img: item.sale_image,
-                    description: item.sale_description,
-                    price: item.sale_price,
-                }}
-            />
-        );
-    });
-
+  const itemElements = items.map((item) => {
     return (
-        <>
-            {/* ... these can be put back if needed ... */}
-            {/* <Filters/> */}
-            
-            <Box sx={{ width: '80%', margin: 'auto' }}>
-                <Stack direction="row" spacing={3} m={5}>
-                    {itemElements}
-                </Stack>
-                {message && (
-                    <Typography align="center" variant="h6">
-                        {message}
-                    </Typography>
-                )}
-                {!message && items.length > 0 && (
-                    <Typography align="center" variant="h6">
-                        End of ad list
-                    </Typography>
-                )}
-            </Box>
-        </>
-    );
-}
+      <Item
+        key={item.sale_id}
+        item={{
+          id: item.sale_id,
+          name: item.sale_name,
+          img: item.sale_image,
+          description: item.sale_description,
+          price: item.sale_price,
+        }}
+      />
+    )
+  })
 
+  return (
+    <>
+      {/* ... these can be put back if needed ... */}
+
+      <Box sx={{ width: '80%', margin: 'auto' }}>
+        <Stack direction="row" spacing={3} m={5}>
+          {itemElements}
+        </Stack>
+        {message && (
+          <Typography align="center" variant="h6">
+            {message}
+          </Typography>
+        )}
+        {!message && items.length > 0 && (
+          <Typography align="center" variant="h6">
+            End of ad list
+          </Typography>
+        )}
+      </Box>
+    </>
+  )
+}
