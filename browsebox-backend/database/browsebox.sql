@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`users` (
 	CONSTRAINT `fk_user_school`
 		FOREIGN KEY (`school_id`)
 		REFERENCES `browsebox`.`schools` (`school_id`)
+		ON DELETE NO ACTION
 );
 
 
@@ -57,10 +58,12 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`reviews`  (
 	PRIMARY KEY (`review_id`),
 	CONSTRAINT `fk_review_user_reviewed`
 		FOREIGN KEY (`reviewer`)
-		REFERENCES `browsebox`.`users` (`user_id`),
+		REFERENCES `browsebox`.`users` (`user_id`)
+		ON DELETE CASCADE,
 	CONSTRAINT `fk_review_user_original`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `browsebox`.`users` (`user_id`)
+		ON DELETE CASCADE
 
 );
 
@@ -80,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`sales` (
 	CONSTRAINT `fk_sales_users`
 		FOREIGN KEY (`owner`)
 		REFERENCES `browsebox`.`users` (`user_id`)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION,
 	CONSTRAINT `fk_cat_id`
 		FOREIGN KEY (`cat_id`)
@@ -101,12 +104,12 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`favorites` (
 	CONSTRAINT `fk_favorites_user`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `browsebox`.`users` (`user_id`)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION,
 	CONSTRAINT `fk_favorites_sales`
 		FOREIGN KEY (`sale_id`)
 		REFERENCES `browsebox`.`sales` (`sale_id`)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 );
 
@@ -122,17 +125,17 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`conversations` (
     CONSTRAINT `fk_conversations_user1`
     FOREIGN KEY (`user1_id`)
     REFERENCES `browsebox`.`users` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_conversations_user2`
     FOREIGN KEY (`user2_id`)
     REFERENCES `browsebox`.`users` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     CONSTRAINT `fk_conversations_sales`
     FOREIGN KEY (`sale_id`)
     REFERENCES `browsebox`.`sales` (`sale_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
     );
 
@@ -154,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`messages` (
     CONSTRAINT `fk_messages_speaker`
     FOREIGN KEY (`speaker_id`)
     REFERENCES `browsebox`.`users` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
     );
 

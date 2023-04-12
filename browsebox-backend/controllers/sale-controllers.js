@@ -147,7 +147,7 @@ exports.getSaleByFilters = (req, res, next) => {
   let catId = req.body.catId;
 
   // get all sales with given filter ID
-  db.execute('SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id WHERE cat_id = ?', [catId])
+  db.execute('SELECT sale_id, sale_name, owner, sale_description, sale_price, sale_image, sale_date, cat_name FROM browsebox.sales JOIN categories on sales.cat_id=categories.cat_id WHERE sales.cat_id = ?', [catId])
     .then(([rows, fieldData]) => {
       res.status(200).send(rows);
     })

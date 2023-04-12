@@ -228,3 +228,68 @@ exports.getSchoolData = (req, res, next) => {
     });
 
 }
+
+
+// Changing the users password of a logged in account.
+// probably dont need this is done through the edit user function
+exports.changePassword = (req, res, next) => {
+
+  //alternative npm install alert  let alert = require('alert'); alert("pass changed!")
+  //var popup = require('popups');   //this is for potentially adding in npm install popups (which adds popups obv lol)
+
+
+  let newPassword = req.body.password;
+  let userId = req.body.userId;
+  let userEmail = req.body.user_email;  //may not need, was considering passing this to the DB(went with id instead)
+  let oldPassword;  // orignal password to compare if new is different from old.
+
+
+  //select user_password from users where user_id = '3'; 
+  //to bring back the user_password could use 'user_email' since they have to be unique and checked by google or hotmail
+  // query to find the original password to compare to new password
+  db.query('SELECT user_password from users where user_id = ?', [userId], function(err, result){
+    if(err) {
+      //could message back saying "user not found" or something
+      //but shouldnt have to, should be getting the Id from a currently logged in user.
+      console.log(err);
+    }else {
+      //console.log("making it to the else statment of password query, 90% sure result wrong");
+      oldPassword = result.user_password;
+    }
+}); 
+
+  if(oldPassword === newPassword) {
+
+    //could swap this out with the 'popup.alert'
+    res.status(200).send("Old password the same as newly enter password");
+
+    //return back to the page of the request
+    res.redirect('/');
+  }
+
+  // checks on if password length (maybe contains symbol? or number?)
+  // if(newPassword.length > 8 || ) {}
+
+
+  // UPDATE users SET user_password = 'pass' WHERE user_id = '3';
+  //once password determined to be new 
+db.query('UPDATE users SET user_password = ? WHERE user_id= ?', [newPassword, userId], function(err, result){
+  if(err) {
+    console.log(err);
+  }else{
+    res.status(200).send("Password has been successfully changed!");
+    
+    //return back to the page of the request
+    res.redirect('/');
+  }
+
+
+});
+
+
+
+  /* popup.alert({
+      content:'Password succesfully changed!'
+  }); */
+
+}
