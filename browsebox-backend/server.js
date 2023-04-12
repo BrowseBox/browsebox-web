@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/user-routes')
 const saleRoutes = require('./routes/sale-routes')
 const reviewRoutes = require('./routes/review-routes')
+const favoriteRoutes = require('./routes/favorite-routes')
 const cors = require('cors')
 
 const app = express();
@@ -14,5 +15,6 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(saleRoutes);
 app.use(reviewRoutes);
+app.use(favoriteRoutes);
 
 app.listen(3001);
