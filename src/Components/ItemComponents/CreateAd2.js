@@ -55,6 +55,7 @@ const CreateAd2 = () => {
                     // setImage(res.data.imageUrl);
                     // console.log("Sending image 2"+listingid+" "+" "+image+" "+res.data.imageUrl);
                     // alert("Sending image 2"+listingid+" "+res.data.imgUrl);
+                    console.log("Picture sent to local database")
                     updateImageInMainDatabase(listingid, res.data.imageUrl);
                 }
             })
@@ -63,7 +64,7 @@ const CreateAd2 = () => {
 
     const updateImageInMainDatabase = (sale_id, imageUrl) => {
         console.log("Sending image 3 "+sale_id+" "+" "+image+" "+imageUrl);
-        axios.post('http://localhost:3000/update-sale', { id: sale_id, img: imageUrl })
+        axios.post('http://localhost:3001/update-sale', { id: sale_id, img: imageUrl })
             .then((res) => {
 
                 console.log(res);
@@ -123,8 +124,9 @@ const CreateAd2 = () => {
                         if (image != null) {
                             sendImage(res.data.sale_id);
                         }
-                        // updateImageInMainDatabase(res.data[0].sale_id);
-                        // values.image = image;
+                        // The following 2 lines were commented out
+                        updateImageInMainDatabase(res.data[0].sale_id);
+                        values.image = image;
 
 
 
