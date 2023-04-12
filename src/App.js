@@ -19,6 +19,7 @@ import Navbar from './Components/ItemComponents/Navbar'
 import Chatpage from "./Components/ChatComponents/Chatpage"
 import ChatProvider from "./Components/ChatComponents/ChatProvider"
 import FavoriteAds from './Components/ItemComponents/ShowFavorites'
+import ShowFilteredAds from './Components/ItemComponents/ShowFilteredAds'
 
 function App() {
   // const [userLogin, setUserLogin] = React.useState(false)
@@ -61,6 +62,7 @@ function App() {
         <Route path="/chat" element={<Chatpage />} />
         <Route path="/favorites" element={<FavoriteAds />} />
         <Route path ="/searched" element={<ShowSearchedAds/>} />
+        <Route path ="/searched-filter" element={<ShowFilteredAds/>} />
         {/* <Route path='/signup' element={<SignupForm />} /> */}
       </Routes>
       {/* <CreateUserComponent /> */}

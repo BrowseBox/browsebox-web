@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import {Typography} from "@mui/material";
 import Ad from './AdList';
 import axios from 'axios';
-
+import Item from '../../pages/Item/Item';
+import { Box, Stack, IconButton, Typography } from '@mui/material';
 
 const ShowSearchedAds = () => {
 
     const keyword = localStorage.getItem("input");
     // console.log(input)
-    const id = localStorage.getItem("id")
-    const [ads, setAds] = useState([]);
+    
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         axios
             .post('http://localhost:3001/search-sale', { keyword })
             .then((res) => {
-                setAds(res.data);
+                setItems(res.data);
                 console.log(res.data)
             })
             .catch((err) => {
@@ -23,20 +23,36 @@ const ShowSearchedAds = () => {
             });
     }, []);
 
-
+    const itemElements = items.map((item) => {
+        return (
+            <Item
+                key={item.sale_id}
+                item={{
+                    id: item.sale_id,
+                    name: item.sale_name,
+                    img: item.sale_image,
+                    description: item.sale_description,
+                    price: item.sale_price,
+                }}
+            />
+        );
+    });
 
     return (
-        <div>
-            <Typography variant="h4" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>Here are your results...</Typography>
-            {ads.length > 0 ? (
-                ads.map((ad) => (
-                    // <Ad key={ad.id} ad={ad} />
-                    <Ad key={ad.sale_id} ad={ad} />
-                ))
-            ) : (
-                <Typography variant="h5" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>We could not find a match....</Typography>
-            )}
-        </div>
+        <>
+        <Typography variant="h4" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>Here are your results...</Typography>
+            <Box sx={{ width: '80%', margin: 'auto' }}>
+                <Stack direction="row" spacing={3} m={5}>
+                    {itemElements}
+                </Stack>
+                { items.length > 0 && (
+                    <Typography align="center" variant="h6">
+                        End of ad list
+                    </Typography>
+                )}
+                
+            </Box>
+        </>
     );
     
 }
