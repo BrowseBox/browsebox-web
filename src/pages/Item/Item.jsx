@@ -13,21 +13,10 @@ import {
 import { FaStar } from 'react-icons/fa'
 import ViewAdModal from '../../Components/ItemComponents/ViewAdModal'
 import NoImageAvailable from './../../Media/No_Image_Available.jpg'
-import axios from "axios";
 
 export default function Item(props) {
   const [showViewAdModalOpen, setIsViewAdModalOpen] = useState(false)
   const { item } = props
-
-    const addFavorite = () => {
-        axios.post ('http://localhost:3001/add-favorite', {user_id: localStorage.getItem("id"), sale_id: item.id})
-        .then((res) => {
-            console.log(res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
 
   const handleIsViewAdModalOpen = () => {
     setIsViewAdModalOpen(true)
@@ -63,7 +52,7 @@ export default function Item(props) {
               {item.name}
             </Typography>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites" size="small" onClick={addFavorite()}>
+              <IconButton aria-label="add to favorites" size="small">
                 <FaStar />
               </IconButton>
             </CardActions>

@@ -81,17 +81,9 @@ const FavoriteAd = ({ ad }) => {
     // const [showCongratulations, setShowCongratulations] = useState(false);
     // const [showEditModalOpen, setIsEditModalOpen] = useState(false);
 
-
     const handleDeleteButtonClick = () => {
-        axios.post ('http://localhost:3000/delete-favorite', {user_id: localStorage.getItem("user_id"), sale_id: ad.sale_id})
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
+        // TODO: Delete the ad from the database
+    };
 
     // const handleCloseCongratulations = () => {
     //     setShowCongratulations(false);
