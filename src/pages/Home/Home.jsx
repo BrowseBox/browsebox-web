@@ -109,7 +109,7 @@ export default function Home() {
     return (
         <>
             {/* ... these can be put back if needed ... */}
-            <Filters/>
+            {/* <Filters/> */}
             
             <Box sx={{ width: '80%', margin: 'auto' }}>
                 <Stack direction="row" spacing={3} m={5}>

@@ -1,29 +1,45 @@
 import React from "react";
 import { useEffect, useState} from "react";
 import axios from "axios";
+import Filters from "./Filters";
 
-const ShowFilteredAds = (props) => {
+const ShowFilteredAds = () => {
 
-    const catId = props.id
-    // catId.setKey({catId});
+    const catId = localStorage.getItem('filterID')
     console.log(catId)
 
-    const [items, setItems] = useState([]);
-
+    const [filters, setFilters] = useState("");
 
     useEffect(() => {
         axios
-            .post('http://localhost:3001/get-sale-filter', { catId })
+            .post('http://localhost:3001/get-filters')
             .then((res) => {
-                setItems(res.data)
-                console.log(res.data)
+                setFilters(res.data)
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
 
-    return("Filters go here")
+    //this handles the post request to get-sale-filter
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        axios
+            .post('http://localhost:3001/get-sale-filter', { catId: catId })
+            .then((res) => {
+                setItems(res.data)
+                // console.log(res.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+
+    return(
+        <Filters/>
+    )
 }
 
 export default ShowFilteredAds;
