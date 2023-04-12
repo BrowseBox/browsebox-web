@@ -2,7 +2,7 @@
 
 import React, {Component, useState} from 'react';
 import axios from 'axios';
-import CreateItemForm from "./CreateItemForm";
+import CreateItemForm from "../ItemComponents/CreateItemForm";
 //import MediaForm from "./MediaForm.component";
 // import LocationInformationForm from "./LocationInformationForm.component";
 // import PriceInformationForm from "./PriceInformationForm.component";

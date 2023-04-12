@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `browsebox`.`messages` (
         `message_id`         INT             NOT NULL AUTO_INCREMENT,
         `conversation_id`    INT             NOT NULL,
         `speaker_id`         INT             NOT NULL,
-        `message_content`    TEXT            NOT NULL,
+        `message_content`    varchar(2048)   NOT NULL,
         `message_timestamp`  TIMESTAMP       DEFAULT NOW(),
     PRIMARY KEY (`message_id`),
     CONSTRAINT `fk_messages_conversations`

@@ -43,7 +43,7 @@ const Congratulations = ({ trigger, onClose, id }) => {
                 // console.log(res);
                 // console.log(res.data);
 
-                if (image !== "") {
+                if (res.data.image !== "") {
                     const formData = new FormData();
                     formData.append('id', id);
                     formData.append('index', 1);

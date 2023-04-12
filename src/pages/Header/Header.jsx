@@ -68,11 +68,18 @@ export default function Header(props) {
           padding: '0 1rem',
           height: '5rem',
         }}>
-        <h1>BrowseBox</h1>
-
-        {/* searchbar */}
-        <SearchBar/>
-
+          <h1>BrowseBox</h1>
+        <TextField
+          variant="outlined"
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <FaSearch />
+              </InputAdornment>
+            ),
+          }}
+        />
         <IconButton onClick={handleMenuClick}>
           <FaUserAlt />
         </IconButton>

@@ -9,17 +9,17 @@ const ShowAds = () => {
 
     const [ads, setAds] = useState([]);
 
-    useEffect(() => {
-        axios
-            .post('http://localhost:3001/get-sales', { id })
-            .then((res) => {
-                setAds(res.data);
-                // console.log(res.data)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    // *******Their is no Favorite Controller or route in the backend
+    // useEffect(() => {
+    //     axios
+    //         .post('http://localhost:3001/get-sales', { id })
+    //         .then((res) => {
+    //             setAds(res.data);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, []);
 
 
 

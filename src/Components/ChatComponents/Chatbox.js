@@ -1,5 +1,5 @@
 import { Box, TextField, Button } from "@mui/material";
-import {useEffect, useState} from "react";
+import { useEffect, useState, useRef } from "react";
 import { ChatState } from "./ChatProvider";
 import axios from "axios";
 
@@ -7,24 +7,47 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
     const { selectedChat, user, socket } = ChatState();
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const messagesEndRef = useRef(null);
 
-    const { chats } = ChatState();
+    let loggedInUser = JSON.parse(localStorage.getItem('id'));
 
     useEffect(() => {
         if (selectedChat) {
-            getMessages(selectedChat.conversation_id);
-            console.log("Selected chat changed to", selectedChat);
+            getMessages(selectedChat);
+            socket.emit("join chat", selectedChat.conversationId);
         }
+
+        return () => {
+            if (selectedChat) {
+                socket.emit("leave chat", selectedChat.conversationId);
+            }
+        };
     }, [selectedChat]);
 
-    const getMessages = async (conversationId) => {
-        // console.log ("Getting messages for conversation", conversationId + "selected chat is", selectedChat.conversation_id);
+    useEffect(() => {
+        socket.on("message received", (newMessageReceived) => {
+            setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
+        });
+
+        return () => {
+            socket.off("message received");
+        };
+    }, [socket]);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]);
+
+    const getMessages = async (ConversationID) => {
+        console.log ("Getting messages for conversation   selected chat is", ConversationID.conversationId);
         try {
-            axios.get(`http://localhost:3005/conversation/${selectedChat.conversation_id}/messages`)
+            axios.get(`http://localhost:3005/conversation/${ConversationID.conversationId}/messages`)
                 .then(response => {
-                    console.log("Response is", response.data);
-                    setMessages(response.data);
-                }
+                        console.log("Response is", response.data);
+                        setMessages(response.data);
+                    }
                 )
             // const response = await axios.get(`http://localhost:3005/conversation/${selectedChat.conversationId}/messages`);
             // .then(response => {
@@ -39,13 +62,36 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
     };
 
     const sendMessage = () => {
-        // Add your code to send the message here
-        // ...
+        if (!newMessage) return;
+        const messageData = {
+            conversation_id: selectedChat.conversationId,
+            speaker_id: loggedInUser,
+            message_content: newMessage,
+        };
+        axios.post("http://localhost:3005/conversation/messages", messageData)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error("Error sending message:", error);
+            });
 
-        // Reset the message input field
-        // setMessage("");
+        socket.emit("new message", {
+            ...messageData,
+            sender: { _id: loggedInUser },
+            chat: selectedChat,
+        });
 
-        // Fetch new messages (if needed)
+        // Update the messages state with the new message
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+                ...messageData,
+                message_id: Math.random().toString(36).substring(2, 15),
+            },
+        ]);
+
+        setNewMessage("");
         setFetchAgain(!fetchAgain);
     };
 
@@ -76,14 +122,14 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
                     <Box
                         key={index}
                         sx={{
-                            alignSelf: message.sender_id === user.id ? "flex-end" : "flex-start",
+                            alignSelf: message.speaker_id === loggedInUser ? "flex-end" : "flex-start",
                             maxWidth: "60%",
                             padding: "5px",
                             borderRadius: "5px",
-                            backgroundColor: message.sender_id === user.id ? "lightblue" : "lightgrey",
+                            backgroundColor: message.speaker_id === loggedInUser ? "lightblue" : "lightgrey",
                         }}
                     >
-                        {message.message}
+                        {message.message_content}
                     </Box>
                 ))}
             </Box>
@@ -97,7 +143,7 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
                 }}
                 onSubmit={(e) => {
                     e.preventDefault();
-                    // Handle sending message here
+                    sendMessage();
                 }}
             >
                 <TextField
@@ -116,3 +162,5 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
 };
 
 export default Chatbox;
+
+

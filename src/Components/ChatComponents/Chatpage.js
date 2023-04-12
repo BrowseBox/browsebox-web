@@ -25,8 +25,8 @@ const Chatpage = () => {
                 flexDirection: { xs: "column", md: "row" },
                 justifyContent: "space-between",
                 alignItems: "stretch",
-                width: "100%",
-                height: "100vh",
+                width: "80%",
+                height: "80vh",
                 padding: "10px",
                 gap: { xs: "10px", md: "20px" },
             }}

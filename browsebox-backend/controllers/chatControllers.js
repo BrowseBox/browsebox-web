@@ -42,7 +42,7 @@ exports.getConversations = (req, res, next) => {
 };
 
 /**
- * Create a new message in a conversation
+ * Create a new Conversation if conversation exists return conversation_id
  */
 exports.createConversation = async (req, res, next) => {
     const user1_id = req.body.user1_id;
@@ -50,7 +50,7 @@ exports.createConversation = async (req, res, next) => {
     const sale_id = req.body.sale_id;
 
     if (user1_id === undefined || user2_id === undefined || sale_id === undefined) {
-        res.status(400).send("Bad request. One or more required parameters are missing or undefined.");
+        res.status(401).send("Bad request. One or more required parameters are missing or undefined.");
         return;
     }
 
@@ -71,20 +71,46 @@ exports.createConversation = async (req, res, next) => {
 };
 
 /**
+ * Create a new message in a conversation
+ */
+exports.createMessage = (req, res, next) => {
+    const conversation_id = req.body.conversation_id;
+    const speaker_id = req.body.speaker_id;
+    const message_content = req.body.message_content;
+
+    db.execute(
+        "INSERT INTO browsebox.messages (conversation_id, speaker_id, message_content) VALUES (?, ?, ?)",
+        [conversation_id, speaker_id, message_content]
+    )
+        .then((results) => res.status(201).send("Message sent successfully."))
+        .catch((err) => {
+            res.status(500).send(err);
+        });
+};
+
+/**
  * Fetch all messages in a conversation
  */
 exports.getMessages = (req, res, next) => {
+    console.log('getMessages function called');
     const conversation_id = req.params.conversation_id;
 
     db.execute(
         "SELECT * FROM browsebox.messages WHERE conversation_id = ? ORDER BY message_timestamp ASC",
         [conversation_id]
     )
-        .then((results) => res.status(200).json(results[0]))
+        .then(([results, fields]) => {
+            if (results.length > 0) {
+                res.status(200).send(results); // Send the entire array of messages
+            } else {
+                res.status(200).send([]); // Send an empty array if no messages are found
+            }
+        })
         .catch((err) => {
             res.status(500).send(err);
         });
 };
+
 
 /**
  * This is a helper function to find a conversation between two users
