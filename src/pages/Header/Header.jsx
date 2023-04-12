@@ -94,6 +94,7 @@ export default function Header(props) {
           handleCloseEditModal={handleCloseEditModal}
           user={user}
           setUser={user}
+          // schools={schools}
         />
       </Box>
     </header>
