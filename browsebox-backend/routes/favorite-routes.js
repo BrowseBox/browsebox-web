@@ -3,12 +3,9 @@
 */
 
 const express = require('express');
-const favoriteControllers = require('../controllers/favorites-controller');
+const favoriteControllers = require('../controllers/favorite-controller');
 
 const router = express.Router();
 
 //add-favorite probably wrong,
 router.post('/add-favorite', favoriteControllers.favoriteItem);
-router.post('/delete-favorite', favoriteControllers.deleteFavorite);
-
-module.exports = router;
