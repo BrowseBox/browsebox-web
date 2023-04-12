@@ -69,17 +69,7 @@ export default function Header(props) {
           height: '5rem',
         }}>
           <h1>BrowseBox</h1>
-        <TextField
-          variant="outlined"
-          size="small"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <FaSearch />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <SearchBar/>
         <IconButton onClick={handleMenuClick}>
           <FaUserAlt />
         </IconButton>

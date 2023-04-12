@@ -8,7 +8,7 @@ import { Box, Stack, IconButton, Typography } from '@mui/material';
 const ShowFilteredAds = () => {
 
     const catId = localStorage.getItem('filterID')
-    console.log(catId)
+    // console.log(catId)
 
     //this handles the post request to get-sale-filter
     const [items, setItems] = useState([]);
@@ -18,12 +18,12 @@ const ShowFilteredAds = () => {
             .post('http://localhost:3001/get-sale-filter', { catId: catId })
             .then((res) => {
                 setItems(res.data)
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    });
 
     const itemElements = items.map((item) => {
         return (
@@ -38,7 +38,7 @@ const ShowFilteredAds = () => {
                 }}
             />
         );
-    });
+    }, []);
 
     return(
         <>

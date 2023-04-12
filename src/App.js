@@ -20,6 +20,7 @@ import Chatpage from "./Components/ChatComponents/Chatpage"
 import ChatProvider from "./Components/ChatComponents/ChatProvider"
 import FavoriteAds from './Components/ItemComponents/ShowFavorites'
 import ShowFilteredAds from './Components/ItemComponents/ShowFilteredAds'
+import ShowSearchedAds from './Components/ItemComponents/ShowSearchedAds'
 
 function App() {
   // const [userLogin, setUserLogin] = React.useState(false)
