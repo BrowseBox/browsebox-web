@@ -10,5 +10,6 @@ const router = express.Router();
 //add-favorite probably wrong,
 router.post('/add-favorite', favoriteControllers.favoriteItem);
 router.post('/remove-favorite', favoriteControllers.deleteFavorite);
+router.post('/get-favorites', favoriteControllers.getFavorites);
 
 module.exports = router;

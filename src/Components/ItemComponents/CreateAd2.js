@@ -47,7 +47,7 @@ const CreateAd2 = () => {
         //alert(listingingid + " " + formData.get("id"));
         axios
             // .post('http://52.13.116.107:7355/api/image/upload ', formData)
-            .post('http://52.13.116.107:7355/api/image/upload/listing', formData)
+            .post('http://52.13.116.107:7355/api/image/upload/listing', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
             .then((res) => {
                 if (res.status === 200) {
                     // alert("in AWS")
