@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Item from '../../pages/Item/Item';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, Grid } from '@mui/material';
 
 const ShowSearchedAds = () => {
 
@@ -42,7 +42,9 @@ const ShowSearchedAds = () => {
         <Typography variant="h4" sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>Here are your results...</Typography>
             <Box sx={{ width: '80%', margin: 'auto' }}>
                 <Stack direction="row" spacing={3} m={5}>
+                <Grid container spacing={3}>
                     {itemElements}
+                </Grid>
                 </Stack>
                 { items.length > 0 && (
                     <Typography align="center" variant="h6">
