@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Typography} from "@mui/material";
 
 const ShowAds = () => {
-    // const id = 1;
+
     const id = localStorage.getItem('id');
 
     const [ads, setAds] = useState([]);

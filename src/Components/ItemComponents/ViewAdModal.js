@@ -58,7 +58,7 @@ const ViewAd = ({ trigger, onClose, id }) => {
                 .post(`http://localhost:3001/sale`, { id: id })
                 .then((res) => {
                     setAd(res.data[0]);
-                    console.log(res.data[0]);
+                    // console.log(res.data[0]);
                 })
                 .catch((err) => {
                     console.log(err);
