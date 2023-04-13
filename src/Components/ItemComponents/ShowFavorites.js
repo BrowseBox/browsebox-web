@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Ad from './AdList';
+import Ad from './FavoriteList';
 import axios from 'axios';
 import {Typography} from "@mui/material";
 

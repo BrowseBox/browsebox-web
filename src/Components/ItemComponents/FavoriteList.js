@@ -81,6 +81,7 @@ const FavoriteAd = ({ ad }) => {
 
     const handleDeleteButtonClick = () => {
         axios.post(`http://localhost:3001/remove-favorite`, {user_id:localStorage.getItem('id'), sale_id:ad.sale_id})
+        window.location.reload();
     };
 
     // const handleCloseCongratulations = () => {
