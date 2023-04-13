@@ -41,12 +41,13 @@ export default function Item(props) {
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card
         sx={{
-          minWidth: 345,
+          // minWidth: 345,
+            height: '100%',
           maxWidth: 345,
         }}>
         <CardActionArea onClick={handleIsViewAdModalOpen}>
           <CardMedia
-            sx={{ height: 220 }}
+            sx={{ height: 220, minWidth: '100%' }}
             image={item.img ? item.img : NoImageAvailable}
             alt={item.name}
             component="img"

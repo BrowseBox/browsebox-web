@@ -63,7 +63,7 @@
 // }
 
 import React, { useEffect, useState } from 'react'
-import { Box, Stack, IconButton, Typography } from '@mui/material'
+import {Box, Stack, IconButton, Typography, Grid} from '@mui/material'
 import Item from '../Item/Item'
 import axios from 'axios'
 import Filters from '../../Components/ItemComponents/Filters'
@@ -110,9 +110,11 @@ export default function Home() {
       {/* ... these can be put back if needed ... */}
         <Filters />
       <Box sx={{ width: '80%', margin: 'auto' }}>
-        <Stack direction="row" spacing={3} m={5}>
+        {/*<Stack direction="row" spacing={3} m={5}>*/}
+          <Grid container spacing={3}>
           {itemElements}
-        </Stack>
+            </Grid>
+        {/*</Stack>*/}
         {message && (
           <Typography align="center" variant="h6">
             {message}
