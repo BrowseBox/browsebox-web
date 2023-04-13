@@ -27,9 +27,8 @@ exports.favoriteItem = (req, res, next) => {
             [user_id, sale_id]).then( ([result, fieldData]) => {
                 
                 if(result.length > 0) {
-                    result.status(200).send("item already favorited");
+                    res.status(200).send("item already favorited");
                 } else {
-
                     db.execute (
                         'INSERT INTO browsebox.favorites(user_id, sale_id) VALUES (?, ?)',
                         [user_id, sale_id]).then( ([result, fieldData]) => {
@@ -38,14 +37,15 @@ exports.favoriteItem = (req, res, next) => {
                                 //may not need a message? 
                                 res.status(200).send("Item successfully favorited");
                             } else { 
-                                res.ststus(500).send("Item wasn't favorited");
+                                res.status(500).send("Item wasn't favorited");
                             }
                         }).catch(err => {
                             res.status(500).send(err)
                         });
 
                 }
-        }).catch(err => {
+        })
+        .catch(err => {
             res.status(500).send(err)
         });
 
