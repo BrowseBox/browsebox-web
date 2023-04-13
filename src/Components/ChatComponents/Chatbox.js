@@ -68,7 +68,7 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
             speaker_id: loggedInUser,
             message_content: newMessage,
         };
-        axios.post("http://localhost:3005/conversation/messages", messageData)
+        axios.post("http://localhost:3005/send-message", messageData)
             .then((response) => {
                 console.log(response.data);
             })
