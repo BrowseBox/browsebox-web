@@ -63,7 +63,7 @@ export default function Item(props) {
               {item.name}
             </Typography>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites" size="small" onClick={addFavorite()}>
+              <IconButton aria-label="add to favorites" size="small" onClick={()=>addFavorite()}>
                 <FaStar />
               </IconButton>
             </CardActions>

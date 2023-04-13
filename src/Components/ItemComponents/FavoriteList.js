@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import styled from 'styled-components';
-import Congratulations from './Congratulations';
-import EditItemModal from './EditItemModal';
 import axios from "axios";
 
 const PageContainer = styled.div`
@@ -82,7 +80,7 @@ const FavoriteAd = ({ ad }) => {
     // const [showEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const handleDeleteButtonClick = () => {
-        // TODO: Delete the ad from the database
+        axios.post(`http://localhost:3001/remove-favorite`, {user_id:localStorage.getItem('id'), sale_id:ad.sale_id})
     };
 
     // const handleCloseCongratulations = () => {

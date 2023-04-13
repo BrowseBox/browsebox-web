@@ -82,3 +82,20 @@ exports.deleteFavorite = (req, res, next) => {
         });
 
 }
+
+
+/**
+ * Get all of a user's favorited items
+ */
+exports.getFavorites = (req, res, next) => {
+    let user_id = req.body.user_id;
+
+    db.execute('SELECT * FROM browsebox.sales WHERE sale_id IN (SELECT sale_id FROM browsebox.favorites WHERE user_id = ?)', [user_id])
+        .then(([rows, fieldData]) => {
+            
+            res.status(200).send(rows)
+        })
+        .catch((err) => {
+            res.status(500).send(err)
+        })
+}
