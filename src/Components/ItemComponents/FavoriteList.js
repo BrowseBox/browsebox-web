@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 import axios from "axios";
+import ViewAdModal from "./ViewAdModal";
 
 const PageContainer = styled.div`
     display: flex;
@@ -35,6 +36,7 @@ const AdContent = styled.div`
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+    cursor: pointer;
 `;
 
 const AdTitle = styled(Typography)`
@@ -78,12 +80,20 @@ const DeleteButton = styled(Button)`
 const FavoriteAd = ({ ad }) => {
     // const [showCongratulations, setShowCongratulations] = useState(false);
     // const [showEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [showViewAdModalOpen, setIsViewAdModalOpen] = useState(false);
 
     const handleDeleteButtonClick = () => {
         axios.post(`http://localhost:3001/remove-favorite`, {user_id:localStorage.getItem('id'), sale_id:ad.sale_id})
         window.location.reload();
     };
 
+    const handleIsViewAdModalOpen = () => {
+        setIsViewAdModalOpen(true);
+    }
+
+    const handleCloseViewAdModal = () => {
+        setIsViewAdModalOpen(false);
+    }
     // const handleCloseCongratulations = () => {
     //     setShowCongratulations(false);
     //     window.location.reload();
@@ -95,7 +105,7 @@ const FavoriteAd = ({ ad }) => {
         <PageContainer>
             <AdList>
                 <AdImage src={ad.sales_image ? ad.sales_image : placeholderImage} alt="Ad" />
-                <AdContent>
+                <AdContent onClick={handleIsViewAdModalOpen}>
                     <div>
                         <AdTitle variant="h6">{ad.sale_name}</AdTitle>
                         <AdDescription variant="body1">{ad.sale_description}</AdDescription>
@@ -107,7 +117,7 @@ const FavoriteAd = ({ ad }) => {
                     <DeleteButton variant="text" onClick={handleDeleteButtonClick}>
                         Remove
                     </DeleteButton>
-
+                    <ViewAdModal trigger={showViewAdModalOpen} onClose={handleCloseViewAdModal} id={ad.sale_id} />
 
                 </AdActions>
             </AdList>
