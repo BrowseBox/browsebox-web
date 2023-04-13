@@ -5,9 +5,7 @@ import { useState } from 'react'
 import SignupModal from '../Signup/SignupModal'
 import LoginModal from '../Login/LoginModal'
 import EditModal from '../Edit/EditModal'
-
-
-
+import SearchBar from '../../Components/ItemComponents/SearchBar'
 
 export default function Header(props) {
   const { user, setUser, schools } = props
@@ -23,6 +21,8 @@ export default function Header(props) {
   const handleMenuClose = () => {
     setAnchorEl(null)
   }
+
+
   // -------------
 
   // Sign-up Modal
@@ -69,17 +69,7 @@ export default function Header(props) {
           height: '5rem',
         }}>
           <h1>BrowseBox</h1>
-        <TextField
-          variant="outlined"
-          size="small"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <FaSearch />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <SearchBar/>
         <IconButton onClick={handleMenuClick}>
           <FaUserAlt />
         </IconButton>
