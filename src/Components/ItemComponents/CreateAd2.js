@@ -40,7 +40,7 @@ const CreateAd2 = () => {
     const sendImage = (listingid) => {
         const formData = new FormData();
         // formData.append('type', 'listing');
-        formData.append('id', listingid);
+        formData.append('id', randomId());
         formData.append('image', image);
         formData.append('index', 1)
         // alert (listingingid.values.salesId+" "+FormData.id);
@@ -63,7 +63,7 @@ const CreateAd2 = () => {
     }
 
     const updateImageInMainDatabase = (sale_id, imageUrl) => {
-        console.log("Sending image 3 "+sale_id+" "+" "+image+" "+imageUrl);
+        console.log("Sending image 3 " + sale_id + " " + " " + image + " " + imageUrl);
         axios.post('http://localhost:3001/update-sale', { id: sale_id, img: imageUrl })
             .then((res) => {
 
@@ -71,11 +71,16 @@ const CreateAd2 = () => {
             })
     }
 
+    // 5 digit number genorator
+    const randomId = () => {
+        return Math.floor(10000 + Math.random() * 90000);
+    }
+
     // This is when it is changed or better yet just before it is submitted
     // const handleCategoryChange = (selectedCatName) => {
-    //     const selectedCatId = catNameToIdMap[selectedCatName];
-    //     console.log('Selected cat_name:', selectedCatName, 'cat_id:', selectedCatId);
-    //     // Perform any action you want with the selected cat_id
+    // const selectedCatId = catNameToIdMap[selectedCatName];
+    // console.log('Selected cat_name:', selectedCatName, 'cat_id:', selectedCatId);
+    // // Perform any action you want with the selected cat_id
     // };
 
 
@@ -103,13 +108,13 @@ const CreateAd2 = () => {
             // values.image = 'test';
             // values.filter_ids = category;
             // values.catId = category;
-            //     values.catId  = category.indexOf(values.category);
+            // values.catId = category.indexOf(values.category);
             //get the cat_id from the category array
             // handleCategoryChange(values.category)
             values.catId = catNameToIdMap[values.category];
 
             // if (image == null) {
-            //     setImage(placeholderImage);
+            // setImage(placeholderImage);
             // }
             // console.log(values);
             // sendImage(values.sale_id, image);
@@ -118,14 +123,15 @@ const CreateAd2 = () => {
             axios
                 .post('http://localhost:3001/add-sale', values)
                 .then((res) => {
-                    if (res.status === 200)  {
+                    if (res.status === 200) {
                         // console.log (res.data[0].sale_id);
                         //
                         if (image != null) {
                             sendImage(res.data.sale_id);
+
                         }
                         // The following 2 lines were commented out
-                        updateImageInMainDatabase(res.data[0].sale_id);
+                        // updateImageInMainDatabase(res.data[0].sale_id);
                         values.image = image;
 
 
@@ -138,23 +144,24 @@ const CreateAd2 = () => {
 
                     } else Promise.reject();
                 })
-                .catch((err) => alert(`Something went wrong: ${err.message}`));
+                // .catch((err) => alert(`Something went wrong: ${err.message}`));
+                .catch((err) => console.log(err));
         },
     });
 
     // useEffect(() => {
-    //     axios
-    //         .post('http://localhost:3001/get-filters')
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             //setCategory(['', ...res.data.map(({ cat_name }) => cat_name)]);
-    //             // make a map of cat_name to cat_id
-    //             setCategory(['', ...res.data.map(({ cat_name, cat_id }) => cat_name)]);
+    // axios
+    // .post('http://localhost:3001/get-filters')
+    // .then((res) => {
+    // console.log(res.data);
+    // //setCategory(['', ...res.data.map(({ cat_name }) => cat_name)]);
+    // // make a map of cat_name to cat_id
+    // setCategory(['', ...res.data.map(({ cat_name, cat_id }) => cat_name)]);
     //
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
+    // })
+    // .catch((err) => {
+    // console.log(err);
+    // });
     // }, []);
 
     useEffect(() => {
@@ -196,7 +203,7 @@ const CreateAd2 = () => {
                     minHeight: '90vh',
                     padding: 2,
 
-                    width : '100vw',
+                    width: '100vw',
 
                     backgroundColor: '#b7ac9a',
                     backgroundImage: `url(${background})`,
@@ -206,11 +213,12 @@ const CreateAd2 = () => {
 
                 }}
             >
-                <div style={{ backgroundColor:'#f7f2e5', width: '50%', height: '80%', borderRadius: '20px',alignItems: 'center', margin : 'auto',
+                <div style={{
+                    backgroundColor: '#f7f2e5', width: '50%', height: '80%', borderRadius: '20px', alignItems: 'center', margin: 'auto',
                     // content: '', position: 'absalute', left: '10px', bottom: '-20px', zIndex: '-1', boxShadow: '0 0 20px 0 rgba(0, 0, 0, 0.1)'
                     boxShadow: '12px 12px 16px 0 rgba(0, 0, 0, 0.2), -12px -12px 16px 0 rgba(255, 255, 255, .1), opacity: 0.5'
                 }}>
-                    <div style={{margin: 'auto', width: '80%', padding: 30, height: '80%'}}>
+                    <div style={{ margin: 'auto', width: '80%', padding: 30, height: '80%' }}>
                         <Typography variant="h4">Sell Something</Typography>
                         <form
                             onSubmit={handleSubmit}
@@ -283,16 +291,16 @@ const CreateAd2 = () => {
                             <PictureBox onImageChange={handleImageChange} />
 
                             {/*<Box sx={{ display: 'flex', width: '100%', marginBottom: 2 }}>*/}
-                            {/*    <TextField*/}
-                            {/*        fullWidth*/}
-                            {/*        label="Email"*/}
-                            {/*        margin="normal"*/}
-                            {/*        name="email"*/}
-                            {/*        onChange={handleChange}*/}
-                            {/*        value={values.email}*/}
-                            {/*        variant="outlined"*/}
-                            {/*        error={Boolean(errors.email)}*/}
-                            {/*    />*/}
+                            {/* <TextField*/}
+                            {/* fullWidth*/}
+                            {/* label="Email"*/}
+                            {/* margin="normal"*/}
+                            {/* name="email"*/}
+                            {/* onChange={handleChange}*/}
+                            {/* value={values.email}*/}
+                            {/* variant="outlined"*/}
+                            {/* error={Boolean(errors.email)}*/}
+                            {/* />*/}
                             {/*</Box>*/}
                             <Button
                                 // onSubmit={handleSubmit}
